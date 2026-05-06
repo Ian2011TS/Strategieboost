@@ -38,9 +38,7 @@
   src: url('BebasNeueRounded-Regular.woff2') format('woff2'),
        url('BebasNeueRounded-Regular.ttf') format('truetype');
 }
-@font-face { font-family: 'Segoe UI'; src: url('41119599467.ttf') format('truetype'); font-weight: 400; }
-@font-face { font-family: 'Segoe UI'; src: url('41405981916.ttf') format('truetype'); font-weight: 700; }
-@font-face { font-family: 'Segoe UI'; src: url('48155170935.ttf') format('truetype'); font-style: italic; }
+/* Segoe UI via systeemfont - werkt op alle apparaten zonder bestanden */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -56,7 +54,7 @@
   --bg-warm: #F5F4F1;
   --grad: linear-gradient(90deg, #3D2882 0%, #6B3194 30%, #C52339 65%, #F7941D 100%);
   --font-display: 'Bebas Neue Rounded', Impact, sans-serif;
-  --font-body: 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
   --max: 1100px;
   --pad: clamp(24px, 5vw, 80px);
 }
@@ -352,12 +350,13 @@ footer {
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">
-    <img src="logo-horizontal.png" alt="Strategieboost">
+    <img src="SB-logo-cmyk-liggend.png" alt="Strategieboost">
   </a>
   <div class="nav-links">
     <a href="#voor-wie">Voor wie</a>
     <a href="#wat-we-doen">Wat we doen</a>
     <a href="#wie-we-zijn">Over ons</a>
+    <a href="strategiescan.html">Strategiescan</a>
     <a href="#contact" class="nav-cta">Kennismaken</a>
   </div>
 </nav>
@@ -510,7 +509,7 @@ footer {
           <a href="Strategiescan.html" class="btn-contact-outline">Doe de gratis Strategiescan</a>
         </div>
       </div>
-      <img src="logo-horizontal.png" alt="Strategieboost" style="height: 160px; opacity: 1; flex-shrink: 0; margin-top: 8px; width: 427px">
+      <img src="SB-logo-cmyk-liggend.png" alt="Strategieboost" style="height: 160px; opacity: 1; flex-shrink: 0; margin-top: 8px; width: 427px">
     </div>
   </div>
 </section>
