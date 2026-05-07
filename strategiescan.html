@@ -137,6 +137,14 @@ const SCALE_KWALITEIT = [
   { label: 'Zeer goed', value: 5 },
 ];
 
+const SCALE_PROCENT = [
+  { label: '< 20%', value: 1 },
+  { label: '< 40%', value: 2 },
+  { label: '< 60%', value: 3 },
+  { label: '< 80%', value: 5 },
+  { label: '> 80%', value: 7 },
+];
+
 const SECTIONS = [
   {
     id: 'strategie', title: '1. Realistische strategie', shortTitle: 'Strategie',
@@ -144,24 +152,23 @@ const SECTIONS = [
     questions: [
       { id: '1.1', text: 'Heb je een duidelijke visie en missie die bekend is bij alle medewerkers?' },
       { id: '1.2', text: 'In hoeverre is jouw strategisch plan gemaakt met goede analyses, feitelijk onderbouwde (markt)informatie en bijv. een SWOT-analyse?' },
-      { id: '1.3', text: 'In hoeverre had je verschillende strategische opties die strijdig met elkaar waren (en dus niet tegelijkertijd kunnen worden uitgevoerd)?' },
-      { id: '1.4', text: 'In hoeverre heb je ook echt een duidelijke keuze gemaakt (en dus last gehad van keuzepijn)?' },
+      { id: '1.3', text: 'In hoeverre heb je ook echt een duidelijke keuze gemaakt (en dus last gehad van keuzepijn)?' },
+      { id: '1.4', text: 'In hoeverre zijn er processen gestopt, verminderd of verbeterd?' },
       { id: '1.5', text: 'Heb je een duidelijke doelgroep(en) met een daarop afgestemd aanbod?' },
       { id: '1.6', text: 'Heb je een duidelijk voordeel dat je biedt ten opzichte van jouw concurrentie en erkennen jouw klanten dit ook?' },
       { id: '1.7', text: 'Is dit voordeel duurzaam en blijvend? (minimaal 5 jaar)' },
-      { id: '1.8', text: 'In hoeverre is er nagedacht over welke processen gestopt, verminderd of verbeterd kunnen worden?' },
     ],
   },
   {
     id: 'implementatieplan', title: '2. Volledig implementatieplan', shortTitle: 'Implementatieplan',
     intro: 'Heb je een volledig implementatieplan?', color: '#5A2B8A',
     questions: [
-      { id: '2.1', text: 'Heb je kwantitatieve doelstellingen en zijn deze meer dan 1 keer per jaar meetbaar?' },
-      { id: '2.2', text: 'Heb je voldoende capaciteit beschikbaar om de uitvoering te realiseren?' },
-      { id: '2.3', text: 'Zijn alle belanghebbenden geïnformeerd en is de koers met hen afgestemd?' },
-      { id: '2.4', text: 'In hoeverre is het tijdspad realistisch?' },
-      { id: '2.5', text: 'Zijn de rollen en taken duidelijk en bij iedereen belegd?' },
-      { id: '2.6', text: 'In welke mate heb je een passend controlesysteem geïmplementeerd?' },
+      { id: '2.1', text: 'Heb je voldoende capaciteit beschikbaar om de uitvoering te realiseren?' },
+      { id: '2.2', text: 'Zijn alle belanghebbenden geïnformeerd en is de koers met hen afgestemd?' },
+      { id: '2.3', text: 'In hoeverre is het tijdspad realistisch?' },
+      { id: '2.4', text: 'Zijn de rollen en taken duidelijk en bij iedereen belegd?' },
+      { id: '2.5', text: 'Hoeveel procent van de strategische doelen zijn voorzien van een kwantitatief target?', scale: SCALE_PROCENT },
+      { id: '2.6', text: 'Voor hoeveel procent van de kwantitatieve targets heb je een passend meet- en controlesysteem geïmplementeerd?', scale: SCALE_PROCENT },
     ],
   },
   {
@@ -170,7 +177,7 @@ const SECTIONS = [
     questions: [
       { id: '3.1', text: 'In welke mate kan de historie van jouw bedrijf de strategie tegenwerken?' },
       { id: '3.2', text: 'In welke mate geloven medewerkers dat de nieuwe strategie hen zal helpen om hun werk beter of sneller te doen?' },
-      { id: '3.3', text: 'In welke mate vertrouwen medewerkers erop dat de nieuwe strategie eenvoudig genoeg is in gebruik?' },
+      { id: '3.3', text: 'In welke mate vertrouwen medewerkers erop dat de nieuwe strategie hun werk eenvoudiger of makkelijker zal maken?' },
       { id: '3.4', text: 'In welke mate geloven medewerkers dat er is gezorgd voor voldoende organisatorische en technische ondersteuning bij het realiseren van de nieuwe strategie?' },
       { id: '3.5', text: 'In welke mate vind je dat jij en jouw medeleidinggevenden het juiste voorbeeldgedrag geven?' },
     ],
@@ -179,9 +186,9 @@ const SECTIONS = [
     id: 'opruimen', title: '4. Opruimen van belemmeringen', shortTitle: 'Opruimen',
     intro: 'In hoeverre worden belemmeringen actief opgeruimd?', color: '#C52339',
     questions: [
-      { id: '4.1', text: 'In hoeverre zou het inhuren van tijdelijke krachten een bijdrage leveren?' },
+      { id: '4.1', text: 'In hoeverre zou het inhuren van tijdelijke krachten het capaciteitstekort kunnen oplossen?' },
       { id: '4.2', text: 'In hoeverre kan de rol van het middenmanagement verbeterd worden? (verbinden, communiceren, motiveren, schakel tussen jou en de werkvloer)' },
-      { id: '4.3', text: 'In welke mate is de strategie met actieve input van de medewerkers tot stand gekomen?' },
+      { id: '4.3', text: 'In welke mate heb je actief gevraagd om input van de medewerkers in het strategieproces?' },
       { id: '4.4', text: 'Zijn er signalen van "implementatiemoeheid" bij jouw mensen?' },
       { id: '4.5', text: 'In hoeverre heb je zekerheid dat je de acties in de juiste volgorde uitvoert? (dus niet beginnen met het dessert in plaats van het voorgerecht)' },
     ],
@@ -193,7 +200,7 @@ const SECTIONS = [
       { id: '5.1', text: 'In hoeverre beschik je over de juiste vaardigheden (intern en/of extern)?' },
       { id: '5.2', text: 'In welke mate zijn de nodige vaardigheden goed verdeeld in jouw organisatie?' },
       { id: '5.3', text: 'Zijn de vaardigheden complementair aan elkaar?' },
-      { id: '5.4', text: 'Welk oordeel geef je over de coördinatievermogens in jouw organisatie?', scale: SCALE_KWALITEIT },
+      { id: '5.4', text: 'Welk oordeel geef je over de mate waarin wordt samengewerkt in jouw organisatie?', scale: SCALE_KWALITEIT },
     ],
   },
   {
@@ -202,7 +209,7 @@ const SECTIONS = [
     questions: [
       { id: '6.1', text: 'Wat is jouw oordeel over het vermogen om zich aan te passen aan de "lessons learned"?', scale: SCALE_KWALITEIT },
       { id: '6.2', text: 'In welke mate worden nieuwe vaardigheden ook echt geborgd? (voorkomen van "oh, die is op cursus geweest")' },
-      { id: '6.3', text: 'Hoeveel moeite kost het om gedrag te veranderen?' },
+      { id: '6.3', text: 'Hoe moeilijk is het om gedrag van jou en jouw mensen te veranderen?' },
       { id: '6.4', text: 'Wat is jouw oordeel over het innovatieve vermogen van jouw organisatie?', scale: SCALE_KWALITEIT },
       { id: '6.5', text: 'In welke mate is er sprake van ongeplande activiteiten of initiatieven in jouw bedrijf?' },
       { id: '6.6', text: 'In welke mate geef je ruimte voor tegenspraak?' },
