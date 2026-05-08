@@ -256,6 +256,9 @@ section { padding: clamp(64px, 8vh, 112px) var(--pad); }
 .waarom-text strong { color: #fff; }
 /* ── CONTACT ── */
 #contact { background: var(--bg); }
+.contact-inner {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;
+}
 #contact .section-label { color: var(--orange); }
 #contact .section-title { color: var(--black); }
 .contact-sub { font-size: 18px; line-height: 1.65; color: var(--mid); max-width: 500px; margin-top: 14px; text-wrap: pretty; }
@@ -341,6 +344,27 @@ footer {
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
   .footer-legal { flex-direction: column; gap: 10px; }
   .footer-bottom-left { flex-wrap: wrap; }
+
+  /* Kennismaken blok: logo onderaan, tekst gecentreerd, knoppen naast elkaar */
+  .contact-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .contact-inner .footer-logo-img {
+    order: 10;
+    margin-top: 32px;
+    max-width: 280px;
+  }
+  .contact-content { max-width: 100%; }
+  .contact-sub { max-width: 100%; }
+  .contact-actions {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  .btn-contact { padding: 12px 20px; font-size: 12px; white-space: nowrap; }
+  .btn-contact-outline { font-size: 12px; white-space: nowrap; }
 }
 </style>
 </head>
@@ -489,8 +513,8 @@ footer {
 <!-- CONTACT -->
 <section id="contact">
   <div class="container">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:32px">
-      <div>
+    <div class="contact-inner">
+      <div class="contact-content">
         <div class="section-label">Kennismaken</div>
         <h2 class="section-title">Klaar voor<br>de volgende fase?</h2>
         <p class="contact-sub">Wil je weten wat wij voor jou kunnen betekenen? Neem contact met ons op of plan hier een kennismaking in.</p>
