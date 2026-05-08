@@ -342,7 +342,7 @@ footer {
 
   /* Juridische links: verticaal stapelen */
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .footer-legal { flex-direction: column; gap: 10px; }
+  .footer-legal { flex-direction: column; gap: 10px; align-items: flex-start; }
   .footer-bottom-left { flex-wrap: wrap; }
 
   /* Kennismaken blok: logo onderaan, tekst gecentreerd, knoppen naast elkaar */
@@ -531,33 +531,33 @@ footer {
 <footer>
   <div class="footer-top">
     <div class="footer-info">
-      <div class="footer-info-name">Strategieboost</div>
-      <p>
-        Kromme Elleboogsteeg 3A3<br>
-        2011 TS Haarlem<br><br>
-        KvK: 96567279<br>
-        BTW: NL867664629B01
-      </p>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+        <div class="footer-info-name">Strategieboost</div>
+        <a class="footer-linkedin" href="https://www.linkedin.com/company/strategieboost" target="_blank" rel="noopener" aria-label="Strategieboost op LinkedIn" style="flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="white"/>
+            <path d="M7.2 9.6H4.8V19.2H7.2V9.6Z" fill="#3D2882"/>
+            <circle cx="6" cy="6.6" r="1.4" fill="#3D2882"/>
+            <path d="M19.2 13.6C19.2 11.4 17.8 9.4 15.6 9.4C14.4 9.4 13.4 10 12.8 10.8V9.6H10.4V19.2H12.8V14.4C12.8 13.2 13.6 12 14.8 12C16 12 16.8 13 16.8 14.4V19.2H19.2V13.6Z" fill="#3D2882"/>
+          </svg>
+        </a>
+      </div>
+      <p style="margin-top:8px;">
+          Kromme Elleboogsteeg 3A3<br>
+          2011 TS Haarlem<br><br>
+          KvK: 96567279<br>
+          BTW: NL867664629B01
+        </p>
+      <nav class="footer-legal" style="margin-top:24px;">
+        <a href="legal/disclaimer.html">Disclaimer</a>
+        <a href="legal/privacypolicy.html">Privacy Policy</a>
+        <a href="legal/cookiebeleid.html">Cookiebeleid</a>
+        <a href="legal/algemenevoorwaarden.html">Algemene Voorwaarden</a>
+      </nav>
     </div>
   </div>
-  <div class="footer-bottom">
-    <div class="footer-bottom-left">
-      <span class="footer-copy">© 2026 Strategieboost BV. Alle rechten voorbehouden.</span>
-      <a class="footer-linkedin" href="https://www.linkedin.com/company/strategieboost" target="_blank" rel="noopener" aria-label="Strategieboost op LinkedIn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="24" height="24" rx="4" fill="white"/>
-          <path d="M7.2 9.6H4.8V19.2H7.2V9.6Z" fill="#3D2882"/>
-          <circle cx="6" cy="6.6" r="1.4" fill="#3D2882"/>
-          <path d="M19.2 13.6C19.2 11.4 17.8 9.4 15.6 9.4C14.4 9.4 13.4 10 12.8 10.8V9.6H10.4V19.2H12.8V14.4C12.8 13.2 13.6 12 14.8 12C16 12 16.8 13 16.8 14.4V19.2H19.2V13.6Z" fill="#3D2882"/>
-        </svg>
-      </a>
-    </div>
-    <nav class="footer-legal">
-      <a href="legal/disclaimer.html">Disclaimer</a>
-      <a href="legal/privacypolicy.html">Privacy Policy</a>
-      <a href="legal/cookiebeleid.html">Cookiebeleid</a>
-      <a href="legal/algemenevoorwaarden.html">Algemene Voorwaarden</a>
-    </nav>
+  <div class="footer-bottom" style="justify-content:flex-start;">
+    <span class="footer-copy">© 2026 Strategieboost BV. Alle rechten voorbehouden.</span>
   </div>
 </footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
