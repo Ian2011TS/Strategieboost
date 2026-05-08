@@ -319,6 +319,10 @@ footer {
 .footer-linkedin { opacity: 0.5; transition: opacity 0.15s; }
 .footer-linkedin:hover { opacity: 1; }
 /* ── RESPONSIVE ── */
+.footer-logo-img {
+  height: 160px; width: 427px; opacity: 1; flex-shrink: 0; margin-top: 8px;
+}
+
 @media (max-width: 720px) {
   .nav-links { display: none; }
   .voor-wie-grid { grid-template-columns: 1fr; }
@@ -326,6 +330,17 @@ footer {
   .team-grid { grid-template-columns: 1fr; gap: 40px; }
   .waarom-list { grid-template-columns: 1fr; }
   .dienst { grid-template-columns: 48px 1fr; }
+
+  /* Hero: verschuif positie zodat beide personen zichtbaar zijn */
+  .hero-photo img { object-position: 40% 30%; }
+
+  /* Footer logo: responsief maken */
+  .footer-logo-img { width: 100%; max-width: 320px; height: auto; margin-top: 0; }
+
+  /* Juridische links: verticaal stapelen */
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-legal { flex-direction: column; gap: 10px; }
+  .footer-bottom-left { flex-wrap: wrap; }
 }
 </style>
 </head>
@@ -484,7 +499,7 @@ footer {
           <a href="strategiescan.html" class="btn-contact-outline">Doe de gratis Strategiescan</a>
         </div>
       </div>
-      <img src="logo-horizontal.png" alt="Strategieboost" style="height: 160px; opacity: 1; flex-shrink: 0; margin-top: 8px; width: 427px">
+      <img src="logo-horizontal.png" alt="Strategieboost" class="footer-logo-img">
     </div>
   </div>
 </section>
