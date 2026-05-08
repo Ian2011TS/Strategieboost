@@ -364,6 +364,24 @@ footer {
   .btn-contact-outline { font-size: 12px; white-space: nowrap; }
 }
 </style>
+<script type="text/javascript">
+(function (C, A, L) {
+  let p = function (a, ar) { a.q.push(ar); };
+  let d = C.document;
+  C.Cal = C.Cal || function () {
+    let cal = C.Cal; let ar = arguments;
+    if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+    if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; }
+    p(cal, ar);
+  };
+})(window, "https://app.cal.eu/embed/embed.js", "init");
+Cal("init", "kennismakingsgesprek", { origin: "https://cal.eu" });
+Cal.ns["kennismakingsgesprek"]("ui", {
+  styles: { branding: { brandColor: "#F7941D" } },
+  hideEventTypeDetails: false,
+  layout: "month_view"
+});
+</script>
 </head>
 <body>
 <!-- NAV -->
@@ -393,7 +411,11 @@ footer {
     <h1 class="hero-title">Nuchter denken,<br>doordacht doen</h1>
     <p class="hero-sub">Voor ondernemers en bestuurders die toe zijn aan de volgende fase. Of waar de groei hapert en echt iets moet veranderen.</p>
     <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Plan een kennismaking</a>
+      <a class="btn-primary"
+            data-cal-link="ian-meinoud/kennismakingsgesprek"
+            data-cal-namespace="kennismakingsgesprek"
+            data-cal-config='{"layout":"month_view"}'
+            href="#">Plan een kennismaking</a>
       <a href="strategiescan.html" class="btn-ghost">Doe de gratis Strategiescan</a>
     </div>
   </div>
@@ -521,7 +543,11 @@ footer {
         <h2 class="section-title">Klaar voor<br>de volgende fase?</h2>
         <p class="contact-sub">Wil je weten wat wij voor jou kunnen betekenen? Neem contact met ons op of plan hier een kennismaking in.</p>
         <div class="contact-actions">
-          <a href="/cdn-cgi/l/email-protection#95f6fafbe1f4f6e1d5e6e1e7f4e1f0f2fcf0f7fafae6e1bbfbf9" class="btn-contact">Plan een kennismaking</a>
+          <a class="btn-contact"
+            data-cal-link="ian-meinoud/kennismakingsgesprek"
+            data-cal-namespace="kennismakingsgesprek"
+            data-cal-config='{"layout":"month_view"}'
+            href="#">Plan een kennismaking</a>
           <a href="strategiescan.html" class="btn-contact-outline">Doe de gratis Strategiescan</a>
         </div>
       </div>
