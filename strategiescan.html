@@ -506,6 +506,7 @@ function IntroScreen({ onStart, bedrijf, setBedrijf }) {
                 <div style={{position:'relative'}}>
                   <input
                     type={field.type}
+                    inputMode={field.inputMode || 'text'}
                     value={bedrijf[field.key] || ''}
                     onChange={e => {
                       const val = e.target.value;
