@@ -52,10 +52,25 @@ body {
   min-height: 100vh;
 }
 
-/* Scrollbar for option rows */
+/* Scrollbar for option rows (desktop) */
 .options-row::-webkit-scrollbar { height: 4px; }
 .options-row::-webkit-scrollbar-track { background: #f0edf8; border-radius: 2px; }
 .options-row::-webkit-scrollbar-thumb { background: #c8c0e8; border-radius: 2px; }
+
+/* Mobile: stack options vertically */
+@media (max-width: 600px) {
+  .options-row {
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    gap: 8px !important;
+  }
+  .options-row > * {
+    width: 100% !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+  }
+}
 
 @media print {
   body { background: white !important; }
