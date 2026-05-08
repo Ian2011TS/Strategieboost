@@ -741,7 +741,7 @@ Strategieboost · strategieboost.nl`;
       const pdfBase64 = pdf.output('datauristring').split(',')[1];
 
       // Verstuur via EmailJS
-      emailjs.init('JOUW_PUBLIC_KEY');
+      emailjs.init('Yz7OzN8lhhSmGNo7k');
       await emailjs.send('JOUW_SERVICE_ID', 'JOUW_TEMPLATE_ID', {
         to_email: bedrijf.email,
         to_name: bedrijf.naam || 'relatie',
