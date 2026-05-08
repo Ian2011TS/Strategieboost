@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strategieboost</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal; let ar = arguments;
+        if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+        if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.eu/embed/embed.js", "init");
+    Cal("init", "kennismakingsgesprek", { origin: "https://cal.eu" });
+    Cal.ns["kennismakingsgesprek"]("ui", {
+      styles: { branding: { brandColor: "#4B2D8F" } },
+      hideEventTypeDetails: false,
+      layout: "month_view"
+    });
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:  #4B2D8F;
+      --orange:  #F07830;
+      --yellow:  #F5A623;
+      --text:    #1a1a1a;
+      --muted:   #555555;
+      --subtle:  #888888;
+      --bg-soft: #f7f6f2;
+      --border:  #e8e8e4;
+    }
+
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text);
+      background: #ffffff;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+    .nav-logo img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--purple); }
+
+    /* Sections */
+    section { padding: 64px 0; }
+
+    .label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 20px;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 58px;
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--purple);
+      letter-spacing: 0.02em;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 38px;
+      font-weight: 400;
+      color: var(--purple);
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    p {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    .tagline {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .accent-line {
+      display: block;
+      width: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange), var(--yellow));
+      border-radius: 2px;
+      margin-top: 28px;
+    }
+
+    /* Who grid */
+    .who-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .who-card {
+      background: var(--bg-soft);
+      border-radius: 12px;
+      padding: 24px;
+      border-left: 3px solid var(--orange);
+    }
+    .who-card h3 { margin-bottom: 8px; }
+    .who-card p  { font-size: 15px; }
+
+    /* Benefits list */
+    .benefit-list { list-style: none; margin-top: 8px; }
+    .benefit-list li {
+      display: flex;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .benefit-list li:last-child { border-bottom: none; }
+    .benefit-num {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 22px;
+      color: var(--orange);
+      min-width: 28px;
+      letter-spacing: 0.02em;
+    }
+    .benefit-text h3 { font-size: 17px; margin-bottom: 4px; }
+    .benefit-text p  { font-size: 15px; margin: 0; }
+
+    /* Why list */
+    .why-list { list-style: none; }
+    .why-list li {
+      font-size: 17px;
+      color: var(--muted);
+      padding: 13px 0 13px 16px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .why-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+    .why-list li:last-child { border-bottom: none; }
+
+    /* Team */
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .team-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: var(--bg-soft);
+      border-radius: 12px;
+      padding: 32px 24px;
+    }
+    .team-photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      margin-bottom: 16px;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 2px var(--orange);
+    }
+    .team-card .name {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--purple);
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+    .team-card p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* CTA */
+    .cta-box {
+      background: var(--purple);
+      border-radius: 12px;
+      padding: 56px 48px;
+      text-align: center;
+    }
+    .cta-box h2 { color: #ffffff; margin-bottom: 12px; }
+    .cta-box p  { color: rgba(255,255,255,0.8); font-size: 17px; margin-bottom: 32px; }
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .cta-btn:hover { background: #ffffff; color: var(--purple); }
+
+    /* Footer */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+    }
+    footer span { font-size: 13px; color: #aaa; }
+    footer a    { font-size: 13px; color: #aaa; text-decoration: none; }
+
+    @media (max-width: 560px) {
+      h1 { font-size: 40px; }
+      h2 { font-size: 30px; }
+      .who-grid, .team-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .cta-box { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav>
+      <a class="nav-logo" href="#">
+        <img src="SB-logo-liggend-yb.png" alt="Strategieboost">
+      </a>
+      <div class="nav-links">
+        <a href="#wat-je-krijgt">Wat je krijgt</a>
+        <a href="#over-ons">Over ons</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </div>
+
+  <hr>
+
+  <!-- Hero -->
+  <div class="container">
+    <section>
+      <span class="label">Strategie &amp; uitvoering</span>
+      <h1>Jouw bedrijf heeft meer in zich dan er nu uitkomt.</h1>
+      <p class="tagline">Wij helpen ondernemers en bestuurders om dat potentieel te benutten. Met een scherpe strategie die leeft in de organisatie, en een aanpak die zorgt dat het ook echt gebeurt. Geen dik rapport. Geen vage aanbevelingen. Gewoon: vooruit.</p>
+      <span class="accent-line"></span>
+    </section>
+  </div>
+
+  <hr>
+
+  <!-- Voor wie -->
+  <div class="container">
+    <section>
+      <span class="label">Voor wie</span>
+      <h2>Herken jij dit?</h2>
+      <div class="who-grid">
+        <div class="who-card">
+          <h3>Je groeit snel</h3>
+          <p>Je bedrijf groeit, maar ook uit zijn jasje. Het team weet niet meer precies wat de koers is. Jij wil je richten op de belangrijkste zaken, maar de waan van de dag wint het elke keer.</p>
+        </div>
+        <div class="who-card">
+          <h3>De motor hapert</h3>
+          <p>Je werkt keihard, maar de omzet stagneert. Je strategie leeft niet in de organisatie. Er worden te weinig scherpe keuzes gemaakt. Er moet echt iets veranderen.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr>
+
+  <!-- Wat je krijgt -->
+  <div class="container" id="wat-je-krijgt">
+    <section>
+      <span class="label">Wat je krijgt</span>
+      <h2>Hier word je beter van.</h2>
+      <ul class="benefit-list">
+        <li>
+          <span class="benefit-num">01</span>
+          <div class="benefit-text">
+            <h3>Een heldere koers</h3>
+            <p>Je hebt een strategie met scherpe keuzes. Die geeft focus en richting aan iedereen in je organisatie.</p>
+          </div>
+        </li>
+        <li>
+          <span class="benefit-num">02</span>
+          <div class="benefit-text">
+            <h3>Een gemotiveerd team</h3>
+            <p>Je medewerkers en stakeholders begrijpen wat er van hen verwacht wordt. Ze weten waarom het ertoe doet.</p>
+          </div>
+        </li>
+        <li>
+          <span class="benefit-num">03</span>
+          <div class="benefit-text">
+            <h3>Zekerheid dat het ook lukt</h3>
+            <p>Alle voorwaarden zijn geschapen om je strategie succesvol uit te voeren. Geen plan dat in een la verdwijnt.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <hr>
+
+  <!-- Waarom wij -->
+  <div class="container">
+    <section>
+      <span class="label">Waarom wij</span>
+      <h2>Nuchter denken, doordacht doen.</h2>
+      <ul class="why-list">
+        <li>We hebben het al vaker gedaan. Bij grote en kleine organisaties, in verschillende branches.</li>
+        <li>We zien snel waar de problemen zitten.</li>
+        <li>We praten je niet naar de mond. We zeggen wat we denken.</li>
+        <li>We geloven in snelheid. Verandering lukt alleen als je tempo maakt.</li>
+        <li>We leveren geen dikke rapporten. We leveren praktische oplossingen.</li>
+        <li>Een goed plan is niets waard zonder een goede uitvoering. Wij doen allebei.</li>
+      </ul>
+    </section>
+  </div>
+
+  <hr>
+
+  <!-- Over ons -->
+  <div class="container" id="over-ons">
+    <section>
+      <span class="label">Over ons</span>
+      <h2>Wij zijn Strategieboost</h2>
+      <p>Wij bemoeien ons al heel lang met strategie. Eerst bij grote corporates, daarna bij kleinere bedrijven. Nu zetten we onze kennis en ervaring in voor ondernemers die een doorbraak willen.</p>
+      <p>We zijn onafhankelijk, scherp en eerlijk. We leveren één A4 met een concreet actieplan. Geen jargon, geen wollige teksten.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <img class="team-photo" src="foto_ian_round.png" alt="Ian van Veen">
+          <div class="name">Ian van Veen</div>
+          <p>Bedrijfseconoom. C-level ervaring bij o.a. DAS, VVAA en Atradius. Freelance strategie-adviseur.</p>
+        </div>
+        <div class="team-card">
+          <img class="team-photo" src="foto_meinoud_round.png" alt="Meinoud Rost van Tonningen">
+          <div class="name">Meinoud Rost van Tonningen</div>
+          <p>Bedrijfseconoom, Master of Marketing. Senior management bij o.a. DAS, ING en MeesPierson.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr>
+
+  <!-- CTA -->
+  <div class="container" id="contact">
+    <section>
+      <div class="cta-box">
+        <h2>Klaar voor een doorbraak?</h2>
+        <p>Plan een vrijblijvende kennismaking in. We vertellen je in één gesprek wat we voor jou kunnen doen.</p>
+        <a class="cta-btn"
+           data-cal-link="ian-meinoud/kennismakingsgesprek"
+           data-cal-namespace="kennismakingsgesprek"
+           data-cal-config='{"layout":"month_view"}'
+           href="#">Plan een kennismaking</a>
+      </div>
+    </section>
+  </div>
+
+  <hr>
+
+  <div class="container">
+    <footer>
+      <span>© 2026 Strategieboost</span>
+      <a href="/cdn-cgi/l/email-protection#1e767f7272715e6d6a6c7f6a7b
