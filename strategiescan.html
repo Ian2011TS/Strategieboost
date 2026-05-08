@@ -133,8 +133,8 @@ const SCALE_KWALITEIT = [
   { label: 'Matig', value: 1 },
   { label: 'Zwak', value: 2 },
   { label: 'Voldoende', value: 3 },
-  { label: 'Goed', value: 4 },
-  { label: 'Zeer goed', value: 5 },
+  { label: 'Goed', value: 5 },
+  { label: 'Zeer goed', value: 7 },
 ];
 
 const SCALE_PROCENT = [
@@ -145,15 +145,44 @@ const SCALE_PROCENT = [
   { label: '> 80%', value: 7 },
 ];
 
+const SCALE_JANEE = [
+  { label: 'Nee', value: 1 },
+  { label: 'Ja', value: 5 },
+];
+
+const SCALE_INTENSITEIT = [
+  { label: 'Niet / geen', value: 1 },
+  { label: 'Beperkt', value: 2 },
+  { label: 'Redelijk', value: 3 },
+  { label: 'Hoog', value: 5 },
+  { label: 'Zeer hoog', value: 7 },
+];
+
+const SCALE_MATE = [
+  { label: 'Niet', value: 1 },
+  { label: 'Nauwelijks', value: 2 },
+  { label: 'Beperkt', value: 3 },
+  { label: 'Vrij veel', value: 5 },
+  { label: 'Erg veel', value: 7 },
+];
+
+const SCALE_REVERSED = [
+  { label: 'Erg veel', value: 1 },
+  { label: 'Vrij veel', value: 2 },
+  { label: 'Beperkt', value: 3 },
+  { label: 'Nauwelijks', value: 5 },
+  { label: 'Niet', value: 7 },
+];
+
 const SECTIONS = [
   {
     id: 'strategie', title: '1. Realistische strategie', shortTitle: 'Strategie',
     intro: 'Heb je een realistische strategie?', color: '#3D2882',
     questions: [
-      { id: '1.1', text: 'Heb je een duidelijke visie en missie die bekend is bij alle medewerkers?' },
-      { id: '1.2', text: 'In hoeverre is jouw strategisch plan gemaakt met goede analyses, feitelijk onderbouwde (markt)informatie en bijv. een SWOT-analyse?' },
-      { id: '1.3', text: 'In hoeverre heb je ook echt een duidelijke keuze gemaakt (en dus last gehad van keuzepijn)?' },
-      { id: '1.4', text: 'In hoeverre zijn er processen gestopt, verminderd of verbeterd?' },
+      { id: '1.1', text: 'Heb je een duidelijke visie en missie die bekend is bij alle medewerkers?', scale: SCALE_JANEE },
+      { id: '1.2', text: 'In hoeverre is jouw strategisch plan gemaakt met goede analyses, feitelijk onderbouwde (markt)informatie en bijv. een SWOT-analyse?', scale: SCALE_INTENSITEIT },
+      { id: '1.3', text: 'In hoeverre heb je ook echt een duidelijke keuze gemaakt (en dus last gehad van keuzepijn)?', scale: SCALE_MATE },
+      { id: '1.4', text: 'In hoeverre zijn er processen gestopt, verminderd of verbeterd?', scale: SCALE_MATE },
       { id: '1.5', text: 'Heb je een duidelijke doelgroep(en) met een daarop afgestemd aanbod?' },
       { id: '1.6', text: 'Heb je een duidelijk voordeel dat je biedt ten opzichte van jouw concurrentie en erkennen jouw klanten dit ook?' },
       { id: '1.7', text: 'Is dit voordeel duurzaam en blijvend? (minimaal 5 jaar)' },
@@ -175,10 +204,10 @@ const SECTIONS = [
     id: 'belemmeringen', title: '3. Belemmeringen en barrières', shortTitle: 'Belemmeringen',
     intro: 'Wat zijn de belemmeringen en barrières?', color: '#8B2A7A',
     questions: [
-      { id: '3.1', text: 'In welke mate kan de historie van jouw bedrijf de strategie tegenwerken?' },
+      { id: '3.1', text: 'In welke mate kan de historie van jouw bedrijf de strategie tegenwerken?', scale: SCALE_MATE },
       { id: '3.2', text: 'In welke mate geloven medewerkers dat de nieuwe strategie hen zal helpen om hun werk beter of sneller te doen?' },
       { id: '3.3', text: 'In welke mate vertrouwen medewerkers erop dat de nieuwe strategie hun werk eenvoudiger of makkelijker zal maken?' },
-      { id: '3.4', text: 'In welke mate geloven medewerkers dat er is gezorgd voor voldoende organisatorische en technische ondersteuning bij het realiseren van de nieuwe strategie?' },
+      { id: '3.4', text: 'In welke mate geloven medewerkers dat er is gezorgd voor voldoende organisatorische en technische ondersteuning bij het realiseren van de nieuwe strategie?', scale: SCALE_MATE },
       { id: '3.5', text: 'In welke mate vind je dat jij en jouw medeleidinggevenden het juiste voorbeeldgedrag geven?' },
     ],
   },
@@ -186,10 +215,10 @@ const SECTIONS = [
     id: 'opruimen', title: '4. Opruimen van belemmeringen', shortTitle: 'Opruimen',
     intro: 'In hoeverre worden belemmeringen actief opgeruimd?', color: '#C52339',
     questions: [
-      { id: '4.1', text: 'In hoeverre zou het inhuren van tijdelijke krachten het capaciteitstekort kunnen oplossen?' },
-      { id: '4.2', text: 'In hoeverre kan de rol van het middenmanagement verbeterd worden? (verbinden, communiceren, motiveren, schakel tussen jou en de werkvloer)' },
+      { id: '4.1', text: 'In hoeverre zou het inhuren van tijdelijke krachten een mogelijk capaciteitstekort voor de uitvoering van de strategie kunnen oplossen?' },
+      { id: '4.2', text: 'In hoeverre moet de rol van het middenmanagement verbeterd worden? (verbinden, communiceren, motiveren, schakel tussen jou en de werkvloer)', scale: SCALE_REVERSED },
       { id: '4.3', text: 'In welke mate heb je actief gevraagd om input van de medewerkers in het strategieproces?' },
-      { id: '4.4', text: 'Zijn er signalen van "implementatiemoeheid" bij jouw mensen?' },
+      { id: '4.4', text: 'Zijn er signalen van "implementatiemoeheid" bij jouw mensen?', scale: SCALE_REVERSED },
       { id: '4.5', text: 'In hoeverre heb je zekerheid dat je de acties in de juiste volgorde uitvoert? (dus niet beginnen met het dessert in plaats van het voorgerecht)' },
     ],
   },
@@ -197,7 +226,7 @@ const SECTIONS = [
     id: 'vaardigheden', title: '5. Vaardigheden', shortTitle: 'Vaardigheden',
     intro: 'Beschik je over de juiste vaardigheden?', color: '#E05C1A',
     questions: [
-      { id: '5.1', text: 'In hoeverre beschik je over de juiste vaardigheden (intern en/of extern)?' },
+      { id: '5.1', text: 'In hoeverre beschik je over de juiste vaardigheden voor de implementatie? (bijv. technische of projectvaardigheden)', scale: SCALE_INTENSITEIT },
       { id: '5.2', text: 'In welke mate zijn de nodige vaardigheden goed verdeeld in jouw organisatie?' },
       { id: '5.3', text: 'Zijn de vaardigheden complementair aan elkaar?' },
       { id: '5.4', text: 'Welk oordeel geef je over de mate waarin wordt samengewerkt in jouw organisatie?', scale: SCALE_KWALITEIT },
@@ -209,10 +238,10 @@ const SECTIONS = [
     questions: [
       { id: '6.1', text: 'Wat is jouw oordeel over het vermogen om zich aan te passen aan de "lessons learned"?', scale: SCALE_KWALITEIT },
       { id: '6.2', text: 'In welke mate worden nieuwe vaardigheden ook echt geborgd? (voorkomen van "oh, die is op cursus geweest")' },
-      { id: '6.3', text: 'Hoe moeilijk is het om gedrag van jou en jouw mensen te veranderen?' },
+      { id: '6.3', text: 'Hoe moeilijk is het om gedrag van jou en jouw mensen te veranderen?', scale: SCALE_REVERSED },
       { id: '6.4', text: 'Wat is jouw oordeel over het innovatieve vermogen van jouw organisatie?', scale: SCALE_KWALITEIT },
-      { id: '6.5', text: 'In welke mate is er sprake van ongeplande activiteiten of initiatieven in jouw bedrijf?' },
-      { id: '6.6', text: 'In welke mate geef je ruimte voor tegenspraak?' },
+      { id: '6.5', text: 'In welke mate is er sprake van ongeplande activiteiten of initiatieven in jouw bedrijf?', scale: SCALE_REVERSED },
+      { id: '6.6', text: 'In welke mate geef je ruimte voor tegenspraak?', scale: SCALE_INTENSITEIT },
     ],
   },
 ];
