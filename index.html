@@ -126,7 +126,7 @@ nav#nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
   width: 100%;
 }
 .hero-eyebrow {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  font-size: 16px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--orange); margin-bottom: 16px;
 }
 .hero-title {
@@ -162,7 +162,7 @@ nav#nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
 section { padding: clamp(64px, 8vh, 112px) var(--pad); }
 .container { max-width: var(--max); margin: 0 auto; }
 .section-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--orange); margin-bottom: 12px;
 }
 .section-title {
@@ -333,6 +333,13 @@ footer {
 .footer-linkedin { opacity: 0.5; transition: opacity 0.15s; }
 .footer-linkedin:hover { opacity: 1; }
 /* ── RESPONSIVE ── */
+.footer-logo-img {
+  height: 160px; width: 427px; opacity: 1; flex-shrink: 0; margin-top: 8px;
+}
+.contact-inner {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;
+}
+
 @media (max-width: 720px) {
   .nav-links { display: none; }
   .voor-wie-grid { grid-template-columns: 1fr; }
@@ -340,6 +347,38 @@ footer {
   .team-grid { grid-template-columns: 1fr; gap: 40px; }
   .waarom-list { grid-template-columns: 1fr; }
   .dienst { grid-template-columns: 48px 1fr; }
+
+  /* Hero: portretfoto op mobiel zodat beiden in beeld zijn */
+  .hero-photo img { object-position: center 20%; }
+
+  /* Footer logo responsief */
+  .footer-logo-img { width: 100%; max-width: 320px; height: auto; margin-top: 0; }
+
+  /* Juridische links verticaal */
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-legal { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .footer-bottom-left { flex-wrap: wrap; }
+
+  /* Kennismaken blok: logo onderaan, tekst gecentreerd, knoppen naast elkaar */
+  .contact-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .contact-inner .footer-logo-img {
+    order: 10;
+    margin-top: 32px;
+    max-width: 280px;
+  }
+  .contact-content { max-width: 100%; }
+  .contact-sub { max-width: 100%; }
+  .contact-actions {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  .btn-contact { padding: 12px 20px; font-size: 12px; white-space: nowrap; }
+  .btn-contact-outline { font-size: 12px; white-space: nowrap; }
 }
 </style>
 </head>
@@ -359,7 +398,12 @@ footer {
 </nav>
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-photo"><img src="Strategie%20Boost%20-31.jpg" alt="Ian van Veen en Meinoud Rost van Tonningen"></div>
+  <div class="hero-photo">
+    <picture>
+      <source media="(max-width: 720px)" srcset="Strategie%20Boost%20-21.jpg">
+      <img src="Strategie%20Boost%20-31.jpg" alt="Ian van Veen en Meinoud Rost van Tonningen">
+    </picture>
+  </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Strategie &amp; Implementatie</div>
@@ -488,17 +532,21 @@ footer {
 <!-- CONTACT -->
 <section id="contact">
   <div class="container">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:32px">
-      <div>
+    <div class="contact-inner">
+      <div class="contact-content">
         <div class="section-label">Kennismaken</div>
         <h2 class="section-title">Klaar voor<br>de volgende fase?</h2>
         <p class="contact-sub">Wil je weten wat wij voor jou kunnen betekenen? Neem contact met ons op of plan hier een kennismaking in.</p>
         <div class="contact-actions">
-          <a href="/cdn-cgi/l/email-protection#95f6fafbe1f4f6e1d5e6e1e7f4e1f0f2fcf0f7fafae6e1bbfbf9" class="btn-contact">Plan een kennismaking</a>
+          <a class="btn-contact"
+             data-cal-link="ian-meinoud/kennismakingsgesprek"
+             data-cal-namespace="kennismakingsgesprek"
+             data-cal-config='{"layout":"month_view"}'
+             href="#">Plan een kennismaking</a>
           <a href="strategiescan.html" class="btn-contact-outline">Doe de gratis Strategiescan</a>
         </div>
       </div>
-      <img src="logo-horizontal.png" alt="Strategieboost" style="height: 160px; opacity: 1; flex-shrink: 0; margin-top: 8px; width: 427px">
+      <img src="logo-horizontal.png" alt="Strategieboost" class="footer-logo-img">
     </div>
   </div>
 </section>
@@ -506,33 +554,33 @@ footer {
 <footer>
   <div class="footer-top">
     <div class="footer-info">
-      <div class="footer-info-name">Strategieboost</div>
-      <p>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+        <div class="footer-info-name">Strategieboost</div>
+        <a class="footer-linkedin" href="https://www.linkedin.com/company/strategieboost" rel="noopener noreferrer" target="_blank" aria-label="Strategieboost op LinkedIn" style="flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="white"/>
+            <path d="M7.2 9.6H4.8V19.2H7.2V9.6Z" fill="#3D2882"/>
+            <circle cx="6" cy="6.6" r="1.4" fill="#3D2882"/>
+            <path d="M19.2 13.6C19.2 11.4 17.8 9.4 15.6 9.4C14.4 9.4 13.4 10 12.8 10.8V9.6H10.4V19.2H12.8V14.4C12.8 13.2 13.6 12 14.8 12C16 12 16.8 13 16.8 14.4V19.2H19.2V13.6Z" fill="#3D2882"/>
+          </svg>
+        </a>
+      </div>
+      <p style="margin-top:8px;">
         Kromme Elleboogsteeg 3A3<br>
         2011 TS Haarlem<br><br>
         KvK: 96567279<br>
         BTW: NL867664629B01
       </p>
+      <nav class="footer-legal" style="margin-top:24px;">
+        <a href="legal/disclaimer.html">Disclaimer</a>
+        <a href="legal/privacypolicy.html">Privacy Policy</a>
+        <a href="legal/cookiebeleid.html">Cookiebeleid</a>
+        <a href="legal/algemenevoorwaarden.html">Algemene Voorwaarden</a>
+      </nav>
     </div>
   </div>
-  <div class="footer-bottom">
-    <div class="footer-bottom-left">
-      <span class="footer-copy">© 2026 Strategieboost BV. Alle rechten voorbehouden.</span>
-      <a class="footer-linkedin" href="https://www.linkedin.com/company/strategieboost" rel="noopener noreferrer" target="_blank" rel="noopener" aria-label="Strategieboost op LinkedIn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="24" height="24" rx="4" fill="white"/>
-          <path d="M7.2 9.6H4.8V19.2H7.2V9.6Z" fill="#3D2882"/>
-          <circle cx="6" cy="6.6" r="1.4" fill="#3D2882"/>
-          <path d="M19.2 13.6C19.2 11.4 17.8 9.4 15.6 9.4C14.4 9.4 13.4 10 12.8 10.8V9.6H10.4V19.2H12.8V14.4C12.8 13.2 13.6 12 14.8 12C16 12 16.8 13 16.8 14.4V19.2H19.2V13.6Z" fill="#3D2882"/>
-        </svg>
-      </a>
-    </div>
-    <nav class="footer-legal">
-      <a href="legal/disclaimer.html">Disclaimer</a>
-      <a href="legal/privacypolicy.html">Privacy Policy</a>
-      <a href="legal/cookiebeleid.html">Cookiebeleid</a>
-      <a href="legal/algemenevoorwaarden.html">Algemene Voorwaarden</a>
-    </nav>
+  <div class="footer-bottom" style="justify-content:flex-start;">
+    <span class="footer-copy">© 2026 Strategieboost BV. Alle rechten voorbehouden.</span>
   </div>
 </footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
