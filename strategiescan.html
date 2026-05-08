@@ -721,7 +721,7 @@ Strategieboost · strategieboost.nl`;
     if (!bedrijf.email) return;
     setEmailStatus('sending');
     try {
-      // Maak PDF van de resultatenpagina
+      // ── 1. Genereer PDF van de resultatenpagina ──────────────
       const element = resultsRef.current;
       const canvas = await html2canvas(element, {
         scale: 1.5, useCORS: true, allowTaint: true, backgroundColor: '#F5F4F1'
@@ -740,15 +740,30 @@ Strategieboost · strategieboost.nl`;
       }
       const pdfBase64 = pdf.output('datauristring').split(',')[1];
 
-      // Verstuur via EmailJS
+      // ── 2. Bouw e-mailtekst samen ────────────────────────────
+      const emailTekst = buildEmailText();
+
+      // ── 3. Verstuur naar invuller ────────────────────────────
       emailjs.init('Yz7OzN8lhhSmGNo7k');
-      await emailjs.send('JOUW_SERVICE_ID', 'JOUW_TEMPLATE_ID', {
-        to_email: bedrijf.email,
-        to_name: bedrijf.naam || 'relatie',
-        bedrijf_naam: bedrijf.naam || '-',
-        totaal_score: totalPct + '%',
-        pdf_base64: pdfBase64,
+      await emailjs.send('service_u5mh0xo', 'template_h4wvty5', {
+        user_email:     bedrijf.email,
+        reply_to:       bedrijf.email,
+        scan_resultaat: emailTekst,
+        pdf_base64:     pdfBase64,
+        bedrijf_naam:   bedrijf.naam || '-',
+        totaal_score:   totalPct + '%',
       });
+
+      // ── 4. Kopie naar Strategieboost ─────────────────────────
+      await emailjs.send('service_u5mh0xo', 'template_h4wvty5', {
+        user_email:     'contact@strategieboost.nl',
+        reply_to:       bedrijf.email,
+        scan_resultaat: `Kopie scanresultaat — ${bedrijf.naam || 'onbekend bedrijf'}\n\n${emailTekst}`,
+        pdf_base64:     pdfBase64,
+        bedrijf_naam:   bedrijf.naam || '-',
+        totaal_score:   totalPct + '%',
+      });
+
       setEmailStatus('sent');
     } catch (err) {
       console.error('EmailJS fout:', err);
