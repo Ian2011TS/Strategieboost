@@ -334,9 +334,6 @@ footer {
   .waarom-list { grid-template-columns: 1fr; }
   .dienst { grid-template-columns: 48px 1fr; }
 
-  /* Hero: verschuif positie zodat beide personen zichtbaar zijn */
-  .hero-photo img { object-position: 40% 30%; }
-
   /* Footer logo: responsief maken */
   .footer-logo-img { width: 100%; max-width: 320px; height: auto; margin-top: 0; }
 
@@ -384,7 +381,12 @@ footer {
 </nav>
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-photo"><img src="Strategie%20Boost%20-31.jpg" alt="Ian van Veen en Meinoud Rost van Tonningen"></div>
+  <div class="hero-photo">
+    <picture>
+      <source media="(max-width: 720px)" srcset="Strategie%20Boost%20-21.jpg">
+      <img src="Strategie%20Boost%20-31.jpg" alt="Ian van Veen en Meinoud Rost van Tonningen">
+    </picture>
+  </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Strategie &amp; Implementatie</div>
