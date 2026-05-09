@@ -129,6 +129,7 @@ nav#nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
   font-size: 16px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--orange); margin-bottom: 16px;
 }
+.hero-line { display: block; }
 .hero-title {
   font-family: var(--font-display); font-size: clamp(52px, 7vw, 96px);
   letter-spacing: 0.04em; text-transform: uppercase; line-height: 1;
@@ -350,6 +351,7 @@ footer {
 
   /* Hero: portretfoto op mobiel zodat beiden in beeld zijn */
   .hero-photo img { object-position: center 20%; }
+  .hero-title { font-size: 36px; }
 
   /* Footer logo responsief */
   .footer-logo-img { width: 100%; max-width: 320px; height: auto; margin-top: 0; }
@@ -425,7 +427,7 @@ Cal.ns["kennismakingsgesprek"]("ui", {
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Strategie &amp; Implementatie</div>
-    <h1 class="hero-title">Je strategie harder<br>laten werken?</h1>
+    <h1 class="hero-title"><span class="hero-line">Je strategie harder</span><span class="hero-line">laten werken?</span></h1>
     <p class="hero-sub">Voor ondernemers en bestuurders die toe zijn aan de volgende fase. Of waar de groei hapert en echt iets moet veranderen.</p>
     <div class="hero-actions">
       <a class="btn-primary"
