@@ -209,8 +209,8 @@ const SCALE_PROCENT = [
 ];
 
 const SCALE_JANEE = [
-  { label: 'Nee', value: 1 },
   { label: 'Ja', value: 5 },
+  { label: 'Nee', value: 1 },
 ];
 
 const SCALE_INTENSITEIT = [
@@ -230,11 +230,11 @@ const SCALE_MATE = [
 ];
 
 const SCALE_REVERSED = [
-  { label: 'Erg veel', value: 1 },
-  { label: 'Vrij veel', value: 2 },
-  { label: 'Beperkt', value: 3 },
-  { label: 'Nauwelijks', value: 5 },
   { label: 'Niet', value: 7 },
+  { label: 'Nauwelijks', value: 5 },
+  { label: 'Beperkt', value: 3 },
+  { label: 'Vrij veel', value: 2 },
+  { label: 'Erg veel', value: 1 },
 ];
 
 const SECTIONS = [
@@ -703,6 +703,7 @@ function ResultsScreen({ scores, bedrijf, answers, onReset }) {
   const dateStr = new Date().toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric'});
   const [emailStatus, setEmailStatus] = useState('idle');
   const resultsRef = useRef(null);
+  const summaryRef = useRef(null);
 
   // ── Bedrijfslogo ophalen via meerdere bronnen ───────────────────────────────
   const [companyLogo, setCompanyLogo] = useState({ url: null, ready: false, tried: false });
@@ -792,22 +793,36 @@ Strategieboost · strategieboost.nl`;
     if (!bedrijf.email) return;
     setEmailStatus('sending');
     try {
-      const emailTekst = buildEmailText();
+      // ── Genereer compacte PDF (alleen header + radar + scores) ──────────────
+      const element = summaryRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 0.85,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#F5F4F1',
+        logging: false,
+      });
+      const imgData = canvas.toDataURL('image/jpeg', 0.6);
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const pdfW = pdf.internal.pageSize.getWidth();
+      const pdfH = (canvas.height * pdfW) / canvas.width;
+      const pageH = pdf.internal.pageSize.getHeight();
+      let pos = 0, remaining = pdfH;
+      while (remaining > 0) {
+        pdf.addImage(imgData, 'JPEG', 0, pos, pdfW, pdfH);
+        remaining -= pageH; pos -= pageH;
+        if (remaining > 0) pdf.addPage();
+      }
+      const pdfBase64 = pdf.output('datauristring').split(',')[1];
 
-      // Verstuur naar invuller (tekst, geen PDF-bijlage wegens groottebeperkingen)
+      // ── Verstuur e-mail met PDF bijlage ──────────────────────────────────────
+      const emailTekst = buildEmailText();
       await emailjs.send('service_u5mh0xo', 'template_h4wvty5', {
         user_email:     bedrijf.email,
         reply_to:       bedrijf.email,
         scan_resultaat: emailTekst,
-        bedrijf_naam:   bedrijf.naam || '-',
-        totaal_score:   totalPct + '%',
-      });
-
-      // Kopie naar Strategieboost
-      await emailjs.send('service_u5mh0xo', 'template_h4wvty5', {
-        user_email:     'contact@strategieboost.nl',
-        reply_to:       bedrijf.email,
-        scan_resultaat: `Kopie voor Strategieboost\n\n${emailTekst}`,
+        pdf_base64:     pdfBase64,
         bedrijf_naam:   bedrijf.naam || '-',
         totaal_score:   totalPct + '%',
       });
@@ -884,7 +899,7 @@ Strategieboost · strategieboost.nl`;
 
       <div style={{height:5,background:'var(--sb-gradient-h)'}} />
 
-      <div style={{maxWidth:800,margin:'0 auto',padding:'32px 24px'}}>
+      <div ref={summaryRef} style={{maxWidth:800,margin:'0 auto',padding:'32px 24px 0'}}>
 
         {/* Radar — full width */}
         <div className="radar-container" style={{background:'white',borderRadius:16,padding:'28px 24px',boxShadow:'var(--shadow-md)',marginBottom:24,display:'flex',flexDirection:'column',alignItems:'center'}}>
@@ -918,6 +933,10 @@ Strategieboost · strategieboost.nl`;
             );
           })}
         </div>
+
+      </div>{/* einde summaryRef */}
+
+      <div style={{maxWidth:800,margin:'0 auto',padding:'0 24px'}}>
 
         {/* Interpretatie */}
         <div className="interpretatie-block" style={{background:'white',borderRadius:16,padding:'28px 32px',boxShadow:'var(--shadow-md)',marginBottom:24}}>
@@ -991,7 +1010,7 @@ Plan nu een 30-minuten strategiegesprek in.
           onMouseEnter={e => { if (emailStatus==='idle') e.currentTarget.style.opacity='0.85'; }}
           onMouseLeave={e => { if (emailStatus==='idle') e.currentTarget.style.opacity='1'; }}
         >
-          {emailStatus==='sending'?'⏳ VERSTUREN...':emailStatus==='sent'?'✓ E-MAIL GEOPEND':emailStatus==='error'?'✗ PROBEER OPNIEUW':'✉ STUUR PER MAIL'}
+          {emailStatus==='sending'?'⏳ VERSTUREN...':emailStatus==='sent'?'✓ E-MAIL VERZONDEN':emailStatus==='error'?'✗ PROBEER OPNIEUW':'✉ STUUR PER MAIL'}
         </button>
         <button
           onClick={handlePrint}
