@@ -550,7 +550,7 @@ function IntroScreen({ onStart, bedrijf, setBedrijf }) {
           <div style={{display:'flex',flexDirection:'column',gap:14}}>
             {[
               { key:'naam', label:'Naam van je bedrijf *', placeholder:'Bijv. Acme B.V.', type:'text' },
-              { key:'kvk',  label:'KvK nummer *',          placeholder:'8 cijfers',        type:'text' },
+              { key:'kvk',  label:'KvK nummer *',          placeholder:'8 cijfers',        type:'text', inputMode:'numeric' },
               { key:'email',label:'E-mailadres *',          placeholder:'Bijv. info@jouwbedrijf.nl', type:'email' },
             ].map(field => (
               <div key={field.key}>
@@ -560,6 +560,7 @@ function IntroScreen({ onStart, bedrijf, setBedrijf }) {
                 <div style={{position:'relative'}}>
                   <input
                     type={field.type}
+                    inputMode={field.inputMode || 'text'}
                     value={bedrijf[field.key] || ''}
                     onChange={e => {
                       const val = e.target.value;
