@@ -975,9 +975,7 @@ Strategieboost · strategieboost.nl`;
 Plan nu een 30-minuten strategiegesprek in.
             </p>
             <button
-              data-cal-link="ian-meinoud/kennismakingsgesprek"
-              data-cal-namespace="kennismakingsgesprek"
-              data-cal-config='{"layout":"month_view"}'
+              onClick={() => window.Cal?.ns?.kennismakingsgesprek?.('modal', { calLink: 'ian-meinoud/kennismakingsgesprek', config: { layout: 'month_view' } })}
               style={{display:'inline-block',padding:'13px 30px',background:'linear-gradient(90deg,#F5C23A,#F7941D)',borderRadius:8,color:'white',fontFamily:'var(--font-display)',fontSize:19,letterSpacing:'0.08em',textDecoration:'none',transition:'opacity 0.15s',border:'none',cursor:'pointer'}}
               onMouseEnter={e => e.currentTarget.style.opacity='0.9'}
               onMouseLeave={e => e.currentTarget.style.opacity='1'}
@@ -992,16 +990,6 @@ Plan nu een 30-minuten strategiegesprek in.
       <div className="no-print" style={{position:'fixed',bottom:0,left:0,right:0,background:'white',borderTop:'1px solid #E8E5F0',padding:'14px 24px',display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap',zIndex:20,boxShadow:'0 -4px 16px rgba(61,40,130,0.08)'}}>
         <button onClick={onReset} style={{padding:'10px 20px',background:'transparent',border:'2px solid #E0DDF0',borderRadius:8,color:'var(--sb-mid)',fontFamily:'var(--font-body)',fontSize:13,fontWeight:700,cursor:'pointer'}}>
           ← Opnieuw
-        </button>
-        <button
-          data-cal-link="ian-meinoud/kennismakingsgesprek"
-          data-cal-namespace="kennismakingsgesprek"
-          data-cal-config='{"layout":"month_view"}'
-          style={{padding:'10px 22px',background:'var(--sb-purple)',border:'none',borderRadius:8,color:'white',fontFamily:'var(--font-display)',fontSize:17,letterSpacing:'0.05em',cursor:'pointer',display:'flex',alignItems:'center',gap:7,transition:'opacity 0.15s'}}
-          onMouseEnter={e => e.currentTarget.style.opacity='0.85'}
-          onMouseLeave={e => e.currentTarget.style.opacity='1'}
-        >
-          📅 PLAN GESPREK
         </button>
         <button
           onClick={handleSendEmail}
