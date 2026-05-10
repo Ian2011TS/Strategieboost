@@ -328,7 +328,7 @@ const SECTIONS = [
     ],
   },
   {
-    id: 'opruimen', title: '4. Opruimen van belemmeringen', shortTitle: 'Opruimen barrières',
+    id: 'opruimen', title: '4. Opruimen van belemmeringen', shortTitle: 'Opruimen belemmeringen',
     intro: 'In hoeverre worden belemmeringen actief opgeruimd?', color: '#C52339',
     questions: [
       { id: '4.1', text: 'In hoeverre zou het inhuren van tijdelijke krachten een mogelijk capaciteitstekort voor de uitvoering van de strategie kunnen oplossen?' },
@@ -847,43 +847,31 @@ Strategieboost · strategieboost.nl`;
     if (!bedrijf.email) return;
     setEmailStatus('sending');
     try {
-      // ── Genereer compacte PDF (alleen header + radar + scores) ──────────────
-      const element = summaryRef.current;
-      const canvas = await html2canvas(element, {
-        scale: 0.85,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#F5F4F1',
-        logging: false,
-      });
-      const imgData = canvas.toDataURL('image/jpeg', 0.6);
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const pdfW = pdf.internal.pageSize.getWidth();
-      const pdfH = (canvas.height * pdfW) / canvas.width;
-      const pageH = pdf.internal.pageSize.getHeight();
-      let pos = 0, remaining = pdfH;
-      while (remaining > 0) {
-        pdf.addImage(imgData, 'JPEG', 0, pos, pdfW, pdfH);
-        remaining -= pageH; pos -= pageH;
-        if (remaining > 0) pdf.addPage();
-      }
-      const pdfBase64 = pdf.output('datauristring').split(',')[1];
-
-      // ── Verstuur e-mail met PDF bijlage ──────────────────────────────────────
       const emailTekst = buildEmailText();
-      await emailjs.send('service_u5mh0xo', 'template_h4wvty5', {
-        user_email:     bedrijf.email,
-        reply_to:       bedrijf.email,
-        scan_resultaat: emailTekst,
-        pdf_base64:     pdfBase64,
-        bedrijf_naam:   bedrijf.naam || '-',
-        totaal_score:   totalPct + '%',
+
+      // Verstuur e-mail zonder PDF bijlage (betere deliverability naar Outlook/Gmail)
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id:  'service_u5mh0xo',
+          template_id: 'template_h4wvty5',
+          user_id:     'Yz7OzN8lhhSmGNo7k',
+          template_params: {
+            user_email:     bedrijf.email,
+            reply_to:       'contact@strategieboost.nl',
+            from_name:      'Strategieboost',
+            scan_resultaat: emailTekst,
+            bedrijf_naam:   bedrijf.naam || '-',
+            totaal_score:   totalPct + '%',
+          },
+        }),
       });
 
+      if (!response.ok) throw new Error(`Status ${response.status}`);
       setEmailStatus('sent');
     } catch (err) {
-      console.error('EmailJS fout:', err);
+      console.error('E-mail fout:', err);
       setEmailStatus('error');
     }
   }, [scores, bedrijf, totalPct]);
@@ -1063,6 +1051,12 @@ Plan nu een 30-minuten strategiegesprek in.
           ↓ DOWNLOAD PDF
         </button>
       </div>
+      {emailStatus === 'error' && (
+        <div style={{position:'fixed',bottom:'calc(72px + env(safe-area-inset-bottom))',left:0,right:0,background:'#FFF3F3',borderTop:'1px solid #FFCDD2',padding:'10px 24px',textAlign:'center',fontSize:13,color:'#C52339',zIndex:21}}>
+          Verzenden mislukt. Download de PDF via de knop rechts, of mail ons op{' '}
+          <a href="mailto:contact@strategieboost.nl" style={{color:'#C52339',fontWeight:700}}>contact@strategieboost.nl</a>.
+        </div>
+      )}
     </div>
   );
 }
