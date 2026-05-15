@@ -423,6 +423,7 @@ async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden) {
     const payload = {
       bedrijf_naam:        bedrijf.naam   || null,
       kvk_nummer:          bedrijf.kvk    || null,
+      email:               bedrijf.email  || null,
       sbi_code:            null,
       sbi_omschrijving:    null,
       totaal_pct:          totalPct,
