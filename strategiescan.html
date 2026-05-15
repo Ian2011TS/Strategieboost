@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
@@ -31,8 +31,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Strategiescan — Strategieboost</title>
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-LFMRkBiQjMJBEDHC5DXFH2GY60PoVvk0P9gC/GhHPYX1sJ1ypN1EFfLhE+s2KD8" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-BBGzh6YREQE5GXz94ZS5n4IIHHkPHdwNDPlzHCKhUQKMeYJMPGQ5eLCN9ZWFZXSc" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
@@ -418,17 +418,17 @@ const SUPABASE_URL  = 'https://nedxetebhieaqpvyrxcu.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lZHhldGViaGllYXFwdnlyeGN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjM0MDgsImV4cCI6MjA5NDM5OTQwOH0.HVTsyqgkDyX1xKJJ01S_45DiSdK6ElRm0BZfpcQcznY';
 
 // Scan opslaan in Supabase
-async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden) {
+async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
   try {
     const payload = {
       bedrijf_naam:        bedrijf.naam   || null,
       kvk_nummer:          bedrijf.kvk    || null,
       email:               bedrijf.email  || null,
-      sbi_code:            null,
-      sbi_omschrijving:    null,
+      sbi_code:            sbiInfo?.code         || null,
+      sbi_omschrijving:    sbiInfo?.omschrijving  || null,
       totaal_pct:          totalPct,
       score_strategie:     scores.find(s => s.id === 'strategie')?.pct    ?? null,
-      score_implementatie: scores.find(s => s.id === 'implementatie')?.pct ?? null,
+      score_implementatie: scores.find(s => s.id === 'implementatieplan')?.pct ?? null,
       score_belemmeringen: scores.find(s => s.id === 'belemmeringen')?.pct ?? null,
       score_opruimen:      scores.find(s => s.id === 'opruimen')?.pct      ?? null,
       score_vaardigheden:  scores.find(s => s.id === 'vaardigheden')?.pct  ?? null,
@@ -557,6 +557,7 @@ function OptionButton({ option, selected, onClick, color }) {
 function IntroScreen({ onStart, bedrijf, setBedrijf }) {
   const [errors, setErrors] = useState({});
   const [kvkStatus, setKvkStatus] = useState('idle'); // idle | checking | ok | error
+  const [sbiInfo, setSbiInfo] = useState(null);
 
   const validate = () => {
     const e = {};
@@ -572,18 +573,26 @@ function IntroScreen({ onStart, bedrijf, setBedrijf }) {
     if (!/^\d{8}$/.test(kvk.trim())) return;
     setKvkStatus('checking');
     try {
-      await fetch(`https://api.kvk.nl/api/v1/zoeken?kvkNummer=${kvk.trim()}&gebruikersleutel=l7xxdummy`, { mode: 'no-cors' });
-      setKvkStatus('ok');
-    } catch (_) {
-      setKvkStatus('ok');
-    }
+      // KVK API: vervang 'l7xxdummy' door jouw echte sleutel via developers.kvk.nl
+      const res = await fetch(
+        `https://api.kvk.nl/api/v1/basisprofielen/${kvk.trim()}`,
+        { headers: { 'apikey': 'l7xxdummy' } }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const sbi = data?.sbiActiviteiten?.[0];
+        if (sbi) setSbiInfo({ code: sbi.sbiCode, omschrijving: sbi.omschrijving });
+        if (!bedrijf.naam && data?.naam) setBedrijf(b => ({ ...b, naam: data.naam }));
+      }
+    } catch (_) {}
+    setKvkStatus('ok');
   };
 
   const handleStart = () => {
     const e = validate();
     if (Object.keys(e).length > 0) { setErrors(e); return; }
     setErrors({});
-    onStart();
+    onStart(sbiInfo);
   };
 
   return (
@@ -771,7 +780,7 @@ function QuestionScreen({ section, sectionIndex, totalSections, answers, onAnswe
 
 // ─── RESULTS SCREEN ───────────────────────────────────────────────────────────
 
-function ResultsScreen({ scores, bedrijf, answers, onReset }) {
+function ResultsScreen({ scores, bedrijf, answers, sbiInfo, onReset }) {
   const totalPct = Math.round(scores.reduce((a,s) => a+s.pct, 0) / scores.length);
   const overallLabel = getScoreLabel(totalPct);
   const dateStr = new Date().toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric'});
@@ -780,7 +789,7 @@ function ResultsScreen({ scores, bedrijf, answers, onReset }) {
 
   // ── Opslaan in Supabase bij laden resultaatpagina ───────────────────────
   useEffect(() => {
-    saveToBenchmark(bedrijf, scores, totalPct, answers);
+    saveToBenchmark(bedrijf, scores, totalPct, answers, sbiInfo);
   }, []);
 
 
@@ -1028,7 +1037,9 @@ function App() {
 
   const handleAnswer = useCallback((qid, val) => setAnswers(prev => ({...prev,[qid]:val})), []);
 
-  const handleStart = useCallback(() => {
+  const [sbiInfo, setSbiInfo] = useState(null);
+  const handleStart = useCallback((sbi) => {
+    if (sbi) setSbiInfo(sbi);
     setSectionIndex(0);
     setStep('section');
   }, []);
@@ -1044,7 +1055,7 @@ function App() {
   }, [sectionIndex]);
 
   const handleReset = useCallback(() => {
-    setAnswers({}); setBedrijf({naam:'',kvk:'',email:''}); setSectionIndex(0); setStep('intro');
+    setAnswers({}); setBedrijf({naam:'',kvk:'',email:''}); setSbiInfo(null); setSectionIndex(0); setStep('intro');
   }, []);
 
   if (step === 'intro') return <IntroScreen onStart={handleStart} bedrijf={bedrijf} setBedrijf={setBedrijf} key="intro" />;
@@ -1056,7 +1067,7 @@ function App() {
   }
 
   if (step === 'results') {
-    return <ResultsScreen scores={computeScores(answers)} bedrijf={bedrijf} answers={answers} onReset={handleReset} />;
+    return <ResultsScreen scores={computeScores(answers)} bedrijf={bedrijf} answers={answers} sbiInfo={sbiInfo} onReset={handleReset} />;
   }
 
   return null;
