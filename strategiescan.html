@@ -511,7 +511,322 @@ function getScoreLabel(pct) {
 const SUPABASE_URL  = 'https://nedxetebhieaqpvyrxcu.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lZHhldGViaGllYXFwdnlyeGN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjM0MDgsImV4cCI6MjA5NDM5OTQwOH0.HVTsyqgkDyX1xKJJ01S_45DiSdK6ElRm0BZfpcQcznY';
 
-// Scan opslaan in Supabase
+// ── PDF genereren met jsPDF ────────────────────────────────────────────────────
+function generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const PW = 210; const PH = 297;
+  const ML = 14; const MR = 14; const CW = PW - ML - MR;
+  const dateStr = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // ── Kleur helpers ──
+  const hex = h => [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  const PURPLE = hex('3D2882'); const ORANGE = hex('F7941D'); const RED = hex('C52339');
+  const GREEN  = hex('2E7D32'); const AMBER  = hex('F5C23A'); const MID = hex('6B6B6B');
+  const LIGHT  = hex('E8E5F0'); const OFF    = hex('F4F3F0');
+
+  function setFill(c) { doc.setFillColor(c[0],c[1],c[2]); }
+  function setDraw(c) { doc.setDrawColor(c[0],c[1],c[2]); }
+  function setFont(c) { doc.setTextColor(c[0],c[1],c[2]); }
+  function labelColor(pct) {
+    if (pct >= 80) return GREEN; if (pct >= 60) return hex('558B2F');
+    if (pct >= 40) return ORANGE; if (pct >= 20) return RED;
+    return hex('8B0000');
+  }
+  function labelText(pct) {
+    if (pct >= 80) return 'STERK'; if (pct >= 60) return 'GOED';
+    if (pct >= 40) return 'AANDACHT GEWENST'; if (pct >= 20) return 'ZWAK';
+    return 'KRITIEK';
+  }
+
+  // ── Header band ──
+  setFill(PURPLE);
+  doc.rect(0, 0, PW, 22, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(14);
+  setFont([255,255,255]);
+  doc.text('STRATEGIESCAN — GESPREKSRAPPORT', ML, 9);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8);
+  setFont([200,200,220]);
+  const headerRight = bedrijf.naam ? `${bedrijf.naam}  ·  ${dateStr}` : dateStr;
+  doc.text(headerRight, PW - MR, 9, { align: 'right' });
+  // Gradient strip
+  const gStops = [[hex('3D2882'),0],[hex('6B3194'),0.3],[hex('C52339'),0.65],[hex('F7941D'),1.0]];
+  const stripW = CW / (gStops.length - 1);
+  for (let i = 0; i < gStops.length - 1; i++) {
+    const [c1] = gStops[i]; setFill(c1);
+    doc.rect(ML + i * stripW, 19, stripW + 0.5, 3, 'F');
+  }
+
+  let y = 27;
+
+  // ── Bedrijfsinfo + totaalscore ──
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); setFont(MID);
+  const infoLine = [
+    bedrijf.naam, bedrijf.kvk ? `KvK ${bedrijf.kvk}` : null,
+    bedrijf.email, sbiInfo ? `SBI ${sbiInfo.code} — ${sbiInfo.omschrijving}` : null
+  ].filter(Boolean).join('  ·  ');
+  doc.text(infoLine, ML, y); y += 5;
+
+  // Totaalscore pill
+  const tc = labelColor(totalPct);
+  setFill(tc); doc.roundedRect(ML, y, 34, 7, 2, 2, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(8); setFont([255,255,255]);
+  doc.text(`TOTAAL  ${totalPct}%  ${labelText(totalPct)}`, ML + 2, y + 4.8);
+  y += 11;
+
+  // ── Dimensies ──────────────────────────────────────────────────────────────
+  const DIM_COLORS = {
+    strategie: '3D2882', implementatieplan: '5A2B8A', belemmeringen: '8B2A7A',
+    opruimen: 'C52339', vaardigheden: 'E05C1A', lerend: 'F7941D'
+  };
+  const DIM_LABELS = {
+    strategie: 'Strategie', implementatieplan: 'Implementatieplan',
+    belemmeringen: 'Belemmeringen & barrières', opruimen: 'Opruimen belemmeringen',
+    vaardigheden: 'Vaardigheden', lerend: 'Lerende organisatie'
+  };
+  const SCALE_MAIN = [
+    {label:'Niet / geen',value:1},{label:'Een beetje',value:2},{label:'Enigszins',value:3},
+    {label:'Redelijk',value:4},{label:'Voldoende',value:5},{label:'Goed',value:6},{label:'Volledig',value:7}
+  ];
+  const SCALE_KWALITEIT  = [{label:'Matig',value:1},{label:'Zwak',value:2},{label:'Voldoende',value:3},{label:'Goed',value:5},{label:'Zeer goed',value:7}];
+  const SCALE_PROCENT    = [{label:'< 20%',value:1},{label:'< 40%',value:2},{label:'< 60%',value:3},{label:'< 80%',value:5},{label:'> 80%',value:7}];
+  const SCALE_JANEE      = [{label:'Ja',value:5},{label:'Nee',value:1}];
+  const SCALE_INTENSITEIT= [{label:'Niet / geen',value:1},{label:'Beperkt',value:2},{label:'Redelijk',value:3},{label:'Hoog',value:5},{label:'Zeer hoog',value:7}];
+  const SCALE_MATE       = [{label:'Niet',value:1},{label:'Nauwelijks',value:2},{label:'Beperkt',value:3},{label:'Vrij veel',value:5},{label:'Erg veel',value:7}];
+  const SCALE_REVERSED   = [{label:'Niet',value:7},{label:'Nauwelijks',value:5},{label:'Beperkt',value:3},{label:'Vrij veel',value:2},{label:'Erg veel',value:1}];
+
+  const SECTIONS_PDF = [
+    { id:'strategie', questions:[
+      {id:'1.1',text:'Visie en missie bekend bij medewerkers',scale:SCALE_JANEE},
+      {id:'1.2',text:'Strategisch plan onderbouwd met analyses',scale:SCALE_INTENSITEIT},
+      {id:'1.3',text:'Echte strategische keuzes gemaakt',scale:SCALE_MATE},
+      {id:'1.4',text:'Processen gestopt of verminderd',scale:SCALE_MATE},
+      {id:'1.5',text:'Duidelijke doelgroep met afgestemd aanbod'},
+      {id:'1.6',text:'Duidelijk concurrentievoordeel'},
+      {id:'1.7',text:'Voordeel duurzaam (min. 5 jaar)'},
+    ]},
+    { id:'implementatieplan', questions:[
+      {id:'2.1',text:'Voldoende capaciteit beschikbaar'},
+      {id:'2.2',text:'Alle belanghebbenden geïnformeerd'},
+      {id:'2.3',text:'Tijdspad realistisch'},
+      {id:'2.4',text:'Rollen en taken duidelijk belegd'},
+      {id:'2.5',text:'Doelen voorzien van kwantitatief target',scale:SCALE_PROCENT},
+      {id:'2.6',text:'Meet- en controlesysteem geïmplementeerd',scale:SCALE_PROCENT},
+    ]},
+    { id:'belemmeringen', questions:[
+      {id:'3.1',text:'Historie kan strategie tegenwerken',scale:SCALE_MATE},
+      {id:'3.2',text:'Medewerkers geloven dat strategie helpt'},
+      {id:'3.3',text:'Medewerkers vertrouwen op vereenvoudiging'},
+      {id:'3.4',text:'Voldoende organisatorische ondersteuning',scale:SCALE_MATE},
+      {id:'3.5',text:'Juist voorbeeldgedrag leidinggevenden'},
+    ]},
+    { id:'opruimen', questions:[
+      {id:'4.1',text:'Tijdelijke inhuur lost capaciteitstek. op'},
+      {id:'4.2',text:'Rol middenmanagement verbeteren',scale:SCALE_REVERSED},
+      {id:'4.3',text:'Strategie met input medewerkers gemaakt'},
+      {id:'4.4',text:'Signalen van implementatiemoeheid',scale:SCALE_REVERSED},
+      {id:'4.5',text:'Zekerheid over juiste volgorde acties'},
+    ]},
+    { id:'vaardigheden', questions:[
+      {id:'5.1',text:'Juiste vaardigheden aanwezig',scale:SCALE_INTENSITEIT},
+      {id:'5.2',text:'Vaardigheden goed verdeeld'},
+      {id:'5.3',text:'Vaardigheden complementair'},
+      {id:'5.4',text:'Oordeel over samenwerking',scale:SCALE_KWALITEIT},
+    ]},
+    { id:'lerend', questions:[
+      {id:'6.1',text:'Vermogen om aan te passen aan ervaringen',scale:SCALE_KWALITEIT},
+      {id:'6.2',text:'Nieuwe vaardigheden geborgd'},
+      {id:'6.3',text:'Hoe moeilijk is gedragsverandering',scale:SCALE_REVERSED},
+      {id:'6.4',text:'Innovatief vermogen',scale:SCALE_KWALITEIT},
+      {id:'6.5',text:'Ongeplande activiteiten',scale:SCALE_REVERSED},
+      {id:'6.6',text:'Ruimte voor tegenspraak',scale:SCALE_INTENSITEIT},
+    ]},
+  ];
+
+  function getAnswerLabel(qid, val, scale) {
+    if (val === undefined || val === null) return '—';
+    const sc = scale || SCALE_MAIN;
+    const opt = sc.find(o => o.value === val);
+    return opt ? opt.label : String(val);
+  }
+
+  // ── verbeterpunten lookup (same logic as getVerbeterpunten in app) ──
+  function dimVerbeterpunten(sectionId, ans) {
+    const tips = [];
+    if (sectionId === 'strategie') {
+      if ((ans['1.1']||0)<=1) tips.push('Formuleer een visie en missie die echt richting geeft en deel deze actief met je team.');
+      if ((ans['1.2']||0)<=3) tips.push('Versterk je strategische basis met een concrete marktanalyse of SWOT, kies op feiten, niet op gevoel.');
+      if ((ans['1.3']||0)<=3) tips.push('Maak scherpere keuzes: een goede strategie zegt ook wat je niet doet.');
+      if ((ans['1.4']||0)<=3) tips.push('Stop actief met activiteiten die niet bijdragen aan je strategie. Ruimte vrijmaken is groeien.');
+      if ((ans['1.5']||0)<=1) tips.push('Definieer je doelgroep scherper en stem je aanbod daar consequent op af.');
+      if ((ans['1.6']||0)<=1) tips.push('Maak je concurrentievoordeel concreet en toetsbaar. Laat klanten bevestigen waarom ze voor jou kiezen.');
+      if ((ans['1.7']||0)<=1) tips.push('Bouw duurzaamheid in je voordeel in: wat maakt het moeilijk voor anderen om jou te kopiëren?');
+      if (tips.length===0) { tips.push('Herevalueer je strategie jaarlijks en toets of de marktomstandigheden nog kloppen.'); tips.push('Betrek sleutelmensen actief bij de strategische herijking voor meer draagvlak en scherpere inzichten.'); }
+    }
+    if (sectionId === 'implementatieplan') {
+      if ((ans['2.1']||0)<=3) tips.push('Breng capaciteitstekorten in kaart en maak een concreet plan om die op te lossen voor de uitvoering start.');
+      if ((ans['2.2']||0)<=1) tips.push('Organiseer een stakeholderbijeenkomst om iedereen op één lijn te krijgen over koers en verwachtingen.');
+      if ((ans['2.3']||0)<=3) tips.push('Maak het tijdspad realistischer door mijlpalen te halveren en buffers in te bouwen.');
+      if ((ans['2.4']||0)<=1) tips.push('Leg rollen en taken schriftelijk vast met naam en deadline. Voorkom dat verantwoordelijkheden blijven zweven.');
+      if ((ans['2.5']||0)<=2) tips.push("Vertaal minstens 80% van je strategische doelen naar kwantitatieve KPI's. Alleen dan kun je bijsturen.");
+      if ((ans['2.6']||0)<=2) tips.push('Implementeer een eenvoudig dashboard of maandelijkse review om targets actief te monitoren.');
+      if (tips.length===0) { tips.push('Voer kwartaalreviews in waarbij je plan en voortgang expliciet naast elkaar legt.'); tips.push('Koppel elk strategisch doel aan een eigenaar die wekelijks rapporteert over de voortgang.'); }
+    }
+    if (sectionId === 'belemmeringen') {
+      if ((ans['3.1']||0)>=4) tips.push('Adresseer de historische patronen in je organisatie expliciet. Benoem ze in teamgesprekken en maak ze bespreekbaar.');
+      if ((ans['3.2']||0)<=3) tips.push('Communiceer concreet wat de nieuwe strategie betekent voor het dagelijks werk van medewerkers. Maak duidelijk wat er voor hen verandert.');
+      if ((ans['3.3']||0)<=3) tips.push('Verminder de ervaren werkdruk bij de implementatie door deelstappen te versimpelen of te automatiseren.');
+      if ((ans['3.4']||0)<=3) tips.push('Investeer in tooling of training die medewerkers echt helpt de strategie uit te voeren, niet symbolisch maar praktisch.');
+      if ((ans['3.5']||0)<=3) tips.push('Geef als leiderschap zichtbaar het goede voorbeeld: consistentie tussen woord en daad is de krachtigste aanjager van draagvlak.');
+      if (tips.length===0) { tips.push('Blijf belemmeringen actief monitoren via periodieke teamgesprekken. Ze veranderen naarmate de uitvoering vordert.'); tips.push('Breng in kaart welke groepen nog twijfelen en wat ze nodig hebben om in beweging te komen.'); }
+    }
+    if (sectionId === 'opruimen') {
+      if ((ans['4.1']||0)<=3) tips.push('Verken gerichte inhuur van interim-krachten of freelancers om tijdelijke capaciteitstekorten op te vangen.');
+      if ((ans['4.2']||0)>=4) tips.push('Investeer in het middenmanagement: geef hen de tools en het mandaat om te verbinden, communiceren en motiveren.');
+      if ((ans['4.3']||0)<=3) tips.push('Betrek medewerkers actief bij het oplossen van knelpunten. Zij zien de obstakels het dichtst van dichtbij.');
+      if ((ans['4.4']||0)>=4) tips.push('Signalen van implementatiemoeheid vragen om een bewuste pauze: evalueer wat werkt en neem overbodige last weg.');
+      if ((ans['4.5']||0)<=3) tips.push('Maak de volgorde van acties expliciet. Begin met de randvoorwaarden, zoals structuur en training, voor je de uitvoering opschroeft.');
+      if (tips.length===0) { tips.push('Maak belemmeringen opruimen een vast agendapunt in het MT, minimaal één keer per maand.'); tips.push('Definieer per kwartaal de top-3 obstakels en wijs een eigenaar aan die ze wegneemt.'); }
+    }
+    if (sectionId === 'vaardigheden') {
+      if ((ans['5.1']||0)<=3) tips.push('Maak een vaardigheidsmatrix: welke competenties zijn cruciaal voor de strategie en waar zitten de gaps?');
+      if ((ans['5.2']||0)<=3) tips.push('Zorg voor betere spreiding van kritieke vaardigheden. Voorkom afhankelijkheid van één of twee sleutelpersonen.');
+      if ((ans['5.3']||0)<=1) tips.push('Stimuleer kruisbestuiving: laat teams vaker samenwerken zodat complementaire vaardigheden elkaar versterken.');
+      if ((ans['5.4']||0)<=3) tips.push('Verbeter de samenwerking met gerichte interventies. Een cultuur van open feedback en gedeeld eigenaarschap helpt daarbij.');
+      if (tips.length===0) { tips.push('Evalueer jaarlijks of de vaardighedenmix nog past bij de strategie. De wereld verandert, jouw team moet mee.'); tips.push('Investeer in leer- en ontwikkelbudget dat direct gekoppeld is aan strategische prioriteiten.'); }
+    }
+    if (sectionId === 'lerend') {
+      if ((ans['6.1']||0)<=3) tips.push('Introduceer gestructureerde terugbliksessies na elk project. Maak leren een vast onderdeel van de werkwijze.');
+      if ((ans['6.2']||0)<=3) tips.push('Borg nieuwe kennis actief: zorg dat trainingen leiden tot aangepaste werkprocessen, niet alleen tot individuele inzichten.');
+      if ((ans['6.3']||0)>=4) tips.push('Maak gedragsverandering concreet en klein: kleine aanpassingen in routines zijn makkelijker te beklijven dan grote omwentelingen.');
+      if ((ans['6.4']||0)<=3) tips.push('Creeer ruimte voor experimenten. Wijs een klein budget toe aan experimenten en leer ook van de mislukkingen.');
+      if ((ans['6.5']||0)>=4) tips.push('Kanaliseer ongeplande initiatieven: omarm de energie, maar koppel ze aan strategische prioriteiten om focus te houden.');
+      if ((ans['6.6']||0)<=3) tips.push('Nodig tegenspraak expliciet uit. Stel in vergaderingen standaard de vraag wat je over het hoofd ziet om blinde vlekken te beperken.');
+      if (tips.length===0) { tips.push('Maak leren zichtbaar: deel wat de organisatie heeft geleerd in een maandelijkse nieuwsbrief of teamupdate.'); tips.push('Koppel leer- en innovatiedoelen direct aan de beoordelingscyclus. Wat beloond wordt, groeit.'); }
+    }
+    return tips.slice(0,3);
+  }
+
+  // ── Score delta for top-5 ranking ──
+  // Priority = distance below 60% (bigger gap = more urgent)
+  function getTop5(scores, antwoorden) {
+    const allTips = [];
+    scores.forEach(s => {
+      const tips = dimVerbeterpunten(s.id, antwoorden);
+      const urgency = Math.max(0, 60 - s.pct); // 0 for goed/sterk
+      tips.forEach((tip, i) => allTips.push({ tip, urgency: urgency - i * 0.1, dim: DIM_LABELS[s.id] }));
+    });
+    allTips.sort((a,b) => b.urgency - a.urgency);
+    return allTips.slice(0,5);
+  }
+
+  // ── Layout helpers ──
+  const LINE = 4.2; // line height mm
+  const FSML = 7;   // small font size
+  const FSN  = 7.5; // normal
+  const FSH  = 8.5; // heading
+
+  function checkPage(needed) {
+    if (y + needed > PH - 12) { doc.addPage(); y = 14; }
+  }
+
+  function drawDimHeader(s) {
+    const sc = scores.find(sc => sc.id === s.id);
+    const pct = sc ? sc.pct : 0;
+    const c = hex(DIM_COLORS[s.id]);
+    checkPage(10);
+    setFill(c);
+    doc.rect(ML, y, CW, 6.5, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(FSH); setFont([255,255,255]);
+    doc.text(DIM_LABELS[s.id].toUpperCase(), ML + 2, y + 4.4);
+    // score pill right
+    const lbl = labelText(pct);
+    doc.text(`${pct}%  ${lbl}`, ML + CW - 2, y + 4.4, { align:'right' });
+    y += 7.5;
+  }
+
+  function drawAnswerRow(q, scale) {
+    const val = antwoorden[q.id];
+    const lbl = getAnswerLabel(q.id, val, scale);
+    checkPage(LINE + 1);
+    doc.setFont('helvetica','normal'); doc.setFontSize(FSML); setFont(MID);
+    doc.text(q.id, ML + 1, y);
+    setFont([30,30,30]);
+    doc.text(q.text, ML + 9, y);
+    doc.setFont('helvetica','bold');
+    setFont(val <= 2 ? RED : val >= 5 ? hex('2E7D32') : [80,80,80]);
+    doc.text(lbl, ML + CW, y, { align:'right' });
+    setDraw(LIGHT); doc.setLineWidth(0.1);
+    doc.line(ML, y + 1, ML + CW, y + 1);
+    y += LINE;
+  }
+
+  function drawVerbeterpunten(tips) {
+    if (!tips || tips.length === 0) return;
+    checkPage(4 + tips.length * (LINE + 0.5));
+    setFill(OFF); doc.rect(ML, y, CW, 3, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(FSML); setFont(MID);
+    doc.text('VERBETERPUNTEN', ML + 2, y + 2);
+    y += 4;
+    tips.forEach(tip => {
+      const lines = doc.splitTextToSize('• ' + tip, CW - 4);
+      checkPage(lines.length * LINE);
+      doc.setFont('helvetica','normal'); doc.setFontSize(FSML); setFont([30,30,30]);
+      doc.text(lines, ML + 2, y);
+      y += lines.length * LINE + 0.8;
+    });
+    y += 1;
+  }
+
+  // ── Render each dimension ──
+  SECTIONS_PDF.forEach(sec => {
+    drawDimHeader(sec);
+    sec.questions.forEach(q => drawAnswerRow(q, q.scale));
+    const tips = dimVerbeterpunten(sec.id, antwoorden);
+    drawVerbeterpunten(tips);
+    y += 3;
+  });
+
+  // ── Top 5 verbeterpunten ────────────────────────────────────────────────────
+  checkPage(30);
+  // Header bar
+  setFill(PURPLE);
+  doc.rect(ML, y, CW, 7, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); setFont([255,255,255]);
+  doc.text('TOP 5 MEEST URGENTE VERBETERPUNTEN', ML + 2, y + 4.8);
+  y += 9;
+
+  const top5 = getTop5(scores, antwoorden);
+  top5.forEach((item, i) => {
+    checkPage(LINE * 3);
+    const lines = doc.splitTextToSize(`${i+1}.  ${item.tip}`, CW - 20);
+    setFill(i % 2 === 0 ? [245,243,255] : [255,255,255]);
+    doc.rect(ML, y - 1, CW, lines.length * LINE + 2.5, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(FSML);
+    setFont(PURPLE);
+    doc.text(`${i+1}`, ML + 2, y + LINE - 1);
+    doc.setFont('helvetica','normal'); setFont([30,30,30]);
+    doc.text(lines, ML + 7, y + LINE - 1);
+    doc.setFont('helvetica','italic'); doc.setFontSize(FSML - 0.5); setFont(MID);
+    doc.text(item.dim, ML + CW, y + lines.length * LINE + 0.5, { align:'right' });
+    y += lines.length * LINE + 4;
+  });
+
+  // ── Footer ──
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    setFill(PURPLE);
+    doc.rect(0, PH - 8, PW, 8, 'F');
+    doc.setFont('helvetica','normal'); doc.setFontSize(6.5); setFont([180,180,210]);
+    doc.text('Strategieboost  ·  strategieboost.nl  ·  Dit rapport is vertrouwelijk en bedoeld voor intern gebruik', ML, PH - 3.5);
+    doc.text(`${i} / ${pageCount}`, PW - MR, PH - 3.5, { align:'right' });
+  }
+
+  return doc.output('datauristring').split(',')[1]; // base64
+}
+
+// ── Scan opslaan in Supabase ───────────────────────────────────────────────────
 async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
   try {
     const payload = {
@@ -530,22 +845,54 @@ async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
       antwoorden:          antwoorden || null,
     };
     console.log('[Supabase] Opslaan gestart:', payload.bedrijf_naam, payload.totaal_pct + '%');
+
+    // Stap 1: sla scandata op, haal id terug
     const res = await fetch(`${SUPABASE_URL}/rest/v1/scan_resultaten`, {
       method: 'POST',
       headers: {
         'apikey':        SUPABASE_ANON,
         'Authorization': `Bearer ${SUPABASE_ANON}`,
         'Content-Type':  'application/json',
-        'Prefer':        'return=minimal',
+        'Prefer':        'return=representation',
       },
       body: JSON.stringify(payload),
     });
-    if (res.ok) {
-      console.log('[Supabase] ✅ Opgeslagen (status', res.status + ')');
-    } else {
+
+    if (!res.ok) {
       const err = await res.text();
       console.error('[Supabase] ❌ Fout', res.status, ':', err);
+      return;
     }
+
+    const rows = await res.json();
+    const rowId = rows?.[0]?.id;
+    console.log('[Supabase] ✅ Opgeslagen, id:', rowId);
+
+    if (!rowId) { console.warn('[Supabase] Geen id terug, PDF stap overgeslagen'); return; }
+
+    // Stap 2: genereer PDF (na korte tick zodat jsPDF zeker geladen is)
+    await new Promise(r => setTimeout(r, 100));
+    const pdfBase64 = generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo);
+
+    // Stap 3: sla PDF op in de rij via PATCH
+    const pdfRes = await fetch(`${SUPABASE_URL}/rest/v1/scan_resultaten?id=eq.${rowId}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey':        SUPABASE_ANON,
+        'Authorization': `Bearer ${SUPABASE_ANON}`,
+        'Content-Type':  'application/json',
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify({ rapport_pdf: pdfBase64 }),
+    });
+
+    if (pdfRes.ok) {
+      console.log('[Supabase] ✅ PDF opgeslagen voor id', rowId);
+    } else {
+      const err = await pdfRes.text();
+      console.error('[Supabase] ❌ PDF fout', pdfRes.status, ':', err);
+    }
+
   } catch (e) {
     console.error('[Supabase] ❌ Netwerkfout:', e.message);
   }
