@@ -633,6 +633,7 @@ function App() {
   const [dragOver, setDragOver]           = useState(false);
   const [strategischDoel, setStrategischDoel] = useState('');
   const [loadingAnalyse, setLoadingAnalyse]   = useState(false);
+  const [analyseStatus, setAnalyseStatus]     = useState('');
   const [analyseResultaat, setAnalyseResultaat] = useState(null); // { scores, samenvatting }
   const [contact, setContact]             = useState({ naam: '', bedrijf: '', email: '' });
   const [contactFout, setContactFout]     = useState('');
@@ -671,6 +672,7 @@ function App() {
   const startAnalyse = async () => {
     if (!fileBase64 || !strategischDoel.trim()) return;
     setLoadingAnalyse(true);
+    setAnalyseStatus('Dashboard wordt ingelezen...');
     setStap(1);
 
     const prompt = `Je bent een strategieconsultant bij Strategieboost. Je beoordeelt management dashboards van MKB-bedrijven.
@@ -706,6 +708,7 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
 }`;
 
     try {
+      setAnalyseStatus('Dashboard wordt geanalyseerd op 6 dimensies...');
       const mediaType = fileMime === 'application/pdf' ? 'application/pdf' : fileMime;
       const contentItem = fileMime === 'application/pdf'
         ? { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: fileBase64 } }
@@ -720,7 +723,7 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-5',
-          max_tokens: 1500,
+          max_tokens: 4000,
           messages: [{ role: 'user', content: [contentItem, { type: 'text', text: prompt }] }],
         }),
       });
@@ -730,10 +733,13 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
         console.error('[Analyse] HTTP', res.status, errBody);
         throw new Error(`API fout ${res.status}: ${errBody.slice(0,200)}`);
       }
+      setAnalyseStatus('Scores worden berekend...');
       const data = await res.json();
       const text = data.content?.find(b => b.type === 'text')?.text || '';
-      const clean = text.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(clean);
+      // Robuuste JSON extractie: pak alles tussen eerste { en laatste }
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('Geen JSON gevonden in respons');
+      const parsed = JSON.parse(jsonMatch[0]);
 
       const scores = DIMS.map(d => ({
         id: d.id,
@@ -743,10 +749,12 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
       }));
 
       setAnalyseResultaat({ scores, samenvatting: parsed.samenvatting });
+      setAnalyseStatus('');
       setStap(2);
     } catch(e) {
       console.error('[Analyse]', e);
       alert('Er ging iets mis bij de analyse: ' + e.message);
+      setAnalyseStatus('');
       setStap(0);
     } finally {
       setLoadingAnalyse(false);
@@ -867,7 +875,7 @@ Geef je antwoord ALLEEN als JSON:
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-5',
-          max_tokens: 1500,
+          max_tokens: 4000,
           messages: [{ role: 'user', content: prompt }],
         }),
       });
@@ -1015,11 +1023,47 @@ Geef je antwoord ALLEEN als JSON:
       {stap === 1 && loadingAnalyse && (
         <div className="card fade-in" style={{ textAlign: 'center', padding: '60px 24px' }}>
           <div className="spinner" style={{ marginBottom: 20 }} />
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--sb-purple)', letterSpacing: '0.04em', marginBottom: 8 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--sb-purple)', letterSpacing: '0.04em', marginBottom: 16 }}>
             DASHBOARD WORDT GEANALYSEERD
           </p>
-          <p style={{ fontSize: 13, color: 'var(--sb-mid)' }}>
-            We toetsen je dashboard op 6 dimensies aan het opgegeven strategische doel...
+          {/* Voortgangsstappen */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 340, margin: '0 auto' }}>
+            {[
+              { label: 'Dashboard inlezen', done: ['Scores worden berekend...','Dashboard wordt geanalyseerd op 6 dimensies...'].includes(analyseStatus) || analyseStatus === '' && loadingAnalyse },
+              { label: 'Analyseren op 6 dimensies', done: analyseStatus === 'Scores worden berekend...' },
+              { label: 'Scores berekenen en rapport opstellen', done: false },
+            ].map((stap, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{
+                  width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
+                  background: stap.done ? '#2E7D32' : i === 0 && analyseStatus === 'Dashboard wordt ingelezen...' ? 'var(--sb-gradient)' : i === 1 && analyseStatus === 'Dashboard wordt geanalyseerd op 6 dimensies...' ? 'var(--sb-gradient)' : '#E8E5F0',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 11, color: stap.done ? 'white' : '#999',
+                  transition: 'all 0.4s ease',
+                }}>
+                  {stap.done ? '✓' : i + 1}
+                </div>
+                <span style={{
+                  fontSize: 13,
+                  color: stap.done ? '#2E7D32' : (
+                    (i === 0 && analyseStatus === 'Dashboard wordt ingelezen...') ||
+                    (i === 1 && analyseStatus === 'Dashboard wordt geanalyseerd op 6 dimensies...') ||
+                    (i === 2 && analyseStatus === 'Scores worden berekend...')
+                  ) ? 'var(--sb-purple)' : '#999',
+                  fontWeight: stap.done || (
+                    (i === 0 && analyseStatus === 'Dashboard wordt ingelezen...') ||
+                    (i === 1 && analyseStatus === 'Dashboard wordt geanalyseerd op 6 dimensies...') ||
+                    (i === 2 && analyseStatus === 'Scores worden berekend...')
+                  ) ? 700 : 400,
+                  transition: 'all 0.3s ease',
+                }}>
+                  {stap.label}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 12, color: 'var(--sb-mid)', marginTop: 24 }}>
+            {analyseStatus || 'Even geduld...'}
           </p>
         </div>
       )}
