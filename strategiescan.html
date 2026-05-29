@@ -829,16 +829,56 @@ function generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
 // ── Scan opslaan in Supabase ───────────────────────────────────────────────────
 async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
   try {
-    // Genereer PDF eerst (synchrone jsPDF call)
-    let pdfBase64 = null;
+    // Stap 1: genereer PDF als binary blob
+    let pdfBlob = null;
+    let pdfUrl  = null;
     try {
-      pdfBase64 = generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo);
-      console.log('[PDF] ✅ Gegenereerd, grootte:', Math.round(pdfBase64.length / 1024) + ' KB');
+      const { jsPDF } = window.jspdf;
+      // generateRapportPdf geeft base64 terug — omzetten naar Blob voor Storage upload
+      const b64 = generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo);
+      const binary = atob(b64);
+      const bytes  = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      pdfBlob = new Blob([bytes], { type: 'application/pdf' });
+      console.log('[PDF] ✅ Gegenereerd, grootte:', Math.round(pdfBlob.size / 1024) + ' KB');
     } catch (pdfErr) {
       console.error('[PDF] ❌ Generatiefout:', pdfErr.message);
     }
 
-    // Alles in één INSERT — geen SELECT of PATCH nodig, RLS INSERT-only werkt
+    // Stap 2: upload PDF naar Supabase Storage bucket 'rapporten'
+    if (pdfBlob) {
+      try {
+        const ts       = Date.now();
+        const safeName = (bedrijf.naam || 'scan').replace(/[^a-z0-9]/gi, '_').slice(0, 40);
+        const path     = `${safeName}_${ts}.pdf`;
+
+        const uploadRes = await fetch(
+          `${SUPABASE_URL}/storage/v1/object/rapporten/${path}`,
+          {
+            method: 'POST',
+            headers: {
+              'apikey':         SUPABASE_ANON,
+              'Authorization':  `Bearer ${SUPABASE_ANON}`,
+              'Content-Type':   'application/pdf',
+              'x-upsert':       'false',
+            },
+            body: pdfBlob,
+          }
+        );
+
+        if (uploadRes.ok) {
+          pdfUrl = `${SUPABASE_URL}/storage/v1/object/public/rapporten/${path}`;
+          console.log('[Storage] ✅ PDF geüpload:', pdfUrl);
+        } else {
+          const err = await uploadRes.text();
+          console.error('[Storage] ❌ Upload mislukt', uploadRes.status, ':', err);
+        }
+      } catch (storageErr) {
+        console.error('[Storage] ❌ Fout:', storageErr.message);
+      }
+    }
+
+    // Stap 3: scandata + PDF-URL opslaan in één INSERT
     const payload = {
       bedrijf_naam:        bedrijf.naam   || null,
       kvk_nummer:          bedrijf.kvk    || null,
@@ -853,7 +893,7 @@ async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
       score_vaardigheden:  scores.find(s => s.id === 'vaardigheden')?.pct  ?? null,
       score_lerende_org:   scores.find(s => s.id === 'lerend')?.pct        ?? null,
       antwoorden:          antwoorden || null,
-      rapport_pdf:         pdfBase64,
+      rapport_pdf:         pdfUrl,
     };
 
     console.log('[Supabase] Opslaan gestart:', payload.bedrijf_naam, payload.totaal_pct + '%');
@@ -870,7 +910,7 @@ async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
     });
 
     if (res.ok) {
-      console.log('[Supabase] ✅ Opgeslagen inclusief PDF (status', res.status + ')');
+      console.log('[Supabase] ✅ Opgeslagen' + (pdfUrl ? ' inclusief PDF-link' : '') + ' (status', res.status + ')');
     } else {
       const err = await res.text();
       console.error('[Supabase] ❌ Fout', res.status, ':', err);
