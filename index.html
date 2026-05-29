@@ -108,6 +108,58 @@ nav#nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
   text-decoration: none; transition: opacity 0.15s;
 }
 .nav-cta:hover { opacity: 0.88; }
+
+/* ── Hamburgermenu ── */
+.ham-btn {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  padding: 6px; border-radius: 6px;
+  flex-direction: column; gap: 5px; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+}
+.ham-btn span {
+  display: block; width: 22px; height: 2px;
+  background: var(--purple); border-radius: 2px;
+  transition: all 0.25s ease;
+}
+.ham-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.ham-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.ham-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed; top: 64px; left: 0; right: 0;
+  background: white;
+  border-bottom: 2px solid var(--orange);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 99;
+  animation: slideDown 0.2s ease;
+}
+.mobile-menu.open { display: block; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.mobile-menu a {
+  display: block; padding: 16px 24px;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--black); text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.1s, color 0.1s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { background: #F4F3FC; color: var(--purple); }
+.mobile-menu a.mob-cta {
+  background: var(--orange); color: white;
+  text-align: center; letter-spacing: 0.12em;
+}
+.mobile-menu a.mob-cta:hover { opacity: 0.9; background: var(--orange); }
+
+@media (max-width: 720px) {
+  .ham-btn { display: flex; }
+}
+
 /* ── HERO ── */
 .hero {
   position: relative; height: 100svh; min-height: 560px;
@@ -426,7 +478,19 @@ Cal.ns["kennismakingsgesprek"]("ui", {
     <a href="dashboardscan.html">Dashboard beoordeling</a>
     <a href="#contact" class="nav-cta">Kennismaken</a>
   </div>
+  <button class="ham-btn" id="hamBtn" aria-label="Menu openen" onclick="toggleHamMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#voor-wie"     onclick="closeHamMenu()">Voor wie</a>
+  <a href="#wat-we-doen"  onclick="closeHamMenu()">Wat we doen</a>
+  <a href="#wie-we-zijn"  onclick="closeHamMenu()">Over ons</a>
+  <a href="strategiescan.html">Strategiescan</a>
+  <a href="dashboardscan.html">Dashboard beoordeling</a>
+  <a href="#contact" class="mob-cta" onclick="closeHamMenu()">Kennismaken</a>
+</div>
 <!-- HERO -->
 <div class="hero">
   <div class="hero-photo">
@@ -620,6 +684,20 @@ Cal.ns["kennismakingsgesprek"]("ui", {
 </footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Nav scroll shadow
+function toggleHamMenu() {
+  document.getElementById('hamBtn').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeHamMenu() {
+  document.getElementById('hamBtn').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#nav') && !e.target.closest('.mobile-menu')) {
+    closeHamMenu();
+  }
+});
+
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 20);
