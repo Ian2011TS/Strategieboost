@@ -829,6 +829,16 @@ function generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
 // ── Scan opslaan in Supabase ───────────────────────────────────────────────────
 async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
   try {
+    // Genereer PDF eerst (synchrone jsPDF call)
+    let pdfBase64 = null;
+    try {
+      pdfBase64 = generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo);
+      console.log('[PDF] ✅ Gegenereerd, grootte:', Math.round(pdfBase64.length / 1024) + ' KB');
+    } catch (pdfErr) {
+      console.error('[PDF] ❌ Generatiefout:', pdfErr.message);
+    }
+
+    // Alles in één INSERT — geen SELECT of PATCH nodig, RLS INSERT-only werkt
     const payload = {
       bedrijf_naam:        bedrijf.naam   || null,
       kvk_nummer:          bedrijf.kvk    || null,
@@ -843,54 +853,27 @@ async function saveToBenchmark(bedrijf, scores, totalPct, antwoorden, sbiInfo) {
       score_vaardigheden:  scores.find(s => s.id === 'vaardigheden')?.pct  ?? null,
       score_lerende_org:   scores.find(s => s.id === 'lerend')?.pct        ?? null,
       antwoorden:          antwoorden || null,
+      rapport_pdf:         pdfBase64,
     };
+
     console.log('[Supabase] Opslaan gestart:', payload.bedrijf_naam, payload.totaal_pct + '%');
 
-    // Stap 1: sla scandata op, haal id terug
     const res = await fetch(`${SUPABASE_URL}/rest/v1/scan_resultaten`, {
       method: 'POST',
       headers: {
         'apikey':        SUPABASE_ANON,
         'Authorization': `Bearer ${SUPABASE_ANON}`,
         'Content-Type':  'application/json',
-        'Prefer':        'return=representation',
+        'Prefer':        'return=minimal',
       },
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) {
+    if (res.ok) {
+      console.log('[Supabase] ✅ Opgeslagen inclusief PDF (status', res.status + ')');
+    } else {
       const err = await res.text();
       console.error('[Supabase] ❌ Fout', res.status, ':', err);
-      return;
-    }
-
-    const rows = await res.json();
-    const rowId = rows?.[0]?.id;
-    console.log('[Supabase] ✅ Opgeslagen, id:', rowId);
-
-    if (!rowId) { console.warn('[Supabase] Geen id terug, PDF stap overgeslagen'); return; }
-
-    // Stap 2: genereer PDF (na korte tick zodat jsPDF zeker geladen is)
-    await new Promise(r => setTimeout(r, 100));
-    const pdfBase64 = generateRapportPdf(bedrijf, scores, totalPct, antwoorden, sbiInfo);
-
-    // Stap 3: sla PDF op in de rij via PATCH
-    const pdfRes = await fetch(`${SUPABASE_URL}/rest/v1/scan_resultaten?id=eq.${rowId}`, {
-      method: 'PATCH',
-      headers: {
-        'apikey':        SUPABASE_ANON,
-        'Authorization': `Bearer ${SUPABASE_ANON}`,
-        'Content-Type':  'application/json',
-        'Prefer':        'return=minimal',
-      },
-      body: JSON.stringify({ rapport_pdf: pdfBase64 }),
-    });
-
-    if (pdfRes.ok) {
-      console.log('[Supabase] ✅ PDF opgeslagen voor id', rowId);
-    } else {
-      const err = await pdfRes.text();
-      console.error('[Supabase] ❌ PDF fout', pdfRes.status, ':', err);
     }
 
   } catch (e) {
