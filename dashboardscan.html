@@ -373,28 +373,7 @@ body {
 <nav class="topnav">
   <a href="index.html" class="topnav-logo">STRATEGIEBOOST</a>
   <a href="index.html" class="topnav-back">← Terug naar website</a>
-  <button class="ham-btn" id="hamBtn" aria-label="Menu openen" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="strategiescan.html">Strategiescan</a>
-  <a href="dashboardscan.html">Dashboard beoordeling</a>
-  <a href="#" class="nav-cta-mobile" onclick="window.Cal?.ns?.kennismakingsgesprek?.('modal',{calLink:'ian-meinoud/kennismakingsgesprek',config:{layout:'month_view'}});document.getElementById('mobileMenu').classList.remove('open');document.getElementById('hamBtn').classList.remove('open');return false;">Kennismaken</a>
-</div>
-<script>
-function toggleMenu() {
-  document.getElementById('hamBtn').classList.toggle('open');
-  document.getElementById('mobileMenu').classList.toggle('open');
-}
-// Sluit menu bij klik buiten
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.topnav') && !e.target.closest('.mobile-menu')) {
-    document.getElementById('hamBtn').classList.remove('open');
-    document.getElementById('mobileMenu').classList.remove('open');
-  }
-});
-</script>
 
 <div id="root"></div>
 
