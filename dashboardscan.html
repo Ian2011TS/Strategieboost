@@ -23,7 +23,7 @@
   font-src 'self' https://fonts.gstatic.com
     https://app.cal.eu https://*.cal.eu;
   img-src 'self' data: blob: https://*.cal.eu https://*.cal.com;
-  connect-src 'self' https://api.anthropic.com https://*.supabase.co https://supabase.co
+  connect-src 'self' https://api.anthropic.com https://*.supabase.co https://supabase.co https://claude.ai
     https://app.cal.eu https://cal.eu https://*.cal.eu
     https://app.cal.com https://*.cal.com;
   frame-src https://app.cal.eu https://cal.eu https://*.cal.eu
@@ -713,7 +713,11 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
 
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1500,
@@ -721,6 +725,11 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
         }),
       });
 
+      if (!res.ok) {
+        const errBody = await res.text();
+        console.error('[Analyse] HTTP', res.status, errBody);
+        throw new Error(`API fout ${res.status}: ${errBody.slice(0,200)}`);
+      }
       const data = await res.json();
       const text = data.content?.find(b => b.type === 'text')?.text || '';
       const clean = text.replace(/```json|```/g, '').trim();
@@ -737,7 +746,7 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
       setStap(2);
     } catch(e) {
       console.error('[Analyse]', e);
-      alert('Er ging iets mis bij de analyse. Probeer het opnieuw.');
+      alert('Er ging iets mis bij de analyse: ' + e.message);
       setStap(0);
     } finally {
       setLoadingAnalyse(false);
@@ -781,7 +790,11 @@ Geef je antwoord ALLEEN als JSON:
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 800,
@@ -847,7 +860,11 @@ Geef je antwoord ALLEEN als JSON:
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1500,
