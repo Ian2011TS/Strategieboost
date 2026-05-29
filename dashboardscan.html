@@ -231,7 +231,7 @@ body {
 .btn-secondary:hover { background: var(--sb-purple); color: white; }
 
 /* Radar canvas */
-#radarCanvas { max-width: 320px; margin: 0 auto; display: block; }
+#radarCanvas { max-width: 420px; width: 100%; margin: 0 auto; display: block; }
 
 /* Top 5 */
 .top5-item {
@@ -322,12 +322,12 @@ const SUPABASE_URL  = 'https://nedxetebhieaqpvyrxcu.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lZHhldGViaGllYXFwdnlyeGN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjM0MDgsImV4cCI6MjA5NDM5OTQwOH0.HVTsyqgkDyX1xKJJ01S_45DiSdK6ElRm0BZfpcQcznY';
 
 const DIMS = [
-  { id: 'strategisch',   label: 'Strategische focus',           color: '#3D2882' },
-  { id: 'besliskracht',  label: 'Besliskracht',                 color: '#6B3194' },
-  { id: 'datakwaliteit', label: 'Datakwaliteit',                color: '#8B2A7A' },
-  { id: 'actualiteit',   label: 'Actualiteit',                  color: '#C52339' },
-  { id: 'gebruiksgemak', label: 'Gebruiksgemak & adoptie',      color: '#E05C1A' },
-  { id: 'lerend',        label: 'Leer- en aanpassingsvermogen', color: '#F7941D' },
+  { id: 'strategisch',   label: 'Strategische focus',   shortLabel: 'Strategie',      color: '#3D2882' },
+  { id: 'besliskracht',  label: 'Besliskracht',         shortLabel: 'Besliskracht',   color: '#6B3194' },
+  { id: 'datakwaliteit', label: 'Datakwaliteit',        shortLabel: 'Datakwaliteit',  color: '#8B2A7A' },
+  { id: 'actualiteit',   label: 'Actualiteit',          shortLabel: 'Actualiteit',    color: '#C52339' },
+  { id: 'gebruiksgemak', label: 'Gebruiksgemak & adoptie', shortLabel: 'Gebruiksgemak', color: '#E05C1A' },
+  { id: 'lerend',        label: 'Lerend vermogen',      shortLabel: 'Lerend',         color: '#F7941D' },
 ];
 
 function getLabelInfo(pct) {
@@ -511,7 +511,7 @@ function RadarChart({ scores }) {
     chartRef.current = new Chart(ref.current, {
       type: 'radar',
       data: {
-        labels: scores.map(s => DIMS.find(d=>d.id===s.id)?.label || s.id),
+        labels: scores.map(s => DIMS.find(d=>d.id===s.id)?.shortLabel || s.id),
         datasets: [{
           data: scores.map(s => s.pct),
           backgroundColor: 'rgba(61,40,130,0.12)',
@@ -523,11 +523,17 @@ function RadarChart({ scores }) {
       },
       options: {
         responsive: true,
+        layout: { padding: { top: 16, bottom: 16, left: 24, right: 24 } },
         scales: { r: {
           min: 0, max: 100,
-          ticks: { stepSize: 20, font: { size: 9 }, color: '#888' },
-          pointLabels: { font: { size: 10, family: "'Segoe UI', sans-serif" }, color: '#333' },
+          ticks: { stepSize: 20, font: { size: 9 }, color: '#888', backdropColor: 'transparent' },
+          pointLabels: {
+            font: { size: 11, family: "'Segoe UI', sans-serif", weight: '600' },
+            color: '#222',
+            padding: 8,
+          },
           grid: { color: '#E8E5F0' },
+          angleLines: { color: '#E8E5F0' },
         }},
         plugins: { legend: { display: false } },
       },
