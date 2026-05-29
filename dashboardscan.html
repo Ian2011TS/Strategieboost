@@ -23,7 +23,7 @@
   font-src 'self' https://fonts.gstatic.com
     https://app.cal.eu https://*.cal.eu;
   img-src 'self' data: blob: https://*.cal.eu https://*.cal.com;
-  connect-src 'self' https://api.anthropic.com https://*.supabase.co https://supabase.co https://claude.ai
+  connect-src 'self' https://*.supabase.co https://supabase.co
     https://app.cal.eu https://cal.eu https://*.cal.eu
     https://app.cal.com https://*.cal.com;
   frame-src https://app.cal.eu https://cal.eu https://*.cal.eu
@@ -711,12 +711,12 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
         ? { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: fileBase64 } }
         : { type: 'image',    source: { type: 'base64', media_type: mediaType,          data: fileBase64 } };
 
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
@@ -788,12 +788,12 @@ Geef je antwoord ALLEEN als JSON:
 }`;
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
@@ -858,12 +858,12 @@ Geef je antwoord ALLEEN als JSON:
 }`;
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
