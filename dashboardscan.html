@@ -303,6 +303,69 @@ body {
   color: white; font-family: var(--font-display); font-size: 13px;
   padding: 2px 10px; border-radius: 20px; margin-bottom: 10px;
 }
+
+/* ── Tijdsbalk ─────────────────────────────────────────────── */
+.progress-bar-wrap {
+  width: 100%; background: #E8E5F0; border-radius: 99px;
+  height: 6px; overflow: hidden; margin: 14px 0 6px;
+}
+.progress-bar-fill {
+  height: 100%; border-radius: 99px;
+  background: var(--sb-gradient-h);
+  transition: width 0.6s cubic-bezier(.4,0,.2,1);
+}
+.progress-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; color: var(--sb-mid);
+}
+.progress-label strong { color: var(--sb-purple); }
+
+/* ── Hamburgermenu ─────────────────────────────────────────── */
+.ham-btn {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  padding: 6px; border-radius: 6px;
+  flex-direction: column; gap: 5px; align-items: center; justify-content: center;
+}
+.ham-btn span {
+  display: block; width: 22px; height: 2px;
+  background: var(--sb-purple); border-radius: 2px;
+  transition: all 0.25s ease;
+}
+.ham-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.ham-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.ham-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed; top: 56px; left: 0; right: 0;
+  background: white; border-bottom: 1px solid #EEE;
+  box-shadow: 0 8px 24px rgba(61,40,130,0.12);
+  z-index: 99; padding: 8px 0;
+  animation: slideDown 0.2s ease;
+}
+.mobile-menu.open { display: block; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.mobile-menu a {
+  display: block; padding: 14px 24px;
+  font-family: var(--font-body); font-size: 15px; font-weight: 600;
+  color: var(--sb-black); text-decoration: none;
+  border-bottom: 1px solid #F4F3F0;
+  transition: background 0.1s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { background: #F4F3FC; color: var(--sb-purple); }
+.mobile-menu a.nav-cta-mobile {
+  color: var(--sb-purple); font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .ham-btn { display: flex; }
+  .topnav-back { display: none; }
+}
 </style>
 </head>
 <body>
@@ -310,12 +373,193 @@ body {
 <nav class="topnav">
   <a href="index.html" class="topnav-logo">STRATEGIEBOOST</a>
   <a href="index.html" class="topnav-back">← Terug naar website</a>
+  <button class="ham-btn" id="hamBtn" aria-label="Menu openen" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="strategiescan.html">Strategiescan</a>
+  <a href="dashboardscan.html">Dashboard beoordeling</a>
+  <a href="#" class="nav-cta-mobile" onclick="window.Cal?.ns?.kennismakingsgesprek?.('modal',{calLink:'ian-meinoud/kennismakingsgesprek',config:{layout:'month_view'}});document.getElementById('mobileMenu').classList.remove('open');document.getElementById('hamBtn').classList.remove('open');return false;">Kennismaken</a>
+</div>
+<script>
+function toggleMenu() {
+  document.getElementById('hamBtn').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+// Sluit menu bij klik buiten
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.topnav') && !e.target.closest('.mobile-menu')) {
+    document.getElementById('hamBtn').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+});
+</script>
 
 <div id="root"></div>
 
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
+
+// ── Tijdsbalk component ──────────────────────────────────────────────────────
+function ProgressBar({ pct, label, timeLeft }) {
+  return (
+    <div style={{ marginBottom: 4 }}>
+      <div className="progress-label">
+        <strong>{label}</strong>
+        {timeLeft && <span>Nog ca. {timeLeft}</span>}
+      </div>
+      <div className="progress-bar-wrap">
+        <div className="progress-bar-fill" style={{ width: pct + '%' }} />
+      </div>
+    </div>
+  );
+}
+
+// ── Analyse tijdsbalk met animatie ────────────────────────────────────────────
+function AnalyseProgress({ status }) {
+  const [pct, setPct] = useState(5);
+  const [timeLeft, setTimeLeft] = useState('30 seconden');
+
+  // Status bepaalt het target percentage
+  const targetMap = {
+    'Dashboard wordt ingelezen...':                          18,
+    'Dashboard wordt geanalyseerd op 6 dimensies...':        55,
+    'Scores worden berekend...':                             88,
+  };
+
+  const timeMap = {
+    'Dashboard wordt ingelezen...':                          '25 seconden',
+    'Dashboard wordt geanalyseerd op 6 dimensies...':        '15 seconden',
+    'Scores worden berekend...':                             '5 seconden',
+  };
+
+  useEffect(() => {
+    const target = targetMap[status] || 5;
+    setTimeLeft(timeMap[status] || '30 seconden');
+
+    // Kruip langzaam naar het target toe
+    const interval = setInterval(() => {
+      setPct(prev => {
+        if (prev >= target) { clearInterval(interval); return prev; }
+        const step = Math.max(0.4, (target - prev) * 0.06);
+        return Math.min(target, prev + step);
+      });
+    }, 120);
+    return () => clearInterval(interval);
+  }, [status]);
+
+  // Label op basis van voortgang
+  const stepLabel = pct < 20
+    ? 'Dashboard inlezen...'
+    : pct < 65
+    ? 'Analyseren op 6 dimensies...'
+    : 'Scores en rapport opstellen...';
+
+  return (
+    <div style={{ maxWidth: 360, margin: '0 auto', padding: '0 8px' }}>
+      <ProgressBar pct={pct} label={stepLabel} timeLeft={timeLeft} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, gap: 4 }}>
+        {['Inlezen', 'Analyseren', 'Rapport'].map((s, i) => {
+          const done = (i === 0 && pct >= 18) || (i === 1 && pct >= 55) || (i === 2 && pct >= 88);
+          const active = (i === 0 && pct < 18) || (i === 1 && pct >= 18 && pct < 55) || (i === 2 && pct >= 55);
+          return (
+            <div key={i} style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: '50%', margin: '0 auto 4px',
+                background: done ? '#2E7D32' : active ? 'var(--sb-purple)' : '#E8E5F0',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 11, color: done || active ? 'white' : '#aaa',
+                fontWeight: 700, transition: 'all 0.4s ease',
+                boxShadow: active ? '0 0 0 4px rgba(61,40,130,0.15)' : 'none',
+              }}>
+                {done ? '✓' : i + 1}
+              </div>
+              <span style={{ fontSize: 10, color: done ? '#2E7D32' : active ? 'var(--sb-purple)' : '#bbb', fontWeight: active || done ? 700 : 400 }}>
+                {s}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Rapport tijdsbalk ─────────────────────────────────────────────────────────
+function RapportProgress() {
+  const [pct, setPct] = useState(5);
+  const [timeLeft, setTimeLeft] = useState('25 seconden');
+
+  useEffect(() => {
+    // Simuleer voortgang: snel naar 30, dan langzaam naar 85, final sprint bij done
+    const phases = [
+      { target: 28,  speed: 0.10, delay: 0    },
+      { target: 60,  speed: 0.05, delay: 3000 },
+      { target: 85,  speed: 0.03, delay: 8000 },
+    ];
+    const timers = [];
+    phases.forEach(({ target, speed, delay }) => {
+      timers.push(setTimeout(() => {
+        const iv = setInterval(() => {
+          setPct(prev => {
+            if (prev >= target) { clearInterval(iv); return prev; }
+            return Math.min(target, prev + Math.max(0.3, (target - prev) * speed));
+          });
+        }, 150);
+        timers.push(iv);
+      }, delay));
+    });
+
+    // Tijdsindicator
+    const timeSteps = [
+      { at: 0,    label: '25 seconden' },
+      { at: 3000, label: '18 seconden' },
+      { at: 8000, label: '10 seconden' },
+      { at: 14000,label: '5 seconden'  },
+    ];
+    timeSteps.forEach(({ at, label }) => {
+      timers.push(setTimeout(() => setTimeLeft(label), at));
+    });
+
+    return () => timers.forEach(t => { clearTimeout(t); clearInterval(t); });
+  }, []);
+
+  const stepLabel = pct < 30
+    ? 'Antwoorden verwerken...'
+    : pct < 65
+    ? 'Definitieve scores berekenen...'
+    : 'Rapport en verbeterpunten opstellen...';
+
+  return (
+    <div style={{ maxWidth: 360, margin: '0 auto', padding: '0 8px' }}>
+      <ProgressBar pct={pct} label={stepLabel} timeLeft={timeLeft} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, gap: 4 }}>
+        {['Verwerken', 'Scores', 'Rapport'].map((s, i) => {
+          const done = (i === 0 && pct >= 28) || (i === 1 && pct >= 60) || (i === 2 && pct >= 85);
+          const active = (i === 0 && pct < 28) || (i === 1 && pct >= 28 && pct < 60) || (i === 2 && pct >= 60);
+          return (
+            <div key={i} style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: '50%', margin: '0 auto 4px',
+                background: done ? '#2E7D32' : active ? 'var(--sb-purple)' : '#E8E5F0',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 11, color: done || active ? 'white' : '#aaa',
+                fontWeight: 700, transition: 'all 0.4s ease',
+                boxShadow: active ? '0 0 0 4px rgba(61,40,130,0.15)' : 'none',
+              }}>
+                {done ? '✓' : i + 1}
+              </div>
+              <span style={{ fontSize: 10, color: done ? '#2E7D32' : active ? 'var(--sb-purple)' : '#bbb', fontWeight: active || done ? 700 : 400 }}>
+                {s}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 // ── Config ─────────────────────────────────────────────────────────────────
 const SUPABASE_URL  = 'https://nedxetebhieaqpvyrxcu.supabase.co';
@@ -1027,50 +1271,15 @@ Geef je antwoord ALLEEN als JSON:
 
       {/* ── STAP 1: Laden analyse ──────────────────────────────────────────── */}
       {stap === 1 && loadingAnalyse && (
-        <div className="card fade-in" style={{ textAlign: 'center', padding: '60px 24px' }}>
+        <div className="card fade-in" style={{ textAlign: 'center', padding: '48px 28px' }}>
           <div className="spinner" style={{ marginBottom: 20 }} />
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--sb-purple)', letterSpacing: '0.04em', marginBottom: 16 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--sb-purple)', letterSpacing: '0.04em', marginBottom: 6 }}>
             DASHBOARD WORDT GEANALYSEERD
           </p>
-          {/* Voortgangsstappen */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 340, margin: '0 auto' }}>
-            {[
-              { label: 'Dashboard inlezen', done: ['Scores worden berekend...','Dashboard wordt geanalyseerd op 6 dimensies...'].includes(analyseStatus) || analyseStatus === '' && loadingAnalyse },
-              { label: 'Analyseren op 6 dimensies', done: analyseStatus === 'Scores worden berekend...' },
-              { label: 'Scores berekenen en rapport opstellen', done: false },
-            ].map((stap, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{
-                  width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
-                  background: stap.done ? '#2E7D32' : i === 0 && analyseStatus === 'Dashboard wordt ingelezen...' ? 'var(--sb-gradient)' : i === 1 && analyseStatus === 'Dashboard wordt geanalyseerd op 6 dimensies...' ? 'var(--sb-gradient)' : '#E8E5F0',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 11, color: stap.done ? 'white' : '#999',
-                  transition: 'all 0.4s ease',
-                }}>
-                  {stap.done ? '✓' : i + 1}
-                </div>
-                <span style={{
-                  fontSize: 13,
-                  color: stap.done ? '#2E7D32' : (
-                    (i === 0 && analyseStatus === 'Dashboard wordt ingelezen...') ||
-                    (i === 1 && analyseStatus === 'Dashboard wordt geanalyseerd op 6 dimensies...') ||
-                    (i === 2 && analyseStatus === 'Scores worden berekend...')
-                  ) ? 'var(--sb-purple)' : '#999',
-                  fontWeight: stap.done || (
-                    (i === 0 && analyseStatus === 'Dashboard wordt ingelezen...') ||
-                    (i === 1 && analyseStatus === 'Dashboard wordt geanalyseerd op 6 dimensies...') ||
-                    (i === 2 && analyseStatus === 'Scores worden berekend...')
-                  ) ? 700 : 400,
-                  transition: 'all 0.3s ease',
-                }}>
-                  {stap.label}
-                </span>
-              </div>
-            ))}
-          </div>
-          <p style={{ fontSize: 12, color: 'var(--sb-mid)', marginTop: 24 }}>
-            {analyseStatus || 'Even geduld...'}
+          <p style={{ fontSize: 13, color: 'var(--sb-mid)', marginBottom: 28 }}>
+            We toetsen je dashboard op 6 dimensies aan het opgegeven strategische doel
           </p>
+          <AnalyseProgress status={analyseStatus} />
         </div>
       )}
 
@@ -1224,14 +1433,15 @@ Geef je antwoord ALLEEN als JSON:
       {stap === 4 && (
         <div className="fade-in">
           {loadingRapport ? (
-            <div className="card" style={{ textAlign: 'center', padding: '60px 24px' }}>
+            <div className="card" style={{ textAlign: 'center', padding: '48px 28px' }}>
               <div className="spinner" style={{ marginBottom: 20 }} />
-              <p style={{ fontFamily: 'var(--font-display)', fontSize: 20, color: 'var(--sb-purple)', letterSpacing:'0.04em', marginBottom: 8 }}>
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: 20, color: 'var(--sb-purple)', letterSpacing:'0.04em', marginBottom: 6 }}>
                 RAPPORT WORDT GEGENEREERD
               </p>
-              <p style={{ fontSize: 13, color: 'var(--sb-mid)' }}>
-                We verwerken je antwoorden en maken het definitieve rapport...
+              <p style={{ fontSize: 13, color: 'var(--sb-mid)', marginBottom: 28 }}>
+                We verwerken je antwoorden en stellen het definitieve rapport op
               </p>
+              <RapportProgress />
             </div>
           ) : rapport ? (
             <>
