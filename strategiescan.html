@@ -402,6 +402,91 @@ const FEEDBACK_MAP = {
   },
 };
 
+// ─── VERBETERPUNTEN op basis van antwoorden ───────────────────────────────────
+
+function getVerbeterpunten(sectionId, answers) {
+  const tips = [];
+
+  if (sectionId === 'strategie') {
+    if ((answers['1.1'] || 0) <= 1) tips.push('Formuleer een visie en missie die écht richting geeft en deel deze actief met je team.');
+    if ((answers['1.2'] || 0) <= 3) tips.push('Versterk je strategische basis met een concrete marktanalyse of SWOT — kies op feiten, niet op gevoel.');
+    if ((answers['1.3'] || 0) <= 3) tips.push('Maak scherpere keuzes: een goede strategie zegt ook wat je niet doet.');
+    if ((answers['1.4'] || 0) <= 3) tips.push('Stop actief met activiteiten die niet bijdragen aan je strategie — ruimte vrijmaken is groeien.');
+    if ((answers['1.5'] || 0) <= 1) tips.push('Definieer je doelgroep(en) scherper en stem je aanbod daar consequent op af.');
+    if ((answers['1.6'] || 0) <= 1) tips.push('Maak je concurrentievoordeel concreet en toetsbaar — laat klanten bevestigen waarom ze voor jou kiezen.');
+    if ((answers['1.7'] || 0) <= 1) tips.push('Bouw duurzaamheid in je voordeel in: wat maakt het moeilijk voor anderen om jou te kopiëren?');
+    // Altijd minimaal 2 generieke tips als er onvoldoende lage scores zijn
+    if (tips.length === 0) {
+      tips.push('Herevalueer je strategie jaarlijks en toets of de marktomstandigheden nog kloppen.');
+      tips.push('Betrek sleutelmensen actief bij de strategische herijking voor meer draagvlak en scherpere inzichten.');
+    }
+  }
+
+  if (sectionId === 'implementatieplan') {
+    if ((answers['2.1'] || 0) <= 3) tips.push('Breng capaciteitstekorten in kaart en maak een concreet plan om die op te lossen vóór de uitvoering start.');
+    if ((answers['2.2'] || 0) <= 1) tips.push('Organiseer een stakeholderbijeenkomst om iedereen op één lijn te krijgen over koers en verwachtingen.');
+    if ((answers['2.3'] || 0) <= 3) tips.push('Maak het tijdspad realistischer door mijlpalen te halveren en buffers in te bouwen voor onverwachte vertragingen.');
+    if ((answers['2.4'] || 0) <= 1) tips.push('Leg rollen en taken schriftelijk vast met naam en deadline — voorkom dat verantwoordelijkheden blijven zweven.');
+    if ((answers['2.5'] || 0) <= 2) tips.push('Vertaal minstens 80% van je strategische doelen naar kwantitatieve KPI\'s — alleen dan kun je bijsturen.');
+    if ((answers['2.6'] || 0) <= 2) tips.push('Implementeer een eenvoudig dashboard of ritme (bijv. maandelijkse review) om targets actief te monitoren.');
+    if (tips.length === 0) {
+      tips.push('Voer kwartaalreviews in waarbij je plan en voortgang expliciet naast elkaar legt.');
+      tips.push('Koppel elk strategisch doel aan een eigenaar die wekelijks rapporteert over de voortgang.');
+    }
+  }
+
+  if (sectionId === 'belemmeringen') {
+    if ((answers['3.1'] || 0) >= 4) tips.push('Adresseer de historische patronen in je organisatie expliciet — benoem ze in teamgesprekken en maak ze bespreekbaar.');
+    if ((answers['3.2'] || 0) <= 3) tips.push('Communiceer concreet wat de nieuwe strategie betekent voor het dagelijks werk van medewerkers — maak de "why" voelbaar.');
+    if ((answers['3.3'] || 0) <= 3) tips.push('Verminder de ervaren werkdruk bij de implementatie door deelstappen te versimpelen of te automatiseren.');
+    if ((answers['3.4'] || 0) <= 3) tips.push('Investeer in tooling of training die medewerkers écht helpt de strategie uit te voeren — niet symbolisch, maar praktisch.');
+    if ((answers['3.5'] || 0) <= 3) tips.push('Geef als leiderschap zichtbaar het goede voorbeeld: consistentie tussen woord en daad is de krachtigste aanjager van draagvlak.');
+    if (tips.length === 0) {
+      tips.push('Blijf belemmeringen actief monitoren via periodieke teamgesprekken — ze veranderen naarmate de uitvoering vordert.');
+      tips.push('Maak een weerstandskaart: welke groepen twijfelen nog, en wat hebben ze nodig om in beweging te komen?');
+    }
+  }
+
+  if (sectionId === 'opruimen') {
+    if ((answers['4.1'] || 0) <= 3) tips.push('Verken gerichte inhuur van interim-krachten of freelancers om tijdelijke capaciteitstekorten op te vangen.');
+    if ((answers['4.2'] || 0) >= 4) tips.push('Investeer in het middenmanagement: geef hen de tools en het mandaat om te verbinden, communiceren en motiveren.');
+    if ((answers['4.3'] || 0) <= 3) tips.push('Betrek medewerkers actief bij het oplossen van knelpunten — zij zien de obstakels het dichtst van dichtbij.');
+    if ((answers['4.4'] || 0) >= 4) tips.push('Signalen van implementatiemoeheid vragen om een bewuste pauze: evalueer wat werkt en neem overbodige last weg.');
+    if ((answers['4.5'] || 0) <= 3) tips.push('Maak de volgorde van acties expliciet — begin met de randvoorwaarden (bijv. structuur, training) voor je de uitvoering opschroeft.');
+    if (tips.length === 0) {
+      tips.push('Maak "belemmeringen opruimen" een vast agendapunt in het MT — minimaal één keer per maand.');
+      tips.push('Definieer per kwartaal de top-3 obstakels en wijs een eigenaar aan die ze wegneemt.');
+    }
+  }
+
+  if (sectionId === 'vaardigheden') {
+    if ((answers['5.1'] || 0) <= 3) tips.push('Maak een vaardigheidsmatrix: welke competenties zijn cruciaal voor de strategie en waar zitten de gaps?');
+    if ((answers['5.2'] || 0) <= 3) tips.push('Zorg voor betere spreiding van kritieke vaardigheden — voorkom afhankelijkheid van één of twee sleutelpersonen.');
+    if ((answers['5.3'] || 0) <= 1) tips.push('Stimuleer kruisbestuiving: laat teams vaker samenwerken zodat complementaire vaardigheden elkaar versterken.');
+    if ((answers['5.4'] || 0) <= 3) tips.push('Verbeter de samenwerking met gerichte interventies — een cultuur van open feedback en gedeeld eigenaarschap is een sterk fundament.');
+    if (tips.length === 0) {
+      tips.push('Evalueer jaarlijks of de vaardighedenmix nog past bij de strategie — de wereld verandert, jouw team moet mee.');
+      tips.push('Investeer in leer- en ontwikkelbudget dat direct gekoppeld is aan strategische prioriteiten.');
+    }
+  }
+
+  if (sectionId === 'lerend') {
+    if ((answers['6.1'] || 0) <= 3) tips.push('Introduceer gestructureerde "lessons learned"-sessies na elk project — maak leren een vast onderdeel van de werkwijze.');
+    if ((answers['6.2'] || 0) <= 3) tips.push('Borg nieuwe kennis actief: zorg dat trainingen leiden tot aangepaste werkprocessen, niet alleen tot individuele inzichten.');
+    if ((answers['6.3'] || 0) >= 4) tips.push('Maak gedragsverandering concreet en klein: kleine aanpassingen in routines zijn makkelijker te beklijven dan grote omwentelingen.');
+    if ((answers['6.4'] || 0) <= 3) tips.push('Creëer ruimte voor experimenten — wijs een klein budget toe aan innovatieinitiatieven en vier ook de mislukkingen.');
+    if ((answers['6.5'] || 0) >= 4) tips.push('Kanaliseer ongeplande initiatieven: omarm de energie, maar koppel ze aan strategische prioriteiten om focus te houden.');
+    if ((answers['6.6'] || 0) <= 3) tips.push('Nodig tegenspraak expliciet uit — stel in vergaderingen standaard de vraag "Wat zien we over het hoofd?" om blinde vlekken te beperken.');
+    if (tips.length === 0) {
+      tips.push('Maak leren zichtbaar: deel wat de organisatie heeft geleerd in een maandelijkse nieuwsbrief of teamupdate.');
+      tips.push('Koppel leer- en innovatiedoelen direct aan de beoordelingscyclus — wat beloond wordt, groeit.');
+    }
+  }
+
+  // Maximaal 3, altijd minimaal 2
+  return tips.slice(0, 3);
+}
+
 // ─── UTILITIES ───────────────────────────────────────────────────────────────
 
 function computeScores(answers) {
@@ -971,15 +1056,30 @@ function ResultsScreen({ scores, bedrijf, answers, sbiInfo, onReset }) {
               const lbl = getScoreLabel(s.pct);
               const fb = FEEDBACK_MAP[s.id] || {};
               const text = s.pct >= 60 ? fb.high : s.pct >= 35 ? fb.mid : fb.low;
+              const verbeterpunten = getVerbeterpunten(s.id, answers);
               return (
-                <div key={s.id} style={{display:'flex',gap:14,padding:'14px 16px',background:s.pct<40?'#FFF5F5':s.pct>=60?'#F5FBF5':'#FFFBF0',borderRadius:8,borderLeft:`4px solid ${lbl.color}`}}>
-                  <div style={{flexShrink:0,minWidth:130}}>
-                    <div style={{fontFamily:'var(--font-body)',fontSize:13,fontWeight:700,color:'var(--sb-black)'}}>{s.title}</div>
-                    <div style={{fontFamily:'var(--font-body)',fontSize:11,fontWeight:700,color:lbl.color,letterSpacing:'0.07em',textTransform:'uppercase',marginTop:2}}>
-                      {s.pct}% — {lbl.label}
+                <div key={s.id} style={{padding:'16px 18px',background:s.pct<40?'#FFF5F5':s.pct>=60?'#F5FBF5':'#FFFBF0',borderRadius:8,borderLeft:`4px solid ${lbl.color}`}}>
+                  <div style={{display:'flex',gap:14,marginBottom:verbeterpunten.length>0?12:0}}>
+                    <div style={{flexShrink:0,minWidth:130}}>
+                      <div style={{fontFamily:'var(--font-body)',fontSize:13,fontWeight:700,color:'var(--sb-black)'}}>{s.title}</div>
+                      <div style={{fontFamily:'var(--font-body)',fontSize:11,fontWeight:700,color:lbl.color,letterSpacing:'0.07em',textTransform:'uppercase',marginTop:2}}>
+                        {s.pct}% — {lbl.label}
+                      </div>
                     </div>
+                    <div style={{fontFamily:'var(--font-body)',fontSize:13,lineHeight:1.6,color:'var(--sb-black)'}}>{text}</div>
                   </div>
-                  <div style={{fontFamily:'var(--font-body)',fontSize:13,lineHeight:1.6,color:'var(--sb-black)'}}>{text}</div>
+                  {verbeterpunten.length>0 && (
+                    <div style={{borderTop:`1px solid ${s.pct<40?'rgba(197,35,57,0.12)':s.pct>=60?'rgba(46,125,50,0.12)':'rgba(247,148,29,0.15)'}`,paddingTop:10}}>
+                      <div style={{fontFamily:'var(--font-body)',fontSize:11,fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',color:lbl.color,marginBottom:7}}>
+                        Verbeterpunten
+                      </div>
+                      <ul style={{margin:0,paddingLeft:16,display:'flex',flexDirection:'column',gap:5}}>
+                        {verbeterpunten.map((tip,i) => (
+                          <li key={i} style={{fontFamily:'var(--font-body)',fontSize:12,lineHeight:1.55,color:'var(--sb-black)'}}>{tip}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -994,16 +1094,15 @@ function ResultsScreen({ scores, bedrijf, answers, sbiInfo, onReset }) {
               KLAAR VOOR DE VOLGENDE STAP?
             </div>
             <p style={{fontFamily:'var(--font-body)',fontSize:15,color:'rgba(255,255,255,0.85)',lineHeight:1.7,marginBottom:22,maxWidth:520}}>
-              Wij zorgen voor een groeiversnelling binnen 90 dagen.
-Plan nu een 30-minuten strategiegesprek in.
+              Op basis van jouw scan zien wij drie concrete groeikansen voor jouw bedrijf. Wil je die samen doorspreken? Plan hier een gratis kennismaking.
             </p>
             <button
-              onClick={() => window.Cal?.ns?.kennismakingsgesprek?.('modal', { calLink: 'ian-meinoud/kennismakingsgesprek', config: { layout: 'month_view' } })}
-              style={{display:'inline-block',padding:'13px 30px',background:'linear-gradient(90deg,#F5C23A,#F7941D)',borderRadius:8,color:'white',fontFamily:'var(--font-display)',fontSize:19,letterSpacing:'0.08em',textDecoration:'none',transition:'opacity 0.15s',border:'none',cursor:'pointer'}}
-              onMouseEnter={e => e.currentTarget.style.opacity='0.9'}
-              onMouseLeave={e => e.currentTarget.style.opacity='1'}
+              onClick={() => window.Cal?.ns?.kennismakingsgesprek?.("modal", { calLink: "ian-meinoud/kennismakingsgesprek", config: { layout: "month_view" } })}
+              style={{display:"inline-block",padding:"13px 30px",background:"linear-gradient(90deg,#F5C23A,#F7941D)",borderRadius:8,color:"white",fontFamily:"var(--font-display)",fontSize:19,letterSpacing:"0.08em",textDecoration:"none",transition:"opacity 0.15s",border:"none",cursor:"pointer"}}
+              onMouseEnter={e => e.currentTarget.style.opacity="0.9"}
+              onMouseLeave={e => e.currentTarget.style.opacity="1"}
             >
-              PLAN GESPREK
+              PLAN GRATIS KENNISMAKING
             </button>
           </div>
         </div>
@@ -1028,7 +1127,7 @@ Plan nu een 30-minuten strategiegesprek in.
           onMouseEnter={e => e.currentTarget.style.opacity='0.85'}
           onMouseLeave={e => e.currentTarget.style.opacity='1'}
         >
-          📅 PLAN GESPREK
+          📅 PLAN GRATIS KENNISMAKING
         </button>
       </div>
     </div>
