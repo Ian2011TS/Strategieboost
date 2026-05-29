@@ -408,12 +408,12 @@ function getVerbeterpunten(sectionId, answers) {
   const tips = [];
 
   if (sectionId === 'strategie') {
-    if ((answers['1.1'] || 0) <= 1) tips.push('Formuleer een visie en missie die écht richting geeft en deel deze actief met je team.');
-    if ((answers['1.2'] || 0) <= 3) tips.push('Versterk je strategische basis met een concrete marktanalyse of SWOT — kies op feiten, niet op gevoel.');
+    if ((answers['1.1'] || 0) <= 1) tips.push('Formuleer een visie en missie die echt richting geeft en deel deze actief met je team.');
+    if ((answers['1.2'] || 0) <= 3) tips.push('Versterk je strategische basis met een concrete marktanalyse of SWOT , kies op feiten, niet op gevoel.');
     if ((answers['1.3'] || 0) <= 3) tips.push('Maak scherpere keuzes: een goede strategie zegt ook wat je niet doet.');
-    if ((answers['1.4'] || 0) <= 3) tips.push('Stop actief met activiteiten die niet bijdragen aan je strategie — ruimte vrijmaken is groeien.');
+    if ((answers['1.4'] || 0) <= 3) tips.push('Stop actief met activiteiten die niet bijdragen aan je strategie . Ruimte vrijmaken is groeien.');
     if ((answers['1.5'] || 0) <= 1) tips.push('Definieer je doelgroep(en) scherper en stem je aanbod daar consequent op af.');
-    if ((answers['1.6'] || 0) <= 1) tips.push('Maak je concurrentievoordeel concreet en toetsbaar — laat klanten bevestigen waarom ze voor jou kiezen.');
+    if ((answers['1.6'] || 0) <= 1) tips.push('Maak je concurrentievoordeel concreet en toetsbaar . Laat klanten bevestigen waarom ze voor jou kiezen.');
     if ((answers['1.7'] || 0) <= 1) tips.push('Bouw duurzaamheid in je voordeel in: wat maakt het moeilijk voor anderen om jou te kopiëren?');
     // Altijd minimaal 2 generieke tips als er onvoldoende lage scores zijn
     if (tips.length === 0) {
@@ -426,8 +426,8 @@ function getVerbeterpunten(sectionId, answers) {
     if ((answers['2.1'] || 0) <= 3) tips.push('Breng capaciteitstekorten in kaart en maak een concreet plan om die op te lossen vóór de uitvoering start.');
     if ((answers['2.2'] || 0) <= 1) tips.push('Organiseer een stakeholderbijeenkomst om iedereen op één lijn te krijgen over koers en verwachtingen.');
     if ((answers['2.3'] || 0) <= 3) tips.push('Maak het tijdspad realistischer door mijlpalen te halveren en buffers in te bouwen voor onverwachte vertragingen.');
-    if ((answers['2.4'] || 0) <= 1) tips.push('Leg rollen en taken schriftelijk vast met naam en deadline — voorkom dat verantwoordelijkheden blijven zweven.');
-    if ((answers['2.5'] || 0) <= 2) tips.push('Vertaal minstens 80% van je strategische doelen naar kwantitatieve KPI\'s — alleen dan kun je bijsturen.');
+    if ((answers['2.4'] || 0) <= 1) tips.push('Leg rollen en taken schriftelijk vast met naam en deadline . Voorkom dat verantwoordelijkheden blijven zweven.');
+    if ((answers['2.5'] || 0) <= 2) tips.push('Vertaal minstens 80% van je strategische doelen naar kwantitatieve KPI\'s . Alleen dan kun je bijsturen.');
     if ((answers['2.6'] || 0) <= 2) tips.push('Implementeer een eenvoudig dashboard of ritme (bijv. maandelijkse review) om targets actief te monitoren.');
     if (tips.length === 0) {
       tips.push('Voer kwartaalreviews in waarbij je plan en voortgang expliciet naast elkaar legt.');
@@ -436,50 +436,50 @@ function getVerbeterpunten(sectionId, answers) {
   }
 
   if (sectionId === 'belemmeringen') {
-    if ((answers['3.1'] || 0) >= 4) tips.push('Adresseer de historische patronen in je organisatie expliciet — benoem ze in teamgesprekken en maak ze bespreekbaar.');
-    if ((answers['3.2'] || 0) <= 3) tips.push('Communiceer concreet wat de nieuwe strategie betekent voor het dagelijks werk van medewerkers — maak de "why" voelbaar.');
+    if ((answers['3.1'] || 0) >= 4) tips.push('Adresseer de historische patronen in je organisatie expliciet . Benoem ze in teamgesprekken en maak ze bespreekbaar.');
+    if ((answers['3.2'] || 0) <= 3) tips.push('Communiceer concreet wat de nieuwe strategie betekent voor het dagelijks werk van medewerkers. Maak duidelijk wat er voor hen verandert.');
     if ((answers['3.3'] || 0) <= 3) tips.push('Verminder de ervaren werkdruk bij de implementatie door deelstappen te versimpelen of te automatiseren.');
-    if ((answers['3.4'] || 0) <= 3) tips.push('Investeer in tooling of training die medewerkers écht helpt de strategie uit te voeren — niet symbolisch, maar praktisch.');
+    if ((answers['3.4'] || 0) <= 3) tips.push('Investeer in tooling of training die medewerkers echt helpt de strategie uit te voeren , niet symbolisch maar praktisch.');
     if ((answers['3.5'] || 0) <= 3) tips.push('Geef als leiderschap zichtbaar het goede voorbeeld: consistentie tussen woord en daad is de krachtigste aanjager van draagvlak.');
     if (tips.length === 0) {
-      tips.push('Blijf belemmeringen actief monitoren via periodieke teamgesprekken — ze veranderen naarmate de uitvoering vordert.');
-      tips.push('Maak een weerstandskaart: welke groepen twijfelen nog, en wat hebben ze nodig om in beweging te komen?');
+      tips.push('Blijf belemmeringen actief monitoren via periodieke teamgesprekken . Ze veranderen naarmate de uitvoering vordert.');
+      tips.push('Breng in kaart welke groepen nog twijfelen en wat ze nodig hebben om in beweging te komen.');
     }
   }
 
   if (sectionId === 'opruimen') {
     if ((answers['4.1'] || 0) <= 3) tips.push('Verken gerichte inhuur van interim-krachten of freelancers om tijdelijke capaciteitstekorten op te vangen.');
     if ((answers['4.2'] || 0) >= 4) tips.push('Investeer in het middenmanagement: geef hen de tools en het mandaat om te verbinden, communiceren en motiveren.');
-    if ((answers['4.3'] || 0) <= 3) tips.push('Betrek medewerkers actief bij het oplossen van knelpunten — zij zien de obstakels het dichtst van dichtbij.');
+    if ((answers['4.3'] || 0) <= 3) tips.push('Betrek medewerkers actief bij het oplossen van knelpunten . Zij zien de obstakels het dichtst van dichtbij.');
     if ((answers['4.4'] || 0) >= 4) tips.push('Signalen van implementatiemoeheid vragen om een bewuste pauze: evalueer wat werkt en neem overbodige last weg.');
-    if ((answers['4.5'] || 0) <= 3) tips.push('Maak de volgorde van acties expliciet — begin met de randvoorwaarden (bijv. structuur, training) voor je de uitvoering opschroeft.');
+    if ((answers['4.5'] || 0) <= 3) tips.push('Maak de volgorde van acties expliciet . Begin met de randvoorwaarden, zoals structuur en training, voor je de uitvoering opschroeft.');
     if (tips.length === 0) {
-      tips.push('Maak "belemmeringen opruimen" een vast agendapunt in het MT — minimaal één keer per maand.');
+      tips.push('Maak "belemmeringen opruimen" een vast agendapunt in het MT , minimaal één keer per maand.');
       tips.push('Definieer per kwartaal de top-3 obstakels en wijs een eigenaar aan die ze wegneemt.');
     }
   }
 
   if (sectionId === 'vaardigheden') {
     if ((answers['5.1'] || 0) <= 3) tips.push('Maak een vaardigheidsmatrix: welke competenties zijn cruciaal voor de strategie en waar zitten de gaps?');
-    if ((answers['5.2'] || 0) <= 3) tips.push('Zorg voor betere spreiding van kritieke vaardigheden — voorkom afhankelijkheid van één of twee sleutelpersonen.');
+    if ((answers['5.2'] || 0) <= 3) tips.push('Zorg voor betere spreiding van kritieke vaardigheden . Voorkom afhankelijkheid van één of twee sleutelpersonen.');
     if ((answers['5.3'] || 0) <= 1) tips.push('Stimuleer kruisbestuiving: laat teams vaker samenwerken zodat complementaire vaardigheden elkaar versterken.');
-    if ((answers['5.4'] || 0) <= 3) tips.push('Verbeter de samenwerking met gerichte interventies — een cultuur van open feedback en gedeeld eigenaarschap is een sterk fundament.');
+    if ((answers['5.4'] || 0) <= 3) tips.push('Verbeter de samenwerking met gerichte interventies . Een cultuur van open feedback en gedeeld eigenaarschap helpt daarbij.');
     if (tips.length === 0) {
-      tips.push('Evalueer jaarlijks of de vaardighedenmix nog past bij de strategie — de wereld verandert, jouw team moet mee.');
+      tips.push('Evalueer jaarlijks of de vaardighedenmix nog past bij de strategie . De wereld verandert, jouw team moet mee.');
       tips.push('Investeer in leer- en ontwikkelbudget dat direct gekoppeld is aan strategische prioriteiten.');
     }
   }
 
   if (sectionId === 'lerend') {
-    if ((answers['6.1'] || 0) <= 3) tips.push('Introduceer gestructureerde "lessons learned"-sessies na elk project — maak leren een vast onderdeel van de werkwijze.');
+    if ((answers['6.1'] || 0) <= 3) tips.push('Introduceer gestructureerde terugbliksessies na elk project . Maak leren een vast onderdeel van de werkwijze.');
     if ((answers['6.2'] || 0) <= 3) tips.push('Borg nieuwe kennis actief: zorg dat trainingen leiden tot aangepaste werkprocessen, niet alleen tot individuele inzichten.');
     if ((answers['6.3'] || 0) >= 4) tips.push('Maak gedragsverandering concreet en klein: kleine aanpassingen in routines zijn makkelijker te beklijven dan grote omwentelingen.');
-    if ((answers['6.4'] || 0) <= 3) tips.push('Creëer ruimte voor experimenten — wijs een klein budget toe aan innovatieinitiatieven en vier ook de mislukkingen.');
+    if ((answers['6.4'] || 0) <= 3) tips.push('Creëer ruimte voor experimenten . Wijs een klein budget toe aan experimenten en leer ook van de mislukkingen.');
     if ((answers['6.5'] || 0) >= 4) tips.push('Kanaliseer ongeplande initiatieven: omarm de energie, maar koppel ze aan strategische prioriteiten om focus te houden.');
-    if ((answers['6.6'] || 0) <= 3) tips.push('Nodig tegenspraak expliciet uit — stel in vergaderingen standaard de vraag "Wat zien we over het hoofd?" om blinde vlekken te beperken.');
+    if ((answers['6.6'] || 0) <= 3) tips.push('Nodig tegenspraak expliciet uit. Stel in vergaderingen standaard de vraag wat je over het hoofd ziet om blinde vlekken te beperken.');
     if (tips.length === 0) {
       tips.push('Maak leren zichtbaar: deel wat de organisatie heeft geleerd in een maandelijkse nieuwsbrief of teamupdate.');
-      tips.push('Koppel leer- en innovatiedoelen direct aan de beoordelingscyclus — wat beloond wordt, groeit.');
+      tips.push('Koppel leer- en innovatiedoelen direct aan de beoordelingscyclus . Wat beloond wordt, groeit.');
     }
   }
 
