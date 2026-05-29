@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HZJHY38M1R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HZJHY38M1R');
+</script>
+<meta charset="utf-8">
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://app.cal.eu https://cal.eu https://*.cal.eu https://app.cal.com https://*.cal.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://app.cal.eu https://*.cal.eu;
+    font-src 'self' data: https://fonts.gstatic.com https://app.cal.eu https://*.cal.eu;
+    img-src 'self' data: https://*.cal.eu https://*.cal.com https://cal.eu https://cal.com https://www.googletagmanager.com;
+    connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://app.cal.eu https://cal.eu https://*.cal.eu https://app.cal.com https://*.cal.com;
+    frame-src https://app.cal.eu https://cal.eu https://*.cal.eu https://app.cal.com https://*.cal.com;
+    object-src 'none';
+    base-uri 'self';
+  ">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Strategieboost — Nuchter denken, doordacht doen</title>
+<template id="__bundler_thumbnail" data-bg-color="#3D2882">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dark purple hero -->
+    <rect width="1200" height="800" fill="#3D2882"/>
+    <!-- Gradient overlay -->
+    <defs>
+      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#3D2882"/>
+        <stop offset="60%" stop-color="#C52339"/>
+        <stop offset="100%" stop-color="#F7941D"/>
+      </linearGradient>
+    </defs>
+    <!-- Logo wordmark simplified -->
+    <rect x="80" y="60" width="260" height="8" rx="4" fill="url(#g1)"/>
+    <!-- Hero text blocks -->
+    <rect x="80" y="480" width="480" height="48" rx="4" fill="rgba(255,255,255,0.9)"/>
+    <rect x="80" y="542" width="380" height="48" rx="4" fill="rgba(255,255,255,0.9)"/>
+    <rect x="80" y="614" width="320" height="20" rx="3" fill="rgba(255,255,255,0.4)"/>
+    <rect x="80" y="648" width="160" height="36" rx="3" fill="#F7941D"/>
+    <!-- Speed lines -->
+    <rect x="700" y="340" width="120" height="4" rx="2" fill="rgba(247,148,29,0.3)"/>
+    <rect x="680" y="356" width="160" height="4" rx="2" fill="rgba(247,148,29,0.25)"/>
+    <rect x="660" y="372" width="200" height="4" rx="2" fill="rgba(247,148,29,0.2)"/>
+    <rect x="640" y="388" width="240" height="4" rx="2" fill="rgba(247,148,29,0.15)"/>
+    <!-- Gradient bar -->
+    <rect x="0" y="792" width="1200" height="8" fill="url(#g1)"/>
+  </svg>
+</template>
+<style>
+@font-face {
+  font-family: 'Bebas Neue Rounded';
+  src: url('BebasNeueRounded-Regular.woff2') format('woff2'),
+       url('BebasNeueRounded-Regular.ttf') format('truetype');
+}
+/* Segoe UI via systeemfont - werkt op alle apparaten zonder bestanden */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --purple: #3D2882;
+  --orange: #F7941D;
+  --red: #C52339;
+  --black: #161616;
+  --dark: #2B2B2B;
+  --mid: #6B6B6B;
+  --rule: #E4E4E4;
+  --bg: #fff;
+  --bg-warm: #F5F4F1;
+  --grad: linear-gradient(90deg, #3D2882 0%, #6B3194 30%, #C52339 65%, #F7941D 100%);
+  --font-display: 'Bebas Neue Rounded', 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --font-body: -apple-system, 'Segoe UI', system-ui, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --max: 1100px;
+  --pad: clamp(24px, 5vw, 80px);
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--black); background: var(--bg); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+a, button { -webkit-tap-highlight-color: transparent; }
+/* ── NAV ── */
+nav#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--pad); height: 64px;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  transition: box-shadow 0.2s;
+}
+nav#nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo img { height: 48px; }
+.nav-links { display: flex; align-items: center; gap: 36px; }
+.nav-links a {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--mid); text-decoration: none; transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--black); }
+.nav-cta {
+  background: var(--orange); color: #fff;
+  font-family: var(--font-body); font-weight: 700; font-size: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border: none; border-radius: 3px; padding: 9px 20px; cursor: pointer;
+  text-decoration: none; transition: opacity 0.15s;
+}
+.nav-cta:hover { opacity: 0.88; }
+
+/* ── Hamburgermenu ── */
+.ham-btn {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  padding: 6px; border-radius: 6px;
+  flex-direction: column; gap: 5px; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+}
+.ham-btn span {
+  display: block; width: 22px; height: 2px;
+  background: var(--purple); border-radius: 2px;
+  transition: all 0.25s ease;
+}
+.ham-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.ham-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.ham-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed; top: 64px; left: 0; right: 0;
+  background: white;
+  border-bottom: 2px solid var(--orange);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 99;
+  animation: slideDown 0.2s ease;
+}
+.mobile-menu.open { display: block; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.mobile-menu a {
+  display: block; padding: 16px 24px;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--black); text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.1s, color 0.1s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { background: #F4F3FC; color: var(--purple); }
+.mobile-menu a.mob-cta {
+  background: var(--orange); color: white;
+  text-align: center; letter-spacing: 0.12em;
+}
+.mobile-menu a.mob-cta:hover { opacity: 0.9; background: var(--orange); }
+
+@media (max-width: 720px) {
+  .ham-btn { display: flex; }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; height: 100svh; min-height: 560px;
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+.hero-photo {
+  position: absolute; inset: 0; overflow: hidden;
+}
+.hero-photo img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10,6,30,0.88) 0%,
+    rgba(10,6,30,0.45) 45%,
+    rgba(10,6,30,0.15) 100%
+  );
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 var(--pad) clamp(48px, 7vh, 96px);
+  max-width: calc(var(--max) + var(--pad) * 2);
+  width: 100%;
+}
+.hero-eyebrow {
+  font-size: 16px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 16px;
+}
+.hero-line { display: block; }
+.hero-title {
+  font-family: var(--font-display); font-size: clamp(52px, 7vw, 96px);
+  letter-spacing: 0.04em; text-transform: uppercase; line-height: 1;
+  color: #fff; margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: clamp(16px, 1.5vw, 20px); line-height: 1.6;
+  color: rgba(255,255,255,0.72); max-width: 540px; margin-bottom: 36px;
+  text-wrap: pretty;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-block; background: var(--orange); color: #fff;
+  font-family: var(--font-body); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 13px 28px; border-radius: 3px; text-decoration: none;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover { opacity: 0.88; }
+.btn-ghost {
+  display: inline-block; color: rgba(255,255,255,0.75);
+  font-family: var(--font-body); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 13px 0; text-decoration: none; border-bottom: 2px solid rgba(255,255,255,0.3);
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-ghost:hover { color: #fff; border-color: #fff; }
+/* ── GRAD LINE ── */
+.grad-line { height: 4px; background: var(--grad); }
+/* ── SECTIONS ── */
+section { padding: clamp(64px, 8vh, 112px) var(--pad); }
+.container { max-width: var(--max); margin: 0 auto; }
+.section-label {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(36px, 4vw, 58px);
+  letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.05;
+  color: var(--black); margin-bottom: 0;
+}
+.section-title.purple { color: var(--purple); }
+.section-intro {
+  font-size: 18px; line-height: 1.7; color: var(--mid);
+  max-width: 580px; margin-top: 16px;
+  text-wrap: pretty;
+}
+/* ── VOOR WIE ── */
+#voor-wie { background: var(--bg); }
+.voor-wie-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  border: 1px solid var(--rule); margin-top: 56px;
+}
+.voor-wie-item {
+  padding: 40px 44px 44px;
+  background: var(--bg);
+}
+.voor-wie-item:first-child { border-right: 1px solid var(--rule); }
+.voor-wie-nr {
+  font-family: var(--font-display); font-size: 56px; color: var(--rule);
+  line-height: 1; margin-bottom: 8px;
+}
+.voor-wie-title {
+  font-family: var(--font-display); font-size: 30px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--purple); margin-bottom: 16px;
+}
+.voor-wie-body { font-size: 15px; line-height: 1.75; color: var(--mid); text-wrap: pretty; }
+.voor-wie-body p + p { margin-top: 12px; }
+.voor-wie-body strong { color: var(--black); font-weight: 700; }
+/* ── WAT WE DOEN ── */
+#wat-we-doen { background: var(--bg-warm); }
+.diensten { margin-top: 56px; display: flex; flex-direction: column; }
+.dienst {
+  display: grid; grid-template-columns: 72px 1fr;
+  gap: 0 32px; padding: 32px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+.dienst:first-child { border-top: 1px solid var(--rule); }
+.dienst-nr {
+  font-family: var(--font-display); font-size: 38px; color: var(--orange);
+  line-height: 1; padding-top: 4px;
+}
+.dienst-title {
+  font-family: var(--font-display); font-size: 26px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--black); margin-bottom: 8px;
+}
+.dienst-body { font-size: 15px; line-height: 1.75; color: var(--mid); text-wrap: pretty; }
+/* ── BATEN ── */
+#baten { background: var(--purple); }
+#baten .section-label { color: rgba(255,255,255,0.45); }
+#baten .section-title { color: #fff; }
+.baten-list {
+  margin-top: 48px; display: flex; flex-direction: column; gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.baat {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 24px 0; border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.baat-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--orange);
+  flex-shrink: 0; margin-top: 7px;
+}
+.baat-text { font-size: 17px; line-height: 1.65; color: rgba(255,255,255,0.82); text-wrap: pretty; }
+/* ── WIE WE ZIJN ── */
+#wie-we-zijn { background: var(--bg); }
+.team-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 56px;
+}
+.team-member {}
+.team-photo {
+  width: 291px; height: 291px; object-fit: cover; object-position: top;
+  border-radius: 50%; display: block; margin-bottom: 24px;
+}
+.team-name {
+  font-family: var(--font-display); font-size: 28px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--black); margin-bottom: 4px;
+}
+.team-role {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 14px;
+}
+.team-bio { font-size: 15px; line-height: 1.75; color: var(--mid); text-wrap: pretty; }
+/* ── WAAROM WIJ ── */
+#waarom-wij { background: var(--black); }
+#waarom-wij .section-title { color: #fff; }
+.waarom-list {
+  margin-top: 48px; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-left: 1px solid rgba(255,255,255,0.12);
+}
+.waarom-item {
+  padding: 28px 32px; border-right: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.waarom-text { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.65); text-wrap: pretty; }
+.waarom-text strong { color: #fff; }
+/* ── CONTACT ── */
+#contact { background: var(--bg); }
+#contact .section-label { color: var(--orange); }
+#contact .section-title { color: var(--black); }
+.contact-sub { font-size: 18px; line-height: 1.65; color: var(--mid); max-width: 500px; margin-top: 14px; text-wrap: pretty; }
+.contact-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 40px; }
+.btn-contact {
+  display: inline-block; background: var(--orange); color: #fff;
+  font-family: var(--font-body); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 14px 32px; border-radius: 3px; text-decoration: none;
+  transition: opacity 0.15s;
+}
+.btn-contact:hover { opacity: 0.88; }
+.btn-contact-outline {
+  display: inline-block; color: var(--purple);
+  font-family: var(--font-body); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 14px 0; text-decoration: none;
+  border-bottom: 2px solid var(--purple);
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-contact-outline:hover { color: var(--orange); border-color: var(--orange); }
+/* ── FOOTER ── */
+footer {
+  background: var(--purple);
+  padding: 48px var(--pad) 32px;
+}
+.footer-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 32px 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.footer-info {}
+.footer-info-name {
+  font-family: var(--font-display); font-size: 20px; letter-spacing: 0.06em;
+  color: #fff; margin-bottom: 10px;
+}
+.footer-info p {
+  font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.6);
+}
+.footer-info a { color: rgba(255,255,255,0.6); text-decoration: none; }
+.footer-info a:hover { color: #fff; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+  padding-top: 24px;
+}
+.footer-bottom-left {
+  display: flex; align-items: center; gap: 16px;
+}
+.footer-legal {
+  display: flex; gap: 24px; flex-wrap: wrap; align-items: center;
+}
+.footer-legal a {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.15s;
+}
+.footer-legal a:hover { color: #fff; }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.35); }
+.footer-linkedin svg { display: block; }
+.footer-linkedin { opacity: 0.5; transition: opacity 0.15s; }
+.footer-linkedin:hover { opacity: 1; }
+/* ── RESPONSIVE ── */
+.footer-logo-img {
+  height: 160px; width: 427px; opacity: 1; flex-shrink: 0; margin-top: 8px;
+}
+.contact-inner {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;
+}
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .voor-wie-grid { grid-template-columns: 1fr; }
+  .voor-wie-item:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+  .team-grid { grid-template-columns: 1fr; gap: 40px; }
+  .waarom-list { grid-template-columns: 1fr; }
+  .dienst { grid-template-columns: 48px 1fr; }
+
+  /* Hero: portretfoto op mobiel zodat beiden in beeld zijn */
+  .hero-photo img { object-position: center 20%; }
+  .hero-title { font-size: 36px; }
+
+  /* Footer logo responsief */
+  .footer-logo-img { width: 100%; max-width: 320px; height: auto; margin-top: 0; }
+
+  /* Juridische links verticaal */
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-legal { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .footer-bottom-left { flex-wrap: wrap; }
+
+  /* Kennismaken blok: logo onderaan, tekst gecentreerd, knoppen naast elkaar */
+  .contact-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .contact-inner .footer-logo-img {
+    order: 10;
+    margin-top: 32px;
+    max-width: 280px;
+  }
+  .contact-content { max-width: 100%; }
+  .contact-sub { max-width: 100%; }
+  .contact-actions {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  .btn-contact { padding: 12px 20px; font-size: 12px; white-space: nowrap; }
+  .btn-contact-outline { font-size: 12px; white-space: nowrap; }
+}
+</style>
+<script type="text/javascript">
+(function (C, A, L) {
+  let p = function (a, ar) { a.q.push(ar); };
+  let d = C.document;
+  C.Cal = C.Cal || function () {
+    let cal = C.Cal; let ar = arguments;
+    if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+    if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; }
+    p(cal, ar);
+  };
+})(window, "https://app.cal.eu/embed/embed.js", "init");
+Cal("init", "kennismakingsgesprek", { origin: "https://cal.eu" });
+Cal.ns["kennismakingsgesprek"]("ui", {
+  styles: { branding: { brandColor: "#F7941D" } },
+  hideEventTypeDetails: false,
+  layout: "month_view"
+});
+</script>
+</head>
+<body>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <img src="logo-horizontal.png" alt="Strategieboost">
+  </a>
+  <div class="nav-links">
+    <a href="#voor-wie">Voor wie</a>
+    <a href="#wat-we-doen">Wat we doen</a>
+    <a href="#wie-we-zijn">Over ons</a>
+    <a href="strategiescan.html">Strategiescan</a>
+    <a href="dashboardscan.html">Dashboard beoordeling</a>
+    <a href="#contact" class="nav-cta">Kennismaken</a>
+  </div>
+  <button class="ham-btn" id="hamBtn" aria-label="Menu openen" onclick="toggleHamMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#voor-wie"     onclick="closeHamMenu()">Voor wie</a>
+  <a href="#wat-we-doen"  onclick="closeHamMenu()">Wat we doen</a>
+  <a href="#wie-we-zijn"  onclick="closeHamMenu()">Over ons</a>
+  <a href="strategiescan.html">Strategiescan</a>
+  <a href="dashboardscan.html">Dashboard beoordeling</a>
+  <a href="#contact" class="mob-cta" onclick="closeHamMenu()">Kennismaken</a>
+</div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-photo">
+    <picture>
+      <source media="(max-width: 720px)" srcset="Strategie%20Boost%20-21.jpg">
+      <img src="Strategie%20Boost%20-31.jpg" alt="Ian van Veen en Meinoud Rost van Tonningen">
+    </picture>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Strategie &amp; Implementatie</div>
+    <h1 class="hero-title"><span class="hero-line">Je strategie harder</span><span class="hero-line">laten werken?</span></h1>
+    <p class="hero-sub">Voor ondernemers en bestuurders die toe zijn aan de volgende fase. Of waar de groei hapert en echt iets moet veranderen.</p>
+    <div class="hero-actions">
+      <a class="btn-primary"
+            data-cal-link="ian-meinoud/kennismakingsgesprek"
+            data-cal-namespace="kennismakingsgesprek"
+            data-cal-config='{"layout":"month_view"}'
+            href="#">Plan een kennismaking</a>
+      <a href="strategiescan.html" class="btn-ghost">Doe de gratis Strategiescan</a>
+    </div>
+  </div>
+</div>
+<div class="grad-line"></div>
+<!-- VOOR WIE -->
+<section id="voor-wie">
+  <div class="container">
+    <div class="section-label">Voor wie</div>
+    <h2 class="section-title">Herken je dit?</h2>
+    <p class="section-intro">Strategieboost is er voor twee typen ondernemers en bestuurders.</p>
+    <div class="voor-wie-grid">
+      <div class="voor-wie-item">
+        <div class="voor-wie-nr">01</div>
+        <div class="voor-wie-title">Snelle groei</div>
+        <div class="voor-wie-body">
+          <p>Je bedrijf groeit als kool, maar ook uit zijn jasje. Je wil nieuwe klanten binnenhalen, maar je tijd wordt steeds meer opgeslokt door andere zaken. Je wil werk delegeren, maar je hebt te weinig mensen om het over te dragen.</p>
+          <p>Doe je nog wel de dingen waar je blij van wordt? Zijn je medewerkers nog net zo enthousiast? En zijn je klanten nog steeds fans?</p>
+          <p><strong>Het is tijd voor de volgende fase.</strong></p>
+        </div>
+      </div>
+      <div class="voor-wie-item">
+        <div class="voor-wie-nr">02</div>
+        <div class="voor-wie-title">De motor hapert</div>
+        <div class="voor-wie-body">
+          <p>Je hebt je koers bepaald. Toch blijft de impact van je strategie achter. De motor draait, maar niet op volle toeren. Je werkt keihard en maakt lange dagen, maar je omzet stagneert en je marge loopt terug.</p>
+          <p>Je team heeft behoefte aan focus, maar er worden te weinig scherpe keuzes gemaakt. Je hebt je mensen keihard nodig, maar ze zijn minder gemotiveerd.</p>
+          <p><strong>Er moet echt iets veranderen.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- WAT WE DOEN -->
+<section id="wat-we-doen">
+  <div class="container">
+    <div class="section-label">Wat we doen</div>
+    <h2 class="section-title purple">Van diagnose tot implementatie</h2>
+    <p class="section-intro">Geen dikke rapporten of vage aanbevelingen. Maar scherpe analyses en praktische oplossingen die direct impact maken.</p>
+    <div class="diensten">
+      <div class="dienst">
+        <div class="dienst-nr">01</div>
+        <div>
+          <div class="dienst-title">Diagnose</div>
+          <div class="dienst-body">Analyse waar de belangrijkste issues liggen: in het plan, bij het draagvlak of bij de implementatie.</div>
+        </div>
+      </div>
+      <div class="dienst">
+        <div class="dienst-nr">02</div>
+        <div>
+          <div class="dienst-title">Plan</div>
+          <div class="dienst-body">Vertaling van identiteit, ambitie en plannen in een concreet business plan op 1 A4.</div>
+        </div>
+      </div>
+      <div class="dienst">
+        <div class="dienst-nr">03</div>
+        <div>
+          <div class="dienst-title">Implementatie</div>
+          <div class="dienst-body">Klaarmaken van de organisatie voor de implementatie. Inclusief prioriteiten, budget, draagvlak en de benodigde structuur, werkwijze en tools.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- BATEN -->
+<section id="baten">
+  <div class="container">
+    <div class="section-label">Direct en concreet resultaat</div>
+    <h2 class="section-title">Wat het jou oplevert</h2>
+    <div class="baten-list">
+      <div class="baat"><div class="baat-dot"></div><div class="baat-text">Inzicht in waarom er niet uitkomt wat er in zit.</div></div>
+      <div class="baat"><div class="baat-dot"></div><div class="baat-text">Een heldere, strategische koers met scherpe keuzes, die focus creëert en richting geeft.</div></div>
+      <div class="baat"><div class="baat-dot"></div><div class="baat-text">Geïnspireerde stakeholders en medewerkers die begrijpen wat er van hen verwacht wordt.</div></div>
+      <div class="baat"><div class="baat-dot"></div><div class="baat-text">De zekerheid dat alle voorwaarden zijn geschapen om de strategie succesvol te implementeren.</div></div>
+    </div>
+  </div>
+</section>
+<!-- WIE WE ZIJN -->
+<section id="wie-we-zijn">
+  <div class="container">
+    <div class="section-label">Bedrijfsstrategie, strategische marketing, innovatie, data- &amp; AI-strategie</div>
+    <h2 class="section-title">Ruime ervaring</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <img class="team-photo" src="Strategie%20Boost%20-05.jpg" alt="Ian van Veen">
+        <div class="team-name">Ian van Veen</div>
+        <div class="team-role">C-level strateeg &amp; pragmatisch groeiversneller</div>
+        <p class="team-bio">Vanuit zijn ervaring op boardniveau helpt Ian bedrijven doelgericht groeien. Helder, direct en gericht op meetbaar resultaat, met een scherp oog voor transformatie, leiderschap en innovatie.</p>
+      </div>
+      <div class="team-member">
+        <img class="team-photo" src="Strategie%20Boost%20-07.jpg" alt="Meinoud Rost van Tonningen">
+        <div class="team-name">Meinoud Rost van Tonningen</div>
+        <div class="team-role">Strategisch marketeer &amp; innovatiespecialist</div>
+        <p class="team-bio">Vanuit zijn ervaring in de financiële sector helpt Meinoud organisaties tastbaar vooruit. Als medeoprichter van Strategieboost werkt hij met ondernemers die willen groeien. Met concrete oplossingen en zonder omwegen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- WAAROM WIJ -->
+<section id="waarom-wij">
+  <div class="container">
+    <h2 class="section-title">Waarom wij?</h2>
+    <div class="waarom-list">
+      <div class="waarom-item">
+        <p class="waarom-text"><strong>Veel ervaring.</strong> Bij grote en kleinere organisaties en in verschillende branches. We weten wat werkt en wat niet.</p>
+      </div>
+      <div class="waarom-item">
+        <p class="waarom-text"><strong>Snel inzicht.</strong> We zien snel waar de problemen zitten en benoemen ze ook.</p>
+      </div>
+      <div class="waarom-item">
+        <p class="waarom-text"><strong>Geen loze woorden.</strong> Wij doen niet aan dikke rapporten of vage aanbevelingen. Wij leveren scherpe analyses en praktische oplossingen die direct impact maken.</p>
+      </div>
+      <div class="waarom-item">
+        <p class="waarom-text"><strong>Ongezouten eerlijk.</strong> We praten je niet naar de mond en zeggen waar het op staat. En bovenal: <em>we love strategy.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-content">
+        <div class="section-label">Kennismaken</div>
+        <h2 class="section-title">Klaar voor<br>de volgende fase?</h2>
+        <p class="contact-sub">Wil je weten wat wij voor jou kunnen betekenen? Neem contact met ons op of plan hier een kennismaking in.</p>
+        <div class="contact-actions">
+          <a class="btn-contact"
+             data-cal-link="ian-meinoud/kennismakingsgesprek"
+             data-cal-namespace="kennismakingsgesprek"
+             data-cal-config='{"layout":"month_view"}'
+             href="#">Plan een kennismaking</a>
+          <a href="strategiescan.html" class="btn-contact-outline">Doe de gratis Strategiescan</a>
+        </div>
+      </div>
+      <img src="logo-horizontal.png" alt="Strategieboost" class="footer-logo-img">
+    </div>
+  </div>
+</section>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-info">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+        <div class="footer-info-name">Strategieboost</div>
+        <a class="footer-linkedin" href="https://www.linkedin.com/company/strategieboost" rel="noopener noreferrer" target="_blank" aria-label="Strategieboost op LinkedIn" style="flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="white"/>
+            <path d="M7.2 9.6H4.8V19.2H7.2V9.6Z" fill="#3D2882"/>
+            <circle cx="6" cy="6.6" r="1.4" fill="#3D2882"/>
+            <path d="M19.2 13.6C19.2 11.4 17.8 9.4 15.6 9.4C14.4 9.4 13.4 10 12.8 10.8V9.6H10.4V19.2H12.8V14.4C12.8 13.2 13.6 12 14.8 12C16 12 16.8 13 16.8 14.4V19.2H19.2V13.6Z" fill="#3D2882"/>
+          </svg>
+        </a>
+      </div>
+      <p style="margin-top:8px;">
+        Kromme Elleboogsteeg 3A3<br>
+        2011 TS Haarlem<br><br>
+        KvK: 96567279<br>
+        BTW: NL867664629B01
+      </p>
+      <nav class="footer-legal" style="margin-top:24px;">
+        <a href="legal/disclaimer.html">Disclaimer</a>
+        <a href="legal/privacypolicy.html">Privacy Policy</a>
+        <a href="legal/cookiebeleid.html">Cookiebeleid</a>
+        <a href="legal/algemenevoorwaarden.html">Algemene Voorwaarden</a>
+      </nav>
+    </div>
+  </div>
+  <div class="footer-bottom" style="justify-content:flex-start;">
+    <span class="footer-copy">© 2026 Strategieboost BV. Alle rechten voorbehouden.</span>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Nav scroll shadow
+function toggleHamMenu() {
+  document.getElementById('hamBtn').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeHamMenu() {
+  document.getElementById('hamBtn').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#nav') && !e.target.closest('.mobile-menu')) {
+    closeHamMenu();
+  }
+});
+
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+// Smooth reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'none'; }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('section, .voor-wie-item, .dienst, .baat, .team-member, .waarom-item').forEach(el => {
+  el.style.opacity = 0;
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
