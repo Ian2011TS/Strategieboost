@@ -104,6 +104,16 @@ nav#nav.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
 .mobile-menu a.mob-cta:hover { opacity: 0.9; background: var(--orange); }
 @media (max-width: 720px) { .ham-btn { display: flex; } .nav-links { display: none; } }
 
+/* BACK TO SITE */
+.back-to-site {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--mid); text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.15s;
+}
+.back-to-site:hover { color: var(--purple); }
+
 /* BLOG HEADER */
 .blog-header {
   padding-top: 112px;
@@ -424,9 +434,9 @@ footer p { font-size: 13px; line-height: 1.8; margin-top: 8px; }
     <img src="logo-horizontal.png" alt="Strategieboost">
   </a>
   <div class="nav-links">
-    <a href="blog.html" class="active">Blog</a>
     <a href="strategiescan.html">Strategiescan</a>
     <a href="dashboardscan.html">Dashboard beoordeling</a>
+    <a href="blog.html" class="active">Blog</a>
     <a href="index.html#contact" class="nav-cta">Kennismaken</a>
   </div>
   <button class="ham-btn" id="hamBtn" aria-label="Menu openen" onclick="toggleHamMenu()">
@@ -435,9 +445,9 @@ footer p { font-size: 13px; line-height: 1.8; margin-top: 8px; }
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="blog.html" onclick="closeHamMenu()">Blog</a>
   <a href="strategiescan.html" onclick="closeHamMenu()">Strategiescan</a>
   <a href="dashboardscan.html" onclick="closeHamMenu()">Dashboard beoordeling</a>
+  <a href="blog.html" onclick="closeHamMenu()">Blog</a>
   <a href="index.html#contact" class="mob-cta" onclick="closeHamMenu()">Kennismaken</a>
 </div>
 
@@ -445,6 +455,10 @@ footer p { font-size: 13px; line-height: 1.8; margin-top: 8px; }
 <div id="blogOverview">
   <div class="blog-header">
     <div class="blog-header-inner">
+      <a href="index.html" class="back-to-site">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3L3 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Terug naar website
+      </a>
       <div class="section-label">Inzichten & Artikelen</div>
       <h1>Blog</h1>
       <p>Praktische artikelen over strategie, groei en organisatie. Voor ondernemers die verder willen dan goede bedoelingen.</p>
