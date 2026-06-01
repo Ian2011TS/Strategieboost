@@ -9,7 +9,7 @@
     "title": "OGSM uitgelegd: wat het is, voordelen en hoe je het gebruikt | Strategieboost",
     "description": "OGSM zet jouw strategie op één A4. Leer wat het model inhoudt, wat de voordelen zijn, waar je op moet letten en hoe OGSM zich verhoudt tot OKR, SWOT en de Balanced Scorecard.",
     "canonical": "https://www.strategieboost.nl/blog.html#ogsm",
-    "ogTitle": "OGSM: zo werkt strategie die echt klopt",
+    "ogTitle": "OGSM: zo werkt strategie die klopt",
     "ogDescription": "Één A4 met je volledige strategie. OGSM verbindt ambitie aan actie en geeft iedereen in je bedrijf dezelfde richting.",
     "ogImage": "https://www.strategieboost.nl/og-blog-ogsm.jpg",
     "keywords": [
@@ -27,7 +27,7 @@
     "jsonLd": {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "OGSM: zo werkt strategie die echt klopt",
+      "headline": "OGSM: zo werkt strategie die klopt",
       "description": "OGSM zet jouw strategie op één A4. Leer wat het model inhoudt, wat de voordelen zijn, waar je op moet letten en hoe OGSM zich verhoudt tot OKR, SWOT en de Balanced Scorecard.",
       "datePublished": "2026-06-01",
       "dateModified": "2026-06-01",
@@ -75,7 +75,7 @@
     }
   },
   "hero": {
-    "title": "OGSM: zo werkt strategie die echt klopt",
+    "title": "OGSM: zo werkt strategie die klopt",
     "lead": "Één A4 met je volledige strategie. OGSM verbindt ambitie aan actie en geeft iedereen in je bedrijf dezelfde richting.",
     "tag": "Strategie",
     "date": "Juni 2026",
