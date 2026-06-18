@@ -630,8 +630,8 @@ function buildPdf(contact, strategischDoel, scores, top5, vragen, antwoorden) {
   const setT = c => doc.setTextColor(c[0],c[1],c[2]);
   const labelC = pct => pct>=80 ? GREEN : pct>=60 ? hex('558B2F') : pct>=40 ? ORANGE : hex('C52339');
   const labelT = pct => pct>=80 ? 'STERK' : pct>=60 ? 'GOED' : pct>=40 ? 'AANDACHT GEWENST' : 'ZWAK';
-  const FSML = 7; const FSN = 7.5;
-  const LINE = 4.2;
+  const FSML = 7.5; const FSN = 8;
+  const LINE = 4.6;
   let y = 0;
 
   const checkPage = n => { if (y + n > PH - 12) { doc.addPage(); y = 14; } };
@@ -639,7 +639,7 @@ function buildPdf(contact, strategischDoel, scores, top5, vragen, antwoorden) {
   // Header
   setF(PURPLE); doc.rect(0, 0, PW, 22, 'F');
   doc.setFont('helvetica','bold'); doc.setFontSize(14); setT([255,255,255]);
-  doc.text('DASHBOARD BEOORDELING — STRATEGIEBOOST', ML, 9);
+  doc.text('DASHBOARD BEOORDELING  ·  STRATEGIEBOOST', ML, 9);
   doc.setFont('helvetica','normal'); doc.setFontSize(8); setT([200,200,220]);
   doc.text(`${contact.bedrijf || ''}  ·  ${dateStr}`, PW - ML, 9, { align:'right' });
   // gradient strip
@@ -659,13 +659,13 @@ function buildPdf(contact, strategischDoel, scores, top5, vragen, antwoorden) {
 
   // Scores tabel
   scores.forEach(s => {
-    checkPage(10);
+    checkPage(12);
     const c = hex(DIMS.find(d=>d.id===s.id)?.color?.slice(1) || '3D2882');
-    setF(c); doc.rect(ML, y, CW, 6, 'F');
+    setF(c); doc.rect(ML, y, CW, 7, 'F');
     doc.setFont('helvetica','bold'); doc.setFontSize(FSN); setT([255,255,255]);
-    doc.text(DIMS.find(d=>d.id===s.id)?.label?.toUpperCase() || s.id, ML+2, y+4.2);
-    doc.text(`${s.pct}%  ${labelT(s.pct)}`, ML+CW-2, y+4.2, { align:'right' });
-    y += 7;
+    doc.text(DIMS.find(d=>d.id===s.id)?.label?.toUpperCase() || s.id, ML+2, y+4.8);
+    doc.text(`${s.pct}%  ${labelT(s.pct)}`, ML+CW-2, y+4.8, { align:'right' });
+    y += 10;
 
     // Observaties
     if (s.observaties?.length) {
@@ -673,42 +673,43 @@ function buildPdf(contact, strategischDoel, scores, top5, vragen, antwoorden) {
         checkPage(LINE*2);
         const lines = doc.splitTextToSize('• ' + obs, CW - 6);
         doc.setFont('helvetica','normal'); doc.setFontSize(FSML); setT([30,30,30]);
-        doc.text(lines, ML+2, y); y += lines.length * LINE + 1;
+        doc.text(lines, ML+2, y); y += lines.length * LINE + 1.5;
       });
     }
 
     // Verbeterpunten
     if (s.verbeterpunten?.length) {
-      checkPage(5);
-      setF(OFF); doc.rect(ML, y, CW, 3.5, 'F');
+      checkPage(7);
+      y += 1;
+      setF(OFF); doc.rect(ML, y, CW, 5, 'F');
       doc.setFont('helvetica','bold'); doc.setFontSize(FSML); setT(MID);
-      doc.text('VERBETERPUNTEN', ML+2, y+2.5); y += 4.5;
+      doc.text('VERBETERPUNTEN', ML+2, y+3.5); y += 8;
       s.verbeterpunten.forEach(tip => {
         const tLines = doc.splitTextToSize('• ' + tip, CW - 6);
         checkPage(tLines.length * LINE);
         doc.setFont('helvetica','normal'); doc.setFontSize(FSML); setT([30,30,30]);
-        doc.text(tLines, ML+2, y); y += tLines.length * LINE + 1;
+        doc.text(tLines, ML+2, y); y += tLines.length * LINE + 1.5;
       });
     }
-    y += 3;
+    y += 5;
   });
 
   // Top 5
-  checkPage(20);
-  setF(PURPLE); doc.rect(ML, y, CW, 7, 'F');
+  checkPage(22);
+  setF(PURPLE); doc.rect(ML, y, CW, 8, 'F');
   doc.setFont('helvetica','bold'); doc.setFontSize(9); setT([255,255,255]);
-  doc.text('TOP 5 MEEST URGENTE VERBETERPUNTEN', ML+2, y+4.8); y += 9;
+  doc.text('TOP 5 MEEST URGENTE VERBETERPUNTEN', ML+2, y+5.4); y += 11;
   top5.forEach((item, i) => {
     checkPage(LINE*3);
     const lines = doc.splitTextToSize(`${i+1}.  ${item.tip}`, CW-20);
-    setF(i%2===0?[245,243,255]:[255,255,255]); doc.rect(ML, y-1, CW, lines.length*LINE+2.5, 'F');
+    setF(i%2===0?[245,243,255]:[255,255,255]); doc.rect(ML, y-1.5, CW, lines.length*LINE+3.5, 'F');
     doc.setFont('helvetica','bold'); doc.setFontSize(FSML); setT(PURPLE);
     doc.text(`${i+1}`, ML+2, y+LINE-1);
     doc.setFont('helvetica','normal'); setT([30,30,30]);
     doc.text(lines, ML+7, y+LINE-1);
     doc.setFont('helvetica','italic'); doc.setFontSize(FSML-0.5); setT(MID);
     doc.text(item.dim, ML+CW, y+lines.length*LINE+0.5, { align:'right' });
-    y += lines.length*LINE+4;
+    y += lines.length*LINE+5.5;
   });
 
   // Footer
@@ -936,9 +937,11 @@ Dimensies:
 - datakwaliteit: Zijn definities consistent, bronnen transparant, ziet het er onderhouden uit?
 - actualiteit: Zijn datums/periodes zichtbaar? Is de data recent genoeg voor operationele sturing?
 - gebruiksgemak: Overzichtelijkheid, leesbaarheid, informatiedichtheid, geschikt voor niet-analisten?
-- lerend: Bevat het only historische data of ook vooruitkijkende metrics? Evolutiesignalen?
+- lerend: Bevat het alleen historische data of ook vooruitkijkende metrics? Evolutiesignalen?
 
 Wees eerlijk en constructief. Een hoge score is geloofwaardig. Wees specifiek over wat je ziet.
+
+Schrijfstijl: schrijf natuurlijk, direct Nederlands. Gebruik geen liggende gedachtestrepen (—). Gebruik geen nadrukaccenten op klinkers zoals "én", "vóór" of "wél", schrijf gewoon "en", "voor", "wel". Vermijd Engelse termen waar een goed Nederlands woord bestaat.
 
 Geef je antwoord ALLEEN als JSON, geen andere tekst:
 {
@@ -1027,7 +1030,9 @@ Geef je antwoord ALLEEN als JSON, geen andere tekst:
 Scores: ${scoresText}
 Laagste dimensies: ${laagsteScores.join(', ')}
 
-Stel precies 3 verdiepende vragen gebaseerd op de laagste scores. Elke vraag heeft 3-4 keuze-opties plus altijd "Anders" als optie. De vragen helpen je de situatie beter te begrijpen voor een gesprekadvies.
+Stel precies 3 verdiepende vragen gebaseerd op de laagste scores. Elke vraag heeft 3-4 keuze-opties plus altijd "Anders" als optie. De vragen helpen je de situatie beter te begrijpen voor het eindadvies.
+
+Schrijfstijl: schrijf natuurlijk, direct Nederlands. Gebruik geen liggende gedachtestrepen (—) en geen nadrukaccenten zoals "én" of "vóór".
 
 Geef je antwoord ALLEEN als JSON:
 {
@@ -1094,6 +1099,8 @@ Genereer op basis van alle bovenstaande informatie:
 1. Eventueel bijgestelde scores per dimensie (als de antwoorden aanleiding geven)
 2. Top 5 meest urgente verbeterpunten overall (concreet en actiegericht, gebaseerd op de totale analyse)
 3. Een persoonlijk advies direct aan ${contact.bedrijf || 'de organisatie'} (2-3 zinnen, spreek ze aan met "je/jullie"): wat is voor hen nu de belangrijkste stap om het dashboard te verbeteren, en waarom is dat urgent?
+
+Schrijfstijl: schrijf natuurlijk, direct Nederlands. Gebruik geen liggende gedachtestrepen (—). Gebruik geen nadrukaccenten op klinkers zoals "én", "vóór" of "wél", schrijf gewoon "en", "voor", "wel". Vermijd Engelse termen waar een goed Nederlands woord bestaat.
 
 Geef je antwoord ALLEEN als JSON:
 {
