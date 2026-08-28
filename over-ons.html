@@ -73,16 +73,6 @@ html { scroll-behavior: smooth; }
 body { font-family: var(--font-body); color: var(--black); background: var(--bg); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 a, button { -webkit-tap-highlight-color: transparent; }
 
-/* ── CONCEPT-BADGE (alleen voor deze reviewversie, niet voor productie) ── */
-.concept-badge {
-  position: fixed; bottom: 16px; right: 16px; z-index: 200;
-  background: var(--black); color: #fff; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 8px 14px; border-radius: 999px; opacity: 0.85;
-  font-family: var(--font-body); box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-  pointer-events: none;
-}
-
 /* ── NAV ── */
 nav#nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -410,6 +400,9 @@ footer { background: var(--purple); padding: 48px var(--pad) 32px; }
   .voor-wie-item:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
   .dienst { grid-template-columns: 48px 1fr; }
   .hero-photo img { object-position: center 20%; }
+  .hero-title { font-size: 22px; margin-bottom: 14px; }
+  .hero-eyebrow { margin-bottom: 10px; }
+  .hero-sub { margin-bottom: 24px; }
   .footer-logo-img { width: 100%; max-width: 240px; height: auto; margin-top: 0; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
   .footer-legal { flex-direction: column; gap: 10px; align-items: flex-start; }
@@ -490,13 +483,13 @@ Cal.ns["kennismakingsgesprek"]("ui", {
   <div class="container">
     <div class="team-grid">
       <div class="team-member">
-        <div class="photo-frame team-photo" data-caption="Foto Ian van Veen" style="width:220px;height:220px;border-radius:50%;margin-bottom:24px;" onerror-target="1"><img src="Strategie Boost -05.jpg" alt="Ian van Veen" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'; this.closest('.photo-frame').classList.add('img-missing')"></div>
+        <div class="photo-frame team-photo" data-caption="Foto Ian van Veen" style="width:220px;height:220px;border-radius:50%;margin-bottom:24px;" onerror-target="1"><img src="strategieboost-05.jpg" alt="Ian van Veen" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'; this.closest('.photo-frame').classList.add('img-missing')"></div>
         <div class="team-name">Ian van Veen</div>
         <div class="team-role">Strateeg &amp; pragmatisch groeiversneller</div>
         <p class="team-bio">Vanuit zijn ervaring op directieniveau helpt Ian bedrijven doelgericht groeien. Helder, direct en gericht op meetbaar resultaat, met een scherp oog voor transformatie, leiderschap en innovatie.</p>
       </div>
       <div class="team-member">
-        <div class="photo-frame team-photo" data-caption="Foto Meinoud Rost van Tonningen" style="width:220px;height:220px;border-radius:50%;margin-bottom:24px;" onerror-target="1"><img src="Strategie Boost -07.jpg" alt="Meinoud Rost van Tonningen" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'; this.closest('.photo-frame').classList.add('img-missing')"></div>
+        <div class="photo-frame team-photo" data-caption="Foto Meinoud Rost van Tonningen" style="width:220px;height:220px;border-radius:50%;margin-bottom:24px;" onerror-target="1"><img src="strategieboost-07.jpg" alt="Meinoud Rost van Tonningen" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'; this.closest('.photo-frame').classList.add('img-missing')"></div>
         <div class="team-name">Meinoud Rost van Tonningen</div>
         <div class="team-role">Strategisch marketeer &amp; innovatiespecialist</div>
         <p class="team-bio">Vanuit zijn ervaring in de financiële sector helpt Meinoud organisaties tastbaar vooruit. Als medeoprichter van Strategieboost werkt hij met ondernemers die willen groeien. Met concrete oplossingen en zonder omwegen.</p>
@@ -611,6 +604,5 @@ document.querySelectorAll('section, .voor-wie-item, .dienst, .baat, .team-member
   observer.observe(el);
 });
 </script>
-<div class="concept-badge">Concept t.b.v. review</div>
 </body>
 </html>

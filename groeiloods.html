@@ -73,16 +73,6 @@ html { scroll-behavior: smooth; }
 body { font-family: var(--font-body); color: var(--black); background: var(--bg); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 a, button { -webkit-tap-highlight-color: transparent; }
 
-/* ── CONCEPT-BADGE (alleen voor deze reviewversie, niet voor productie) ── */
-.concept-badge {
-  position: fixed; bottom: 16px; right: 16px; z-index: 200;
-  background: var(--black); color: #fff; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 8px 14px; border-radius: 999px; opacity: 0.85;
-  font-family: var(--font-body); box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-  pointer-events: none;
-}
-
 /* ── NAV ── */
 nav#nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -410,6 +400,9 @@ footer { background: var(--purple); padding: 48px var(--pad) 32px; }
   .voor-wie-item:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
   .dienst { grid-template-columns: 48px 1fr; }
   .hero-photo img { object-position: center 20%; }
+  .hero-title { font-size: 22px; margin-bottom: 14px; }
+  .hero-eyebrow { margin-bottom: 10px; }
+  .hero-sub { margin-bottom: 24px; }
   .footer-logo-img { width: 100%; max-width: 240px; height: auto; margin-top: 0; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
   .footer-legal { flex-direction: column; gap: 10px; align-items: flex-start; }
@@ -501,7 +494,7 @@ Cal.ns["groeiloods-kennismaking"]("ui", {
     <div class="section-label">Herkenbaar?</div>
     <h2 class="section-title purple">Je werkt harder dan ooit</h2>
     <p class="section-intro">Maar je resultaten groeien niet mee. Je wordt opgeslokt door de dagelijkse operatie. Je weet vaak waar het knelt, maar mist de tijd om er iets aan te doen. En de belangrijkste beslissingen neem je meestal alleen.</p>
-    <p class="section-intro" style="margin-top:20px;"><strong>Voor jou is er nu GroeiLoods.</strong> Je vaste sparringpartner die je helpt de juiste beslissingen te nemen en te realiseren. Zodat jij weer sneller groeit.</p>
+    <p class="section-intro" style="margin-top:20px;"><strong>Voor jou is er nu GroeiLoods.</strong> Jouw vaste sparringpartner die je helpt de juiste beslissingen te nemen en te realiseren. Zodat jij weer sneller groeit.</p>
   </div>
 </section>
 
@@ -631,6 +624,5 @@ document.querySelectorAll('section, .voor-wie-item, .dienst, .baat, .team-member
   observer.observe(el);
 });
 </script>
-<div class="concept-badge">Concept t.b.v. review</div>
 </body>
 </html>
