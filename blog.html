@@ -24,7 +24,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="De Strategieboost-blog, ongewijzigd in dit conceptvoorstel.">
+<meta name="description" content="Praktische artikelen over strategie, groei en organisatie. Voor ondernemers die verder willen dan goede bedoelingen.">
 <title>Blog | Strategieboost</title>
 <style>
 @font-face {
@@ -415,6 +415,55 @@ footer { background: var(--purple); padding: 48px var(--pad) 32px; }
   .btn-contact { padding: 12px 20px; font-size: 12px; white-space: nowrap; }
   .btn-contact-outline { font-size: 12px; white-space: nowrap; }
 }
+
+/* ── BLOG: LIJST ── */
+.blog-grid { margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.blog-card { display: flex; flex-direction: column; background: var(--bg); border: 1px solid var(--rule); border-radius: 10px; padding: 28px; text-decoration: none; color: inherit; transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s; }
+.blog-card:hover { box-shadow: 0 12px 28px rgba(61,40,130,0.10); border-color: rgba(61,40,130,0.25); transform: translateY(-2px); }
+.blog-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; }
+.blog-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--purple); background: #F0EEFA; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.blog-card-date { font-size: 12px; color: var(--mid); white-space: nowrap; }
+.blog-card-title { font-family: var(--font-display); font-size: 24px; letter-spacing: 0.02em; color: var(--black); line-height: 1.15; margin-bottom: 10px; }
+.blog-card-desc { font-size: 14px; line-height: 1.65; color: var(--mid); flex: 1; text-wrap: pretty; }
+.blog-card-foot { margin-top: 20px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--mid); gap: 10px; }
+.blog-card-arrow { font-weight: 700; color: var(--purple); white-space: nowrap; }
+.blog-empty { color: var(--mid); font-size: 15px; padding: 40px 0; text-align: center; }
+
+/* ── BLOG: ARTIKEL ── */
+.article-container { max-width: 760px; }
+.article-back { display: inline-block; margin-bottom: 28px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--purple); text-decoration: none; }
+.article-back:hover { color: var(--orange); }
+.article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 14px; font-size: 13px; color: var(--mid); }
+.article-title { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 48px); letter-spacing: 0.02em; line-height: 1.08; color: var(--black); margin-bottom: 18px; text-wrap: pretty; }
+.article-lead { font-size: 19px; line-height: 1.65; color: var(--mid); margin-bottom: 36px; text-wrap: pretty; }
+.article-body { font-size: 16px; line-height: 1.8; color: var(--dark); }
+.article-body p { margin-bottom: 20px; text-wrap: pretty; }
+.article-body h2 { font-family: var(--font-display); font-size: 28px; letter-spacing: 0.02em; color: var(--purple); margin: 40px 0 16px; line-height: 1.15; }
+.article-body strong { color: var(--black); font-weight: 700; }
+
+.callout { border-radius: 8px; padding: 18px 22px; margin: 28px 0; }
+.callout-warning { background: #FFF6E8; border: 1px solid #F5D9A0; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+.callout p { margin: 0; color: var(--dark); font-size: 15px; line-height: 1.65; }
+.highlight-box { background: #F4F3FC; border-left: 4px solid var(--purple); border-radius: 6px; padding: 18px 22px; margin: 28px 0; font-size: 15px; line-height: 1.65; color: var(--dark); font-style: italic; }
+
+.table-scroll { overflow-x: auto; margin: 28px 0; }
+.comparison-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 480px; }
+.comparison-table th { text-align: left; font-family: var(--font-body); font-weight: 700; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; background: var(--purple); padding: 10px 14px; }
+.comparison-table td { padding: 12px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--dark); }
+.comparison-table tr:nth-child(even) td { background: var(--bg-warm); }
+
+.ogsm-model { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 32px 0; border-radius: 8px; overflow: hidden; }
+.ogsm-item { background: #fff; padding: 22px 16px; text-align: center; }
+.ogsm-letter { font-family: var(--font-display); font-size: 34px; color: var(--orange); line-height: 1; margin-bottom: 8px; }
+.ogsm-item-title { font-family: var(--font-display); font-size: 16px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
+.ogsm-item-desc { font-size: 12.5px; line-height: 1.5; color: var(--mid); }
+@media (max-width: 640px) { .ogsm-model { grid-template-columns: 1fr 1fr; } }
+
+.article-cta { margin-top: 56px; background: var(--purple); background: radial-gradient(120% 140% at 15% 0%, #55349e 0%, #3D2882 60%); border-radius: 12px; padding: 40px; color: #fff; }
+.article-cta h2 { font-family: var(--font-display); font-size: 28px; letter-spacing: 0.02em; margin-bottom: 10px; }
+.article-cta p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.82); margin-bottom: 22px; }
+@media (max-width: 640px) { .article-cta { padding: 28px; } }
 </style>
 <script type="text/javascript">
 (function (C, A, L) {
@@ -470,13 +519,33 @@ Cal.ns["kennismakingsgesprek"]("ui", {
   <a href="over-ons.html">Over ons</a>
   <a class="mob-cta" data-cal-link="ian-meinoud/kennismakingsgesprek" data-cal-namespace="kennismakingsgesprek" data-cal-config='{"layout":"month_view"}' href="#" onclick="closeHamMenu()">Kennismaken</a>
 </div>
-<div class="page-hero" style="padding-bottom:96px;">
+<div class="page-hero" id="blogHero" style="padding-bottom:56px;">
   <div class="page-hero-inner">
-    <div class="hero-eyebrow">Blog</div>
-    <h1 class="hero-title"><span class="hero-line">Ongewijzigd in</span><span class="hero-line">dit concept</span></h1>
-    <p class="hero-sub">De blog zelf verandert niet mee met deze restructurering. Dit is een lege stand-in zodat de navigatie in dit concept doorklikbaar blijft; de bestaande blog.html blijft gewoon in gebruik.</p>
+    <div class="hero-eyebrow" id="blogEyebrow">Blog</div>
+    <h1 class="hero-title" id="blogTitle"><span class="hero-line">Praktische inzichten</span><span class="hero-line">over strategie en groei</span></h1>
+    <p class="hero-sub" id="blogSub">Artikelen over strategie, groei en organisatie. Voor ondernemers die verder willen dan goede bedoelingen.</p>
   </div>
 </div>
+<div class="grad-line"></div>
+
+<section id="blogListSection">
+  <div class="container">
+    <div id="blogGrid" class="blog-grid"></div>
+    <p id="blogEmpty" class="blog-empty" hidden>Nog geen artikelen gepubliceerd. Kom binnenkort terug.</p>
+  </div>
+</section>
+
+<section id="blogArticleSection" hidden>
+  <div class="container article-container">
+    <a href="blog.html" class="article-back">← Terug naar alle artikelen</a>
+    <div class="article-meta" id="articleMeta"></div>
+    <h1 class="article-title" id="articleTitle"></h1>
+    <p class="article-lead" id="articleLead"></p>
+    <div class="article-body" id="articleBody"></div>
+    <div class="article-cta" id="articleCta" hidden></div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-top">
     <div class="footer-info">
@@ -515,6 +584,155 @@ Cal.ns["kennismakingsgesprek"]("ui", {
     <span class="footer-copy">© 2026 Strategieboost BV. Alle rechten voorbehouden.</span>
   </div>
 </footer>
+<script>
+(function () {
+  var BLOG_INDEX_URL = 'blogs.json';
+  var posts = [];
+
+  function esc(str) {
+    var d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
+  }
+
+  function tagHTML(tag) { return tag ? '<span class="blog-tag">' + esc(tag) + '</span>' : ''; }
+
+  function cardHTML(post) {
+    return '<a class="blog-card" href="blog.html#' + esc(post.slug) + '">' +
+      '<div class="blog-card-top">' + tagHTML(post.tag) + '<span class="blog-card-date">' + esc(post.date) + '</span></div>' +
+      '<h2 class="blog-card-title">' + esc(post.title) + '</h2>' +
+      '<p class="blog-card-desc">' + esc(post.description) + '</p>' +
+      '<div class="blog-card-foot"><span>' + esc(post.readingTime) + '</span><span class="blog-card-arrow">Lees artikel →</span></div>' +
+    '</a>';
+  }
+
+  function setMeta(name, content) {
+    var el = document.querySelector('meta[name="' + name + '"]');
+    if (!el) { el = document.createElement('meta'); el.setAttribute('name', name); document.head.appendChild(el); }
+    el.setAttribute('content', content || '');
+  }
+  function setCanonical(href) {
+    var el = document.querySelector('link[rel="canonical"]');
+    if (!el) { el = document.createElement('link'); el.setAttribute('rel', 'canonical'); document.head.appendChild(el); }
+    el.setAttribute('href', href);
+  }
+  function setJsonLd(obj) {
+    var el = document.getElementById('article-jsonld');
+    if (el) el.remove();
+    if (!obj) return;
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.id = 'article-jsonld';
+    s.textContent = JSON.stringify(obj);
+    document.head.appendChild(s);
+  }
+
+  function renderList() {
+    document.getElementById('blogArticleSection').hidden = true;
+    document.getElementById('blogListSection').hidden = false;
+    document.getElementById('blogEyebrow').textContent = 'Blog';
+    document.getElementById('blogTitle').innerHTML = '<span class="hero-line">Praktische inzichten</span><span class="hero-line">over strategie en groei</span>';
+    document.getElementById('blogSub').textContent = 'Artikelen over strategie, groei en organisatie. Voor ondernemers die verder willen dan goede bedoelingen.';
+    document.title = 'Blog | Strategieboost';
+    setMeta('description', 'Praktische artikelen over strategie, groei en organisatie. Voor ondernemers die verder willen dan goede bedoelingen.');
+    setCanonical('https://www.strategieboost.nl/blog.html');
+    setJsonLd(null);
+
+    var grid = document.getElementById('blogGrid');
+    var empty = document.getElementById('blogEmpty');
+    if (!posts.length) { grid.innerHTML = ''; empty.hidden = false; return; }
+    empty.hidden = true;
+    grid.innerHTML = posts.map(cardHTML).join('');
+  }
+
+  function ogsmModelHTML() {
+    var items = [
+      { l: 'O', t: 'Objective', d: 'Het ambitieuze, kwalitatieve einddoel. Waar wil je naartoe?' },
+      { l: 'G', t: 'Goals', d: 'De meetbare doelen die de Objective concreet maken.' },
+      { l: 'S', t: 'Strategies', d: 'De aanpakken waarmee je de Goals gaat realiseren.' },
+      { l: 'M', t: 'Measures', d: 'De meetpunten waarmee je voortgang en succes volgt.' }
+    ];
+    return '<div class="ogsm-model">' + items.map(function (i) {
+      return '<div class="ogsm-item"><div class="ogsm-letter">' + i.l + '</div>' +
+        '<div class="ogsm-item-title">' + i.t + '</div>' +
+        '<div class="ogsm-item-desc">' + i.d + '</div></div>';
+    }).join('') + '</div>';
+  }
+
+  function tableHTML(block) {
+    var head = '<tr>' + block.headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>';
+    var rows = block.rows.map(function (r) {
+      return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
+    }).join('');
+    return '<div class="table-scroll"><table class="comparison-table"><thead>' + head + '</thead><tbody>' + rows + '</tbody></table></div>';
+  }
+
+  function blockHTML(block) {
+    switch (block.type) {
+      case 'heading': return '<h2>' + esc(block.text) + '</h2>';
+      case 'paragraph': return '<p>' + block.text + '</p>';
+      case 'warning': return '<div class="callout callout-warning"><div class="callout-label">' + esc(block.label || 'Let op') + '</div><p>' + block.text + '</p></div>';
+      case 'highlight': return '<div class="highlight-box">' + block.text + '</div>';
+      case 'comparison-table': return tableHTML(block);
+      case 'ogsm-model': return ogsmModelHTML();
+      default: return '';
+    }
+  }
+
+  function renderArticle(slug) {
+    var meta = null;
+    for (var i = 0; i < posts.length; i++) { if (posts[i].slug === slug) { meta = posts[i]; break; } }
+    if (!meta) { renderList(); return; }
+
+    fetch(meta.file).then(function (res) {
+      if (!res.ok) throw new Error('not found');
+      return res.json();
+    }).then(function (data) {
+      document.getElementById('blogListSection').hidden = true;
+      document.getElementById('blogArticleSection').hidden = false;
+
+      var metaEl = document.getElementById('articleMeta');
+      metaEl.innerHTML = tagHTML(data.hero.tag || meta.tag) +
+        '<span class="blog-card-date">' + esc(data.hero.date || meta.date) + '</span>' +
+        '<span>' + esc(data.hero.readingTime || meta.readingTime) + '</span>';
+      document.getElementById('articleTitle').textContent = data.hero.title;
+      document.getElementById('articleLead').textContent = data.hero.lead;
+      document.getElementById('articleBody').innerHTML = (data.content || []).map(blockHTML).join('');
+
+      var ctaEl = document.getElementById('articleCta');
+      if (data.cta) {
+        ctaEl.innerHTML = '<h2>' + esc(data.cta.heading) + '</h2><p>' + esc(data.cta.text) + '</p>' +
+          '<a class="btn-primary" href="' + esc(data.cta.buttonUrl) + '">' + esc(data.cta.buttonText) + '</a>';
+        ctaEl.hidden = false;
+      } else { ctaEl.hidden = true; ctaEl.innerHTML = ''; }
+
+      var seo = data.seo || {};
+      document.title = seo.title || (data.hero.title + ' | Strategieboost');
+      setMeta('description', seo.description || data.hero.lead);
+      setCanonical(seo.canonical || ('https://www.strategieboost.nl/blog.html#' + slug));
+      setJsonLd(seo.jsonLd || null);
+      window.scrollTo(0, 0);
+    }).catch(function () {
+      renderList();
+    });
+  }
+
+  function route() {
+    var slug = decodeURIComponent(location.hash.replace(/^#/, ''));
+    if (slug) renderArticle(slug); else renderList();
+  }
+
+  fetch(BLOG_INDEX_URL).then(function (res) {
+    return res.ok ? res.json() : [];
+  }).catch(function () {
+    return [];
+  }).then(function (data) {
+    posts = data || [];
+    window.addEventListener('hashchange', route);
+    route();
+  });
+})();
+</script>
 <script>
 function toggleHamMenu() {
   document.getElementById('hamBtn').classList.toggle('open');
