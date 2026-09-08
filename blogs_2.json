@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ogsm",
+    "file": "posts/blog-ogsm.json",
+    "title": "OGSM: zo werkt strategie die klopt",
+    "description": "Één A4 met je volledige strategie. OGSM verbindt ambitie aan actie en geeft iedereen in je bedrijf dezelfde richting. Wat het is, wat het oplevert en waar je op moet letten.",
+    "tag": "Blog",
+    "date": "Juni 2026",
+    "readingTime": "7 min leestijd",
+    "slug": "ogsm"
+  },
+  {
+    "id": "strategie-op-1-a4",
+    "file": "posts/strategie-op-1-a4.json",
+    "title": "Jouw strategie op 1 A4",
+    "description": "Creëer focus, duidelijkheid en concrete eerste stappen door je bedrijfsplan op 1 A4 te schrijven.",
+    "tag": "Video (kort)",
+    "date": "September 2026",
+    "readingTime": "1 min kijktijd",
+    "slug": "strategie-op-1-a4"
+  }
+]

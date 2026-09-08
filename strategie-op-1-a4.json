@@ -1,0 +1,32 @@
+{
+  "id": "strategie-op-1-a4",
+  "slug": "strategie-op-1-a4",
+  "tag": "Video (kort)",
+  "date": "September 2026",
+  "dateISO": "2026-09-08",
+  "readingTime": "1 min kijktijd",
+  "seo": {
+    "title": "Jouw strategie op 1 A4 | Strategieboost",
+    "description": "Creëer focus, duidelijkheid en concrete eerste stappen door je bedrijfsplan op 1 A4 te schrijven.",
+    "canonical": "https://www.strategieboost.nl/blog.html#strategie-op-1-a4",
+    "ogTitle": "Jouw strategie op 1 A4",
+    "ogDescription": "Creëer focus, duidelijkheid en concrete eerste stappen door je bedrijfsplan op 1 A4 te schrijven.",
+    "ogImage": "https://www.strategieboost.nl/strategie-op-1-a4-poster.jpg"
+  },
+  "hero": {
+    "title": "Jouw strategie op 1 A4",
+    "lead": "Creëer focus, duidelijkheid en concrete eerste stappen door je bedrijfsplan op 1 A4 te schrijven.",
+    "tag": "Video (kort)",
+    "date": "September 2026",
+    "readingTime": "1 min kijktijd"
+  },
+  "content": [
+    { "type": "video", "url": "strategie-op-1-a4.mp4", "poster": "strategie-op-1-a4-poster.jpg", "caption": "" }
+  ],
+  "cta": {
+    "heading": "Hoe sterk is jouw strategie nu?",
+    "text": "Doe de gratis Strategiescan en ontdek in 10 minuten waar je staat en wat de volgende stap is.",
+    "buttonText": "Doe de gratis Strategiescan",
+    "buttonUrl": "strategiescan.html"
+  }
+}
