@@ -38,5 +38,15 @@
     "date": "September 2026",
     "readingTime": "1 min kijktijd",
     "slug": "onze-oplossing-groeiloods"
+  },
+  {
+    "id": "strategie-doet-soms-pijn",
+    "file": "posts/strategie-doet-soms-pijn.json",
+    "title": "Strategie doet soms pijn",
+    "description": "IKEA verlaagt fors zijn prijzen, uit strategische overtuiging. Wat dat MKB-ondernemers leert over het maken van scherpe keuzes.",
+    "tag": "Blog",
+    "date": "September 2026",
+    "readingTime": "3 min leestijd",
+    "slug": "strategie-doet-soms-pijn"
   }
 ]
