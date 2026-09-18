@@ -1,0 +1,37 @@
+{
+  "id": "onze-oplossing-groeiloods",
+  "slug": "onze-oplossing-groeiloods",
+  "tag": "Video",
+  "date": "September 2026",
+  "dateISO": "2026-09-18",
+  "readingTime": "1 min kijktijd",
+  "seo": {
+    "title": "Onze oplossing: GroeiLoods | Strategieboost",
+    "description": "Met GroeiLoods loodsen wij ondernemers door woelige baren.",
+    "canonical": "https://www.strategieboost.nl/blog.html#onze-oplossing-groeiloods",
+    "ogTitle": "Onze oplossing: GroeiLoods",
+    "ogDescription": "Met GroeiLoods loodsen wij ondernemers door woelige baren.",
+    "ogImage": "https://www.strategieboost.nl/onze-oplossing-groeiloods-poster.jpg"
+  },
+  "hero": {
+    "title": "Onze oplossing: GroeiLoods",
+    "lead": "Met GroeiLoods loodsen wij ondernemers door woelige baren.",
+    "tag": "Video",
+    "date": "September 2026",
+    "readingTime": "1 min kijktijd"
+  },
+  "content": [
+    {
+      "type": "video",
+      "url": "onze-oplossing-groeiloods.mp4",
+      "poster": "onze-oplossing-groeiloods-poster.jpg",
+      "caption": ""
+    }
+  ],
+  "cta": {
+    "heading": "Hoe sterk is jouw strategie nu?",
+    "text": "Doe de gratis Strategiescan en ontdek in 10 minuten waar je staat en wat de volgende stap is.",
+    "buttonText": "Doe de gratis Strategiescan",
+    "buttonUrl": "strategiescan.html"
+  }
+}
