@@ -1,0 +1,37 @@
+{
+  "id": "teveel-in-je-bedrijf-werken",
+  "slug": "teveel-in-je-bedrijf-werken",
+  "tag": "Video",
+  "date": "September 2026",
+  "dateISO": "2026-09-24",
+  "readingTime": "1 min kijktijd",
+  "seo": {
+    "title": "Teveel in je bedrijf werken | Strategieboost",
+    "description": "Teveel in je bedrijf werken is niet goed voor je koers.",
+    "canonical": "https://www.strategieboost.nl/blog.html#teveel-in-je-bedrijf-werken",
+    "ogTitle": "Teveel in je bedrijf werken",
+    "ogDescription": "Teveel in je bedrijf werken is niet goed voor je koers.",
+    "ogImage": "https://www.strategieboost.nl/teveel-in-je-bedrijf-werken-poster.jpg"
+  },
+  "hero": {
+    "title": "Teveel in je bedrijf werken",
+    "lead": "Teveel in je bedrijf werken is niet goed voor je koers.",
+    "tag": "Video",
+    "date": "September 2026",
+    "readingTime": "1 min kijktijd"
+  },
+  "content": [
+    {
+      "type": "video",
+      "url": "teveel-in-je-bedrijf-werken.mp4",
+      "poster": "teveel-in-je-bedrijf-werken-poster.jpg",
+      "caption": ""
+    }
+  ],
+  "cta": {
+    "heading": "Hoe sterk is jouw strategie nu?",
+    "text": "Doe de gratis Strategiescan en ontdek in 10 minuten waar je staat en wat de volgende stap is.",
+    "buttonText": "Doe de gratis Strategiescan",
+    "buttonUrl": "strategiescan.html"
+  }
+}
